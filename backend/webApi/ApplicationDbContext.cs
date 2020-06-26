@@ -1,4 +1,5 @@
-﻿using ConstructionApp.Entity.Identity;
+﻿using ConstructionApp.Entity;
+using ConstructionApp.Entity.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,6 +18,8 @@ namespace ConstructionApp
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Vehicle>();
+
             #region UserRole Entity
             builder.Entity<User>(b =>
             {

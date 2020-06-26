@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Dto\" />
+    <Compile Remove="Migrations\20200626180032_Add_VehicleEntity.cs" />
+    <Compile Remove="Migrations\20200626180032_Add_VehicleEntity.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Entity\Identity\" />
     <Folder Include="Repository\" />
     <Folder Include="Persistence\" />
