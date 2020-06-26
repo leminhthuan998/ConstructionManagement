@@ -3,3 +3,4 @@ obj/
 .idea/
 node_modules/
 bin
+frontEnd/yarn.lock
