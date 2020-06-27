@@ -20,6 +20,7 @@ import AppUtil from '../../../utils/AppUtil';
 import { API_LOGIN, API_CHECK_LOGIN } from '../../../constants/ApiConstant'
 import store from '../../../AppStore';
 import { loginSuccessFull } from '../../../application/actions/appAction';
+import Loading from '../Loading';
 
 class Login extends Component {
     constructor(props) {
@@ -29,6 +30,7 @@ class Login extends Component {
                 username: '',
                 password: '',
             },
+            loading: true
         };
     }
 
@@ -39,9 +41,22 @@ class Login extends Component {
     checkLogin() {
         Axios.get(AppUtil.GLOBAL_API_PATH + API_CHECK_LOGIN)
             .then((res => {
-                console.log(res)
+                const { data } = res;
+                this.setState({
+                    loading: false
+                });
+                if (data.success) {
+                    try {
+                        store.dispatch(loginSuccessFull(data.data))
+                    } catch (error) {
+                    } finally {
+                    }
+                }
             }))
             .catch(() => {
+                this.setState({
+                    loading: true
+                });
                 // ApiUtil.error();
             })
             .finally(() => {
@@ -49,12 +64,18 @@ class Login extends Component {
     }
 
     submitForm = (e) => {
+        this.setState({
+            loading: true
+        });
         e.preventDefault();
         Axios.post(AppUtil.GLOBAL_API_PATH + API_LOGIN, this.state.model)
             .then((response) => {
                 const { data } = response;
                 if (!data.success) {
                     AppUtil.ToastError("Đăng nhập không thành công!")
+                }
+                if (data.success) {
+                    AppUtil.ToastSuccess("Đăng nhập thành công!")
                 }
             })
             .catch(() => {
@@ -137,6 +158,8 @@ class Login extends Component {
                         </CCol>
                     </CRow>
                 </CContainer>
+                {this.state.loading ? <div style={{ position: "fixed", background: "#fff", top: 0, left: 0, width: "100%", height: "100%" }}><Loading /></div> : null}
+
             </div>
         )
     }
