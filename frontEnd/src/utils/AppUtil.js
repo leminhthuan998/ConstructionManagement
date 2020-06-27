@@ -14,10 +14,10 @@ export default class AppUtil {
     };
 
     static ToastSuccess(message = "Cập nhật thành công!") {
-        toast.success(message, 500);
+        toast.success(message, {autoClose: 2000, draggable: true});
     }
     
     static ToastError(message = "Đã có lỗi xảy ra!") {
-        toast.error(message, 500);
+        toast.error(message, {autoClose: 2000, draggable: true});
     }
 }
