@@ -37,7 +37,7 @@ class Login extends Component {
     }
 
     checkLogin() {
-        Axios.get(AppUtil.GLOBAL_DOMAIN_PATH + API_CHECK_LOGIN)
+        Axios.get(AppUtil.GLOBAL_API_PATH + API_CHECK_LOGIN)
             .then((res => {
                 console.log(res)
             }))
@@ -49,8 +49,8 @@ class Login extends Component {
     }
 
     submitForm = (e) => {
-        e.preventDefault()
-        Axios.post(AppUtil.GLOBAL_DOMAIN_PATH + API_LOGIN, this.state.model)
+        e.preventDefault();
+        Axios.post(AppUtil.GLOBAL_API_PATH + API_LOGIN, this.state.model)
             .then((response) => {
                 const { data } = response;
                 if (!data.success) {

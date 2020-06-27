@@ -2,15 +2,15 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 export default class AppUtil {
-    static GLOBAL_DOMAIN_PATH = window.location.protocol + "//" + window.location.host;
-
+    static GLOBAL_DOMAIN_PATH = "/";
+    static GLOBAL_API_PATH = "/api";
 
     static post = (url, params = {}, config = {}) => {
-        return axios.post(url, params, { baseURL: this.GLOBAL_API_PATH });
+        return axios.post(url, params);
     };
 
     static get = (url, params = {}, config = {}) => {
-        return axios.get(url, { params, baseURL: this.GLOBAL_API_PATH });
+        return axios.get(url, { params});
     };
 
     static ToastSuccess(message = "Cập nhật thành công!") {
