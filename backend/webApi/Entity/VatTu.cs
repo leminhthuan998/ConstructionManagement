@@ -8,7 +8,7 @@ namespace ConstructionApp.Entity
         public string Name { get; set; }
         public DateTime InputDate { get; set; }
         public string Supplier { get; set; } //nha cung cap
-        public double inputWeight { get; set; }
-        public double realWeight { get; set; }
+        public double InputWeight { get; set; }
+        public double RealWeight { get; set; }
     }
 }
