@@ -19,6 +19,8 @@ namespace ConstructionApp
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Vehicle>();
+            builder.Entity<VatTu>();
+            builder.Entity<MAC>();
 
             #region UserRole Entity
             builder.Entity<User>(b =>
