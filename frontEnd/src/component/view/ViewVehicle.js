@@ -59,7 +59,8 @@ class ViewVehicle extends Component {
             visible: false,
             visibleEdit: false,
             onDelete: false,
-            rowSelect: {}
+            rowSelect: {},
+            visibleCreate: false
         }
         this.gridApi = ''
     }
@@ -78,25 +79,12 @@ class ViewVehicle extends Component {
             }
         }
     }
-
+    //detail
     openFormDetail(data) {
         console.log(data)
         this.setState({
             visible: true,
             rowSelect: data,
-        });
-    }
-
-    openFormEdit(data) {
-        this.setState({
-            visibleEdit: true,
-            rowSelect: data,
-        });
-    }
-
-    openFormCreate() {
-        this.setState({
-            visibleEdit: true,
         });
     }
 
@@ -111,6 +99,14 @@ class ViewVehicle extends Component {
             visible: false,
         });
     };
+    //edit
+    openFormEdit(data) {
+        this.setState({
+            visibleEdit: true,
+            rowSelect: data,
+        });
+    }
+
 
     handleOkEdit = e => {
         this.formUpdate.onFinish()
@@ -124,6 +120,28 @@ class ViewVehicle extends Component {
             visibleEdit: false,
         });
     };
+    //create
+    openFormCreate() {
+        this.setState({
+            visibleCreate: true,
+        });
+    }
+
+    handleOkCreate = e => {
+        this.formUpdate.onFinish()
+        this.setState({
+            visibleCreate: false,
+        });
+    };
+
+    handleCancelCreate = e => {
+        this.setState({
+            visibleCreate: false,
+        });
+    };
+
+
+
 
 
 
@@ -192,7 +210,7 @@ class ViewVehicle extends Component {
                 marginTop: -15
             }}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 5 }}>
-                    <CButton color="primary" onClick={()=>this.openFormCreate()}>+ Tạo mới</CButton>
+                    <CButton color="primary" onClick={() => this.openFormCreate()}>+ Tạo mới</CButton>
                 </div>
                 <AgGridReact
                     columnDefs={this.state.columnDefs}
@@ -232,14 +250,14 @@ class ViewVehicle extends Component {
                 </Modal>
                 <Modal
                     title="Tạo mới"
-                    visible={this.state.visibleEdit}
-                    onOk={this.handleOkEdit}
-                    onCancel={this.handleCancelEdit}
+                    visible={this.state.visibleCreate}
+                    onOk={this.handleOkCreate}
+                    onCancel={this.handleCancelCreate}
                     footer={[
-                        <Button key="submit" type="primary" size="large" onClick={this.handleOkEdit}>
+                        <Button key="submit" type="primary" size="large" onClick={this.handleOkCreate}>
                             Submit
                         </Button>,
-                        <Button key="back" size="large" type="danger" onClick={this.handleCancelEdit}>Đóng</Button>,
+                        <Button key="back" size="large" type="danger" onClick={this.handleCancelCreate}>Đóng</Button>,
 
                     ]}
                 >
