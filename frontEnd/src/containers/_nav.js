@@ -11,6 +11,16 @@ export default [
   },
   {
     _tag: 'CSidebarNavTitle',
+    _children: ['CRUD']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Phương tiện',
+    to: '/vehicle',
+    icon: 'cil-truck'
+  },
+  {
+    _tag: 'CSidebarNavTitle',
     _children: ['Theme']
   },
   {

@@ -8,6 +8,11 @@ import './polyfill';
 import * as serviceWorker from './serviceWorker';
 import 'react-toastify/dist/ReactToastify.css';
 
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import './index.scss'
+import "antd/dist/antd.css";
+
 React.icons = icons
 
 ReactDOM.render(

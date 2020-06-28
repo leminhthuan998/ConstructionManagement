@@ -32,7 +32,7 @@ const TheHeaderDropdown = () => {
           color="light"
           className="text-center"
         >
-          <strong>Account</strong>
+          {/* <strong>Account</strong>
         </CDropdownItem>
         <CDropdownItem>
           <CIcon name="cil-bell" className="mfe-2" /> 
@@ -59,7 +59,7 @@ const TheHeaderDropdown = () => {
           tag="div"
           color="light"
           className="text-center"
-        >
+        > */}
           <strong>Settings</strong>
         </CDropdownItem>
         <CDropdownItem>
@@ -69,7 +69,7 @@ const TheHeaderDropdown = () => {
           <CIcon name="cil-settings" className="mfe-2" /> 
           Settings
         </CDropdownItem>
-        <CDropdownItem>
+        {/* <CDropdownItem>
           <CIcon name="cil-credit-card" className="mfe-2" /> 
           Payments
           <CBadge color="secondary" className="mfs-auto">42</CBadge>
@@ -78,11 +78,11 @@ const TheHeaderDropdown = () => {
           <CIcon name="cil-file" className="mfe-2" /> 
           Projects
           <CBadge color="primary" className="mfs-auto">42</CBadge>
-        </CDropdownItem>
+        </CDropdownItem> */}
         <CDropdownItem divider />
         <CDropdownItem>
           <CIcon name="cil-lock-locked" className="mfe-2" /> 
-          Lock Account
+          Lock out
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

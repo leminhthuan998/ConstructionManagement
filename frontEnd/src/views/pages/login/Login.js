@@ -102,7 +102,7 @@ class Login extends Component {
             <div className="c-app c-default-layout flex-row align-items-center">
                 <CContainer>
                     <CRow className="justify-content-center">
-                        <CCol md="8">
+                        <CCol md="6">
                             <CCardGroup>
                                 <CCard className="p-4">
                                     <CCardBody>
@@ -121,7 +121,7 @@ class Login extends Component {
                                                     onChange={(e) => this.onChangeInput(e.target.value, 'username')}
                                                 />
                                             </CInputGroup>
-                                            <CInputGroup className="mb-4">
+                                            <CInputGroup className="mb-4" >
                                                 <CInputGroupPrepend>
                                                     <CInputGroupText>
                                                         <CIcon name="cil-lock-locked" />
@@ -131,29 +131,35 @@ class Login extends Component {
                                                     onChange={(e) => this.onChangeInput(e.target.value, 'password')}
                                                     type="password" placeholder="Password" autoComplete="current-password" />
                                             </CInputGroup>
-                                            <CRow>
-                                                <CCol xs="6">
+
+                                            <div style={{ display: 'flex', justifyContent: 'flex-end', flex: 1, marginTop: -20 }}>
+                                                <CButton color="link" className="px-0">Forgot password?</CButton>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
+                                                <CButton onClick={this.submitForm} type="submit" color="primary" className="px-4">Login</CButton>
+                                            </div>
+                                            {/* <CCol style={{display:'flex', justifyContent:'center'}} xs="8">
                                                     <CButton onClick={this.submitForm} type="submit" color="primary" className="px-4">Login</CButton>
                                                 </CCol>
-                                                <CCol xs="6" className="text-right">
+                                                <CCol xs="4" className="text-right">
                                                     <CButton color="link" className="px-0">Forgot password?</CButton>
-                                                </CCol>
-                                            </CRow>
+                                                </CCol> */}
+
                                         </CForm>
                                     </CCardBody>
                                 </CCard>
-                                <CCard className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
+                                {/* <CCard className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
                                     <CCardBody className="text-center">
                                         <div>
                                             <h2>Sign up</h2>
-                                            {/* <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua.</p> */}
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua.</p>
                                             <Link to="/register">
                                                 <CButton color="primary" className="mt-3" active tabIndex={-1}>Register Now!</CButton>
                                             </Link>
                                         </div>
                                     </CCardBody>
-                                </CCard>
+                                </CCard> */}
                             </CCardGroup>
                         </CCol>
                     </CRow>
