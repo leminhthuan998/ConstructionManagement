@@ -202,7 +202,7 @@ class ViewVehicle extends Component {
     render() {
         return (
             <div className="ag-theme-alpine" style={{
-                height: window.innerHeight - 200,
+                height: window.innerHeight - 180,
                 alignItems: "stretch",
                 display: "flex",
                 flexDirection: "column",
