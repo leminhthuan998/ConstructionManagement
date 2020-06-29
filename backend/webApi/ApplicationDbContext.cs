@@ -82,6 +82,26 @@ namespace ConstructionApp
             });
             #endregion
 
+            #region thong tin me tron
+            builder.Entity<ThongTinMeTron>(b => {
+                b.HasOne(d => d.ThanhPhanMeTronDat).WithOne(d => d.ThongTinMeTron).HasForeignKey<ThanhPhanMeTronDat>(d => d.ThongTinMeTronId);
+                b.HasOne(d => d.ThanhPhanMeTronCan).WithOne(d => d.ThongTinMeTron).HasForeignKey<ThanhPhanMeTronCan>(d => d.ThongTinMeTronId);
+                b.HasOne(d => d.CapPhoi).WithOne(d => d.ThongTinMeTron).HasForeignKey<CapPhoi>(d => d.ThongTinMeTronId);
+                b.HasOne(d => d.SaiSo).WithOne(d => d.ThongTinMeTron).HasForeignKey<SaiSo>(d => d.ThongTinMeTronId);
+            });
+
+            builder.Entity<ThanhPhanMeTronDat>();
+
+            builder.Entity<ThanhPhanMeTronCan>();
+
+            builder.Entity<CapPhoi>();
+
+            builder.Entity<SaiSo>();
+
+            builder.Entity<HopDong>();
+                
+            #endregion
+
         }
     }
 }
