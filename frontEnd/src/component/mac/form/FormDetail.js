@@ -29,7 +29,7 @@ class FormDetail extends Component {
         return (
             <Form ref={c => this.form = c} {...layout} name="basic" initialValues={this.state.data}>
               <Form.Item name="macCode" label="MAC CODE">
-                <Input type={"text"}  disabled={this.props.create}/>
+                <Input type={"text"}  disabled={true}/>
               </Form.Item>
               <Form.Item name="macName" label="Tên loại bê tông">
                 <Input type={"text"} />

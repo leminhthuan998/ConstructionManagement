@@ -85,7 +85,7 @@ class FormUpdate extends Component {
       <Form ref={c => this.form = c} {...layout} name="basic" onFinish={this.onFinish}
             initialValues={create ? "" : data}>
         <Form.Item name="macCode" label="MAC CODE">
-          <Input type={"text"}  disabled={this.props.create}/>
+          <Input  disabled={true}/>
         </Form.Item>
         <Form.Item name="macName" label="Tên loại bê tông">
           <Input type={"text"} />
