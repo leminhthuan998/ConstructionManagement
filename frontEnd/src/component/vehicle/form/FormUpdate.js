@@ -46,7 +46,7 @@ class FormUpdate extends Component {
                 .then(res => {
                     const { data } = res;
                     if (data.success) {
-                        AppUtil.ToastSuccess('Cập nhật dữ liệu thành công!');
+                        AppUtil.ToastSuccess('Tạo mới dữ liệu thành công!');
                         this.props.loadData && this.props.loadData()
                     }
                     else {
@@ -65,7 +65,7 @@ class FormUpdate extends Component {
                 .then(res => {
                     const { data } = res;
                     if (data.success) {
-                        AppUtil.ToastSuccess('Tạo mới dữ liệu thành công!');
+                        AppUtil.ToastSuccess('Cập nhật dữ liệu thành công!');
                         this.props.loadData && this.props.loadData()
                     }
                 })

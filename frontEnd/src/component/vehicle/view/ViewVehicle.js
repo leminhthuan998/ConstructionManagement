@@ -60,20 +60,22 @@ class ViewVehicle extends Component {
             visibleEdit: false,
             onDelete: false,
             rowSelect: {},
-            visibleCreate: false
+            visibleCreate: false,
+            overlayLoadingTemplate:
+                '<span class="ag-overlay-loading-center">Please wait while your rows are loading</span>'
         }
         this.gridApi = ''
     }
 
 
 
-    componentDidMount() {
-        this.loadData()
-    }
+    // componentDidMount() {
+    //     this.loadData()
+    // }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.onDelete !== this.state.onDelete) {
-            if (nextProps.onDelete === true) {
+        if (nextProps.onDelete != this.state.onDelete) {
+            if (nextProps.onDelete == true) {
                 this.onConfirmDelete(this.state.rowSelect)
             }
         }
@@ -175,12 +177,13 @@ class ViewVehicle extends Component {
 
 
     loadData() {
+        this.gridApi.showLoadingOverlay()
         Axios.get(AppUtil.GLOBAL_API_PATH + API_VEHICLE_DETAIL)
             .then(res => {
                 const { data } = res;
                 if (data.success) {
                     this.setState({
-                        rowData: data.result
+                        rowData: data.result,
                     })
                 }
             })
@@ -188,12 +191,14 @@ class ViewVehicle extends Component {
                 AppUtil.ToastError();
             })
             .finally(() => {
+                this.gridApi && this.gridApi.hideOverlay();
             });
     }
 
     onGridReady = params => {
         this.gridApi = params.api;
         this.gridApi.sizeColumnsToFit();
+        this.loadData()
     }
 
 
@@ -220,6 +225,7 @@ class ViewVehicle extends Component {
                     onFilterModified={(...a) => console.log("onFilterModified", ...a)}
                     onFilterChanged={(...a) => console.log("onFilterChanged", ...a)}
                     onGridReady={this.onGridReady}
+                    overlayLoadingTemplate={this.state.overlayLoadingTemplate}
                 />
                 <Modal
                     title="Chi tiết"
