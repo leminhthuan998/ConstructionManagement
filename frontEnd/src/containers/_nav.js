@@ -20,6 +20,12 @@ export default [
     icon: 'cil-truck'
   },
   {
+    _tag: 'CSidebarNavItem',
+    name: 'Loại bê tông',
+    to: '/mac',
+    icon: 'cil-building'
+  },
+  {
     _tag: 'CSidebarNavTitle',
     _children: ['Theme']
   },

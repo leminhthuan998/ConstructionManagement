@@ -1,8 +1,8 @@
 import { Form, Input } from 'antd';
 import React, { Component } from 'react';
-import { API_VEHICLE_UPDATE, API_VEHICLE_CREATE } from '../../constants/ApiConstant';
+import { API_VEHICLE_UPDATE, API_VEHICLE_CREATE } from '../../../constants/ApiConstant';
 import Axios from 'axios';
-import AppUtil from '../../utils/AppUtil';
+import AppUtil from '../../../utils/AppUtil';
 import _ from 'lodash'
 const layout = {
     labelCol: { span: 6 },
