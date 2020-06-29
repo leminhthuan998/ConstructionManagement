@@ -37,8 +37,9 @@ const Typography = React.lazy(() => import('./views/theme/typography/Typography'
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
-const Vehicle = React.lazy(() => import('./component/view/ViewVehicle'));
-// const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
+const Vehicle = React.lazy(() => import('./component/vehicle/view/ViewVehicle'));
+const MAC = React.lazy(() => import('./component/mac/MacListView'));
+const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 
 
 const routes = [
@@ -82,8 +83,11 @@ const routes = [
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
+
+
   { path: '/vehicle', exact: true, name: 'Phương tiện', component: Vehicle },
-  // { path: undefined, component: Page404 },
+  { path: '/mac', exact: true, name: 'Loại bê tông (MAC)', component: MAC },
+  { path: "*", component: Page404 },
 ];
 
 export default routes;

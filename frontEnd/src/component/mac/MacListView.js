@@ -6,16 +6,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { onDeleteConfirm } from '../../application/actions/appAction';
 import store from '../../AppStore';
-import { API_VEHICLE_DELETE, API_VEHICLE_DETAIL } from '../../constants/ApiConstant';
+import { API_MAC_DELETE, API_MAC_DETAIL } from '../../constants/ApiConstant';
 import AppUtil from '../../utils/AppUtil';
-import FormDetail from '../form/FormDetail';
-import FormUpdate from '../form/FormUpdate';
+import FormDetail from '../vehicle/form/FormDetail';
+import FormUpdate from '../vehicle/form/FormUpdate';
 const mapStateToProps = (state) => {
     return {
         onDelete: state.root.onDelete
     };
 };
-class ViewVehicle extends Component {
+class MacListView extends Component {
     constructor(props) {
         super(props);
         const me = this
@@ -28,19 +28,25 @@ class ViewVehicle extends Component {
                     width: 80
                 },
                 {
-                    headerName: "Tên phương tiện",
+                  headerName: "Mã bê tông",
+                  field: "code",
+                  minWidth: 300,
+                  suppressSizeToFit: true
+                },
+                {
+                    headerName: "Tên loại bê tông",
                     field: "name",
                     minWidth: 300,
                     suppressSizeToFit: true
                 },
                 {
-                    headerName: "Biển số",
-                    field: "serialNumber",
+                    headerName: "Tuổi bê tông",
+                    field: "age",
                     width: 100
                 },
                 {
-                    headerName: "Mô tả",
-                    field: "description",
+                    headerName: "Độ sụt",
+                    field: "doSut",
                     minWidth: 300,
                 },
                 {
@@ -60,22 +66,18 @@ class ViewVehicle extends Component {
             visibleEdit: false,
             onDelete: false,
             rowSelect: {},
-            visibleCreate: false,
-            overlayLoadingTemplate:
-                '<span class="ag-overlay-loading-center">Please wait while your rows are loading</span>'
+            visibleCreate: false
         }
         this.gridApi = ''
     }
 
-
-
-    // componentDidMount() {
-    //     this.loadData()
-    // }
+    componentDidMount() {
+        this.loadData()
+    }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.onDelete != this.state.onDelete) {
-            if (nextProps.onDelete == true) {
+        if (nextProps.onDelete !== this.state.onDelete) {
+            if (nextProps.onDelete === true) {
                 this.onConfirmDelete(this.state.rowSelect)
             }
         }
@@ -156,7 +158,7 @@ class ViewVehicle extends Component {
     onConfirmDelete(data) {
         const params = {}
         params['vehicleId'] = data.id
-        Axios.post(AppUtil.GLOBAL_API_PATH + API_VEHICLE_DELETE, null, {
+        Axios.post(AppUtil.GLOBAL_API_PATH + API_MAC_DELETE, null, {
             params
         })
             .then(res => {
@@ -177,13 +179,12 @@ class ViewVehicle extends Component {
 
 
     loadData() {
-        this.gridApi && this.gridApi.showLoadingOverlay();
-        Axios.get(AppUtil.GLOBAL_API_PATH + API_VEHICLE_DETAIL)
+        Axios.get(AppUtil.GLOBAL_API_PATH + API_MAC_DETAIL)
             .then(res => {
                 const { data } = res;
                 if (data.success) {
                     this.setState({
-                        rowData: data.result,
+                        rowData: data.result
                     })
                 }
             })
@@ -191,16 +192,12 @@ class ViewVehicle extends Component {
                 AppUtil.ToastError();
             })
             .finally(() => {
-                this.setState({
-                })
             });
     }
 
     onGridReady = params => {
         this.gridApi = params.api;
         this.gridApi.sizeColumnsToFit();
-        this.gridApi.showLoadingOverlay();
-        this.loadData()
     }
 
 
@@ -227,7 +224,6 @@ class ViewVehicle extends Component {
                     onFilterModified={(...a) => console.log("onFilterModified", ...a)}
                     onFilterChanged={(...a) => console.log("onFilterChanged", ...a)}
                     onGridReady={this.onGridReady}
-                    overlayLoadingTemplate={this.state.overlayLoadingTemplate}
                 />
                 <Modal
                     title="Chi tiết"
@@ -275,4 +271,4 @@ class ViewVehicle extends Component {
     }
 }
 
-export default connect(mapStateToProps)(ViewVehicle);
+export default connect(mapStateToProps)(MacListView);
