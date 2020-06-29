@@ -10,5 +10,9 @@ namespace ConstructionApp.Entity
         public string Supplier { get; set; } //nha cung cap
         public double InputWeight { get; set; }
         public double RealWeight { get; set; }
+
+        public Guid LoaiVatTuId { get; set; }
+
+        public LoaiVatTu LoaiVatTu { get; set; }
     }
 }

@@ -274,6 +274,23 @@ namespace ConstructionApp.Migrations
                     b.ToTable("UserTokens");
                 });
 
+            modelBuilder.Entity("ConstructionApp.Entity.LoaiVatTu", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoaiVatTu");
+                });
+
             modelBuilder.Entity("ConstructionApp.Entity.MAC", b =>
                 {
                     b.Property<Guid>("Id")
@@ -518,6 +535,9 @@ namespace ConstructionApp.Migrations
                     b.Property<double>("InputWeight")
                         .HasColumnType("float");
 
+                    b.Property<Guid>("LoaiVatTuId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -528,6 +548,8 @@ namespace ConstructionApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LoaiVatTuId");
 
                     b.ToTable("VatTu");
                 });
@@ -630,6 +652,15 @@ namespace ConstructionApp.Migrations
                     b.HasOne("ConstructionApp.Entity.Vehicle", "Vehicle")
                         .WithMany()
                         .HasForeignKey("VehicleId");
+                });
+
+            modelBuilder.Entity("ConstructionApp.Entity.VatTu", b =>
+                {
+                    b.HasOne("ConstructionApp.Entity.LoaiVatTu", "LoaiVatTu")
+                        .WithMany("DanhSachNhapVatTu")
+                        .HasForeignKey("LoaiVatTuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

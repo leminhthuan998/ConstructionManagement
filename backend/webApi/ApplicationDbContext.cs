@@ -19,6 +19,11 @@ namespace ConstructionApp
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Vehicle>();
+            builder.Entity<LoaiVatTu>()
+                .HasMany(x => x.DanhSachNhapVatTu)
+                .WithOne(x => x.LoaiVatTu)
+                .HasForeignKey(x => x.LoaiVatTuId)
+                ;
             builder.Entity<VatTu>();
             builder.Entity<MAC>();
 
