@@ -10,6 +10,9 @@ import { API_VAT_TU_DETAIL, API_VAT_TU_DELETE } from '../../../constants/ApiCons
 import AppUtil from '../../../utils/AppUtil';
 import FormDetail from '../form/FormDetail';
 import FormUpdate from '../form/FormUpdate';
+import moment from 'moment'
+import _ from 'lodash';
+
 const mapStateToProps = (state) => {
     return {
         onDelete: state.root.onDelete
@@ -36,7 +39,10 @@ class VatTuListView extends Component {
                 {
                     headerName: "Ngày nhập",
                     field: "inputDate",
-                    minWidth: 150
+                    minWidth: 150,
+                    cellRendererFramework: function (params) {
+                        return moment.utc(_.get(params.data,'inputDate')).format("DD/MM/YYYY")
+                    }
                 },
                 {
                     headerName: "Nhà cung cấp",
@@ -59,9 +65,9 @@ class VatTuListView extends Component {
                     width: 250,
                     cellRendererFramework: function (params) {
                         return <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <button onClick={() => me.openFormDetail(params.data)} style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button" class="btn btn-info">Chi tiết</button>
-                            <button onClick={() => me.openFormEdit(params.data)} style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button" class="btn btn-success">Chỉnh sửa</button>
-                            <button onClick={() => me.onDelete(params.data)} style={{ height: 30, display: 'flex', alignItems: 'center' }} type="button" class="btn btn-danger">Xóa</button>
+                            <button onClick={() => me.openFormDetail(params.data)} style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button" className="btn btn-info">Chi tiết</button>
+                            <button onClick={() => me.openFormEdit(params.data)} style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button" className="btn btn-success">Chỉnh sửa</button>
+                            <button onClick={() => me.onDelete(params.data)} style={{ height: 30, display: 'flex', alignItems: 'center' }} type="button" className="btn btn-danger">Xóa</button>
                         </div>
                     }
                 },

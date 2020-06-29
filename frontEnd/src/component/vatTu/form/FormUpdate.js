@@ -1,9 +1,11 @@
-import { Form, Input } from 'antd';
-import React, { Component } from 'react';
-import { API_VEHICLE_UPDATE, API_VEHICLE_CREATE, API_VAT_TU_UPDATE, API_VAT_TU_CREATE } from '../../../constants/ApiConstant';
+import { DatePicker, Form, Input } from 'antd';
 import Axios from 'axios';
+import _ from 'lodash';
+import React, { Component } from 'react';
+import { API_VAT_TU_CREATE, API_VAT_TU_UPDATE } from '../../../constants/ApiConstant';
 import AppUtil from '../../../utils/AppUtil';
-import _ from 'lodash'
+import moment from 'moment';
+
 const layout = {
     labelCol: { span: 7 },
 };
@@ -11,29 +13,42 @@ const { TextArea } = Input;
 class FormUpdate extends Component {
     constructor(props) {
         super(props);
+        const me = this
         this.state = {
-            data: props.data,
+            data: props.data ? me.formatValue(props.data) : {},
             create: props.create
         }
     }
 
+    formatValue(data) {
+        const obj = {}
+        Object.keys(data).forEach(function (key) {
+            if (key == 'inputDate') {
+                obj[key] = moment(data[key])
+            } else {
+                obj[key] = data[key]
+            }
+        })
+        return obj
+    }
+
     componentWillReceiveProps(nextProps) {
-        if (nextProps.data !== this.state.data && !nextProps.create) {
+        if (nextProps.data && nextProps.data !== this.state.data && !nextProps.create) {
             this.setState({
-                data: nextProps.data
+                data: this.formatValue(nextProps.data)
             })
             this.form.setFieldsValue(
-                nextProps.data
+                this.formatValue(nextProps.data)
             );
         }
         if (nextProps.create) {
             this.form.setFieldsValue(
                 {
-                    name: '',
-                    inputDate: '',
-                    supplier: '',
-                    inputWeight: '',
-                    realWeight: ''
+                    name: null,
+                    inputDate: null,
+                    supplier: null,
+                    inputWeight: null,
+                    realWeight: null
                 }
             );
         }
@@ -69,6 +84,9 @@ class FormUpdate extends Component {
                         AppUtil.ToastSuccess('Cập nhật dữ liệu thành công!');
                         this.props.loadData && this.props.loadData()
                     }
+                    else {
+                        AppUtil.ToastError(_.get(data.result, 'SerialNumber.errors[0].errorMessage'));
+                    }
                 })
                 .catch(() => {
                     AppUtil.ToastError();
@@ -88,7 +106,7 @@ class FormUpdate extends Component {
                     <Input />
                 </Form.Item>
                 <Form.Item name="inputDate" label="Ngày nhập" >
-                    <Input />
+                    <DatePicker  format={'DD/MM/YYYY'} />
                 </Form.Item>
                 <Form.Item name="supplier" label="Nhà cung cấp" >
                     <Input />

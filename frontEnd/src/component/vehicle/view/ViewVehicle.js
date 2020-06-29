@@ -49,9 +49,9 @@ class ViewVehicle extends Component {
                     minwidth: 200,
                     cellRendererFramework: function (params) {
                         return <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <button onClick={() => me.openFormDetail(params.data)} style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button" class="btn btn-info">Chi tiết</button>
-                            <button onClick={() => me.openFormEdit(params.data)} style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button" class="btn btn-success">Chỉnh sửa</button>
-                            <button onClick={() => me.onDelete(params.data)} style={{ height: 30, display: 'flex', alignItems: 'center' }} type="button" class="btn btn-danger">Xóa</button>
+                            <button onClick={() => me.openFormDetail(params.data)} style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button" className="btn btn-info">Chi tiết</button>
+                            <button onClick={() => me.openFormEdit(params.data)} style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button" className="btn btn-success">Chỉnh sửa</button>
+                            <button onClick={() => me.onDelete(params.data)} style={{ height: 30, display: 'flex', alignItems: 'center' }} type="button" className="btn btn-danger">Xóa</button>
                         </div>
                     }
                 },

@@ -84,15 +84,15 @@ class MacListView extends Component {
             return <div style={{display: 'flex', alignItems: 'center'}}>
               <button onClick={() => me.openFormDetail(params.data)}
                       style={{height: 30, marginRight: 5, display: 'flex', alignItems: 'center'}} type="button"
-                      class="btn btn-info">Chi tiết
+                      className="btn btn-info">Chi tiết
               </button>
               <button onClick={() => me.openFormEdit(params.data)}
                       style={{height: 30, marginRight: 5, display: 'flex', alignItems: 'center'}} type="button"
-                      class="btn btn-success">Chỉnh sửa
+                      className="btn btn-success">Chỉnh sửa
               </button>
               <button onClick={() => me.onDelete(params.data)}
                       style={{height: 30, display: 'flex', alignItems: 'center'}} type="button"
-                      class="btn btn-danger">Xóa
+                      className="btn btn-danger">Xóa
               </button>
             </div>
           }
@@ -107,9 +107,7 @@ class MacListView extends Component {
     this.gridApi = ''
   }
 
-  componentDidMount() {
-    this.loadData()
-  }
+  
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.onDelete !== this.state.onDelete) {
@@ -213,6 +211,7 @@ class MacListView extends Component {
 
 
   loadData() {
+    this.gridApi && this.gridApi.showLoadingOverlay();
     Axios.get(AppUtil.GLOBAL_API_PATH + API_MAC_DETAIL)
       .then(res => {
         const {data} = res;
@@ -226,12 +225,14 @@ class MacListView extends Component {
         AppUtil.ToastError();
       })
       .finally(() => {
+        this.gridApi && this.gridApi.hideOverlay();
       });
   }
 
   onGridReady = params => {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
+    this.loadData()
   };
 
   render() {

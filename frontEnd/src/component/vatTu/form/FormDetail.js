@@ -1,26 +1,38 @@
+import { DatePicker, Form, Input } from 'antd';
+import moment from 'moment';
 import React, { Component } from 'react';
-import { Form, Input, Button, Select } from 'antd';
 const layout = {
     labelCol: { span: 7 },
-    // wrapperCol: { span: 16 },
 };
-const { TextArea } = Input;
-
 class FormDetail extends Component {
     constructor(props) {
         super(props);
+        const me = this
         this.state = {
-            data: props.data
+            data: props.data ? me.formatValue(props.data) : {}
         }
     }
 
+    formatValue(data) {
+        const obj = {}
+        Object.keys(data).forEach(function (key) {
+            if (key == 'inputDate') {
+                obj[key] = moment(data[key])
+            } else {
+                obj[key] = data[key]
+            }
+        })
+        return obj
+    }
+
     componentWillReceiveProps(nextProps) {
-        if (nextProps.data !== this.state.data) {
+        const me = this
+        if (nextProps.data && nextProps.data !== this.state.data) {
             this.setState({
-                data: nextProps.data
+                data: me.formatValue(nextProps.data)
             })
             this.form.setFieldsValue(
-                nextProps.data
+                me.formatValue(nextProps.data)
             );
         }
     }
@@ -32,7 +44,7 @@ class FormDetail extends Component {
                     <Input disabled />
                 </Form.Item>
                 <Form.Item name="inputDate" label="Ngày nhập" >
-                    <Input disabled />
+                    <DatePicker disabled format={'DD/MM/YYYY'} />
                 </Form.Item>
                 <Form.Item name="supplier" label="Nhà cung cấp" >
                     <Input disabled />
@@ -43,7 +55,7 @@ class FormDetail extends Component {
                 <Form.Item name="realWeight" label="Khối lượng thực tế" >
                     <Input disabled />
                 </Form.Item>
-                
+
             </Form>
         );
     }
