@@ -9,9 +9,19 @@ namespace ConstructionApp.Service.MacService
 {
     public class MacService
     {
+        /// <summary>
+        /// Công thức là MAC Code = MacName + R + Tuổi + "/" + Độ sụt
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public static string CreateMacCode(MAC entity)
         {
-            return $"MAC{entity.MacName}.{entity.Tuoi}.{entity.DoSut}";
+            var tuoi = "";
+            if(entity.Tuoi != 28)
+            {
+                tuoi = "R" + entity.Tuoi;
+            }
+            return $"M{entity.MacName}{tuoi}/{entity.DoSut}";
         }
     }
 }
