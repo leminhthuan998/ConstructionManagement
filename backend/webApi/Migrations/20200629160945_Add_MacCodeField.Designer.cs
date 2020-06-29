@@ -4,14 +4,16 @@ using ConstructionApp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ConstructionApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200629160945_Add_MacCodeField")]
+    partial class Add_MacCodeField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,8 +288,8 @@ namespace ConstructionApp.Migrations
                     b.Property<double>("Da")
                         .HasColumnType("float");
 
-                    b.Property<double?>("DoSut")
-                        .HasColumnType("float");
+                    b.Property<string>("DoSut")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MacCode")
                         .HasColumnType("nvarchar(max)");
@@ -304,8 +306,8 @@ namespace ConstructionApp.Migrations
                     b.Property<double>("PG")
                         .HasColumnType("float");
 
-                    b.Property<double>("Tuoi")
-                        .HasColumnType("float");
+                    b.Property<string>("Tuoi")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("XiMang")
                         .HasColumnType("float");

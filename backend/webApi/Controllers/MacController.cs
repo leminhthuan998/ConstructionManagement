@@ -1,5 +1,6 @@
 using ConstructionApp.Dto.MACDto;
 using ConstructionApp.Entity;
+using ConstructionApp.Service.MacService;
 using ConstructionApp.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,19 +39,17 @@ namespace ConstructionApp.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
         public async Task<IActionResult> CreateAction([FromBody] InputCreateMacDto dto)
         {
-            var find = await _dbContext.Set<MAC>()
-                .Where(x => x.MacName.Equals(dto.MacName) && x.Tuoi.Equals(dto.Tuoi) && x.DoSut.Equals(dto.DoSut)).CountAsync();
-            if(find > 0)
-            {
-                ModelState.AddModelError(nameof(dto.MacName), "Mac này đã được tạo trên hệ thống");
-            }
-
             if(!ModelState.IsValid)
             {
                 return Ok(ApiResponse<object>.ApiError(ModelState));
             }
-
             var newMac = InputCreateMacDto.ToEntity(dto);
+            var find = await _dbContext.Set<MAC>()
+              .Where(x => x.MacName.Equals(newMac.MacName) && x.Tuoi.Equals(newMac.Tuoi) && x.DoSut.Equals(newMac.DoSut)).CountAsync();
+            if (find > 0)
+            {
+                ModelState.AddModelError(nameof(newMac.MacName), "Mac này đã được tạo trên hệ thống");
+            }
             await _dbContext.Set<MAC>().AddAsync(newMac);
             await _dbContext.SaveChangesAsync();
             return Ok(ApiResponse<MAC>.ApiOk(newMac));
@@ -60,13 +59,7 @@ namespace ConstructionApp.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<MAC>))]
         public async Task<IActionResult> UpdateAction([FromBody] InputUpdateMacDto dto)
         {
-            // check biển số xe này đã được add hay chưa
-            var find = await _dbContext.Set<MAC>()
-                .Where(x => x.MacName.Equals(dto.MacName) && x.Tuoi.Equals(dto.Tuoi) && x.DoSut.Equals(dto.DoSut)).CountAsync();
-            if(find > 0)
-            {
-                ModelState.AddModelError(nameof(dto.MacName), "Mac này đã được tạo trên hệ thống");
-            }
+           
 
             if (!ModelState.IsValid)
             {
@@ -75,6 +68,16 @@ namespace ConstructionApp.Controllers
 
             var mac = await _repository.FirstAsync(x => x.Id.Equals(dto.Id));
             InputUpdateMacDto.UpdateEntity(dto, mac);
+            mac.MacCode = MacService.CreateMacCode(mac);
+
+            // check biển số xe này đã được add hay chưa
+            var find = await _dbContext.Set<MAC>()
+                .Where(x => !x.Id.Equals(dto.Id) && x.MacName.Equals(dto.MacName) && x.Tuoi.Equals(dto.Tuoi) && x.DoSut.Equals(dto.DoSut)).CountAsync();
+            if (find > 0)
+            {
+                ModelState.AddModelError(nameof(dto.MacName), "Mac này đã được tạo trên hệ thống");
+            }
+
             _repository.Update(mac);
             await _dbContext.SaveChangesAsync();
             return Ok(ApiResponse<MAC>.ApiOk(mac));
@@ -83,10 +86,10 @@ namespace ConstructionApp.Controllers
 
         [HttpPost("delete")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
-        public async Task<IActionResult> DeleteAction(Guid macId)
+        public async Task<IActionResult> DeleteAction(Guid id)
         {
             // check biển số xe này đã được add hay chưa
-            var find = await _repository.Where(x => x.Id.Equals(macId)).FirstAsync();
+            var find = await _repository.Where(x => x.Id.Equals(id)).FirstAsync();
             _repository.Remove(find);
             await _dbContext.SaveChangesAsync();
             return Ok(ApiResponse<string>.ApiOk("Xoá thành công"));

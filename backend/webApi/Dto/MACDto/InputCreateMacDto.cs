@@ -1,12 +1,13 @@
 using ConstructionApp.Entity;
+using ConstructionApp.Service.MacService;
 
 namespace ConstructionApp.Dto.MACDto
 {
     public class InputCreateMacDto
     {
         public string MacName { get; set; }
-        public string Tuoi { get; set; }
-        public string DoSut { get; set; }
+        public double Tuoi { get; set; }
+        public double? DoSut { get; set; }
         public double Cat { get; set; }
         public double XiMang { get; set; }
         public double Da { get; set; }
@@ -16,7 +17,7 @@ namespace ConstructionApp.Dto.MACDto
 
         public static MAC ToEntity(InputCreateMacDto dto)
         {
-            return new MAC()
+            var entity = new MAC()
             {
                 MacName = dto.MacName,
                 Tuoi = dto.Tuoi,
@@ -28,6 +29,8 @@ namespace ConstructionApp.Dto.MACDto
                 Nuoc = dto.Nuoc,
                 Note = dto.Note
             };
+            entity.MacCode = MacService.CreateMacCode(entity);
+            return entity;
         }
     }
 }

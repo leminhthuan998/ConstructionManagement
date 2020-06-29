@@ -8,6 +8,7 @@ const layout = {
     labelCol: { span: 6 },
 };
 const { TextArea } = Input;
+
 class FormUpdate extends Component {
     constructor(props) {
         super(props);
@@ -82,15 +83,15 @@ class FormUpdate extends Component {
         const { data, create } = this.state
         return (
             <Form ref={c => this.form = c} {...layout} name="basic" onFinish={this.onFinish} initialValues={create ? "" : data}>
-                <Form.Item name="name" label="Tên phương tiện" >
-                    <Input />
-                </Form.Item>
-                <Form.Item name="serialNumber" label="Biển số" >
-                    <Input />
-                </Form.Item>
-                <Form.Item name="description" label="Mô tả" >
-                    <TextArea />
-                </Form.Item>
+              <Form.Item name="name" label="Tên phương tiện" >
+                <Input />
+              </Form.Item>
+              <Form.Item name="serialNumber" label="Biển số" >
+                <Input />
+              </Form.Item>
+              <Form.Item name="description" label="Mô tả" >
+                <TextArea />
+              </Form.Item>
             </Form>
         );
     }

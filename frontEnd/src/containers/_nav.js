@@ -23,7 +23,7 @@ export default [
     _tag: 'CSidebarNavItem',
     name: 'Loại bê tông',
     to: '/mac',
-    icon: 'cil-building'
+    icon: 'cil-list'
   },
   {
     _tag: 'CSidebarNavTitle',
