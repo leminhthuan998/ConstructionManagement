@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { onDeleteConfirm } from '../../../application/actions/appAction';
 import store from '../../../AppStore';
-import { API_VEHICLE_DELETE, API_VEHICLE_DETAIL } from '../../../constants/ApiConstant';
+import { API_VAT_TU_DETAIL, API_VAT_TU_DELETE } from '../../../constants/ApiConstant';
 import AppUtil from '../../../utils/AppUtil';
 import FormDetail from '../form/FormDetail';
 import FormUpdate from '../form/FormUpdate';
@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
         onDelete: state.root.onDelete
     };
 };
-class ViewVehicle extends Component {
+class VatTuListView extends Component {
     constructor(props) {
         super(props);
         const me = this
@@ -25,28 +25,38 @@ class ViewVehicle extends Component {
                 {
                     headerName: "STT",
                     valueGetter: "node.rowIndex + 1",
-                    width: 80
+                    width: 85
                 },
                 {
-                    headerName: "Tên phương tiện",
+                    headerName: "Tên vật tư",
                     field: "name",
-                    minWidth: 300,
+                    minWidth: 250,
                     suppressSizeToFit: true
                 },
                 {
-                    headerName: "Biển số",
-                    field: "serialNumber",
-                    width: 100
+                    headerName: "Ngày nhập",
+                    field: "inputDate",
+                    minWidth: 150
                 },
                 {
-                    headerName: "Mô tả",
-                    field: "description",
-                    minWidth: 300,
+                    headerName: "Nhà cung cấp",
+                    field: "supplier",
+                    minWidth: 120,
+                },
+                {
+                    headerName: "Khối lượng nhập",
+                    field: "inputWeight",
+                    minWidth: 120,
+                },
+                {
+                    headerName: "Khối lượng thực tế",
+                    field: "realWeight",
+                    minWidth: 100,
                 },
                 {
                     headerName: "Hành động",
                     field: "action",
-                    minwidth: 200,
+                    width: 250,
                     cellRendererFramework: function (params) {
                         return <div style={{ display: 'flex', alignItems: 'center' }}>
                             <button onClick={() => me.openFormDetail(params.data)} style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button" class="btn btn-info">Chi tiết</button>
@@ -66,12 +76,6 @@ class ViewVehicle extends Component {
         }
         this.gridApi = ''
     }
-
-
-
-    // componentDidMount() {
-    //     this.loadData()
-    // }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.onDelete != this.state.onDelete) {
@@ -155,8 +159,8 @@ class ViewVehicle extends Component {
 
     onConfirmDelete(data) {
         const params = {}
-        params['vehicleId'] = data.id
-        Axios.post(AppUtil.GLOBAL_API_PATH + API_VEHICLE_DELETE, null, {
+        params['vatTuId'] = data.id
+        Axios.post(AppUtil.GLOBAL_API_PATH + API_VAT_TU_DELETE, null, {
             params
         })
             .then(res => {
@@ -178,7 +182,7 @@ class ViewVehicle extends Component {
 
     loadData() {
         this.gridApi && this.gridApi.showLoadingOverlay();
-        Axios.get(AppUtil.GLOBAL_API_PATH + API_VEHICLE_DETAIL)
+        Axios.get(AppUtil.GLOBAL_API_PATH + API_VAT_TU_DETAIL)
             .then(res => {
                 const { data } = res;
                 if (data.success) {
@@ -197,7 +201,7 @@ class ViewVehicle extends Component {
 
     onGridReady = params => {
         this.gridApi = params.api;
-        this.gridApi.sizeColumnsToFit();
+        // this.gridApi.sizeColumnsToFit();
         this.loadData()
     }
 
@@ -273,4 +277,4 @@ class ViewVehicle extends Component {
     }
 }
 
-export default connect(mapStateToProps)(ViewVehicle);
+export default connect(mapStateToProps)(VatTuListView);

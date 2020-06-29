@@ -39,6 +39,8 @@ const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 const Vehicle = React.lazy(() => import('./component/vehicle/view/ViewVehicle'));
 const MAC = React.lazy(() => import('./component/mac/MacListView'));
+const VatTu = React.lazy(() => import('./component/vatTu/view/VatTuListView'));
+
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 
 
@@ -87,6 +89,8 @@ const routes = [
 
   { path: '/vehicle', exact: true, name: 'Phương tiện', component: Vehicle },
   { path: '/mac', exact: true, name: 'Loại bê tông (MAC)', component: MAC },
+  { path: '/vat-tu', exact: true, name: 'Vật tư', component: VatTu },
+
   { path: "*", component: Page404 },
 ];
 

@@ -10,3 +10,10 @@ export const API_MAC_DETAIL = "/mac/index";
 export const API_MAC_CREATE = "/mac/create";
 export const API_MAC_UPDATE = "/mac/update";
 export const API_MAC_DELETE = "/mac/delete";
+
+
+
+export const API_VAT_TU_DETAIL = "/vat-tu/index";
+export const API_VAT_TU_CREATE = "/vat-tu/create";
+export const API_VAT_TU_UPDATE = "/vat-tu/update";
+export const API_VAT_TU_DELETE = "/vat-tu/delete";
