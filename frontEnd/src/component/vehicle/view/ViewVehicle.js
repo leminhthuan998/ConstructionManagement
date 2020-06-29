@@ -177,7 +177,7 @@ class ViewVehicle extends Component {
 
 
     loadData() {
-        this.gridApi && this.gridApi.showLoadingOverlay();
+        this.gridApi.showLoadingOverlay()
         Axios.get(AppUtil.GLOBAL_API_PATH + API_VEHICLE_DETAIL)
             .then(res => {
                 const { data } = res;
@@ -191,15 +191,13 @@ class ViewVehicle extends Component {
                 AppUtil.ToastError();
             })
             .finally(() => {
-                this.setState({
-                })
+                this.gridApi && this.gridApi.hideOverlay();
             });
     }
 
     onGridReady = params => {
         this.gridApi = params.api;
         this.gridApi.sizeColumnsToFit();
-        this.gridApi.showLoadingOverlay();
         this.loadData()
     }
 
