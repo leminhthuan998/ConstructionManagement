@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dto\HopDong\**" />
+    <Content Remove="Dto\HopDong\**" />
+    <EmbeddedResource Remove="Dto\HopDong\**" />
+    <None Remove="Dto\HopDong\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Migrations\20200626180032_Add_VehicleEntity.cs" />
     <Compile Remove="Migrations\20200626180032_Add_VehicleEntity.Designer.cs" />
     <Compile Remove="Migrations\20200629170518_Add_LoaiVatTu1.cs" />

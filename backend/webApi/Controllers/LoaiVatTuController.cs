@@ -1,5 +1,4 @@
-﻿using ConstructionApp.Dto.VatTuDto;
-using ConstructionApp.Dto.VatTuDto2;
+﻿using ConstructionApp.Dto.VatTuDto2;
 using ConstructionApp.Entity;
 using ConstructionApp.Utils;
 using Microsoft.AspNetCore.Authorization;

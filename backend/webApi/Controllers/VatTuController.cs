@@ -64,12 +64,12 @@ namespace ConstructionApp.Controllers
         public async Task<IActionResult> UpdateAction([FromBody] InputUpdateVatTuDto dto)
         {
             // check vật tư này đã được add hay chưa
-            var find = await _dbContext.Set<VatTu>()
-               .Where(x => x.Name.Equals(dto.Name) && x.Supplier.Equals(dto.Supplier)).CountAsync();
-            if (find > 0)
-            {
-                ModelState.AddModelError(nameof(dto.Name), "Vật tư này đã được tạo trên hệ thống");
-            }
+            //var find = await _dbContext.Set<VatTu>()
+            //   .Where(x => x.Name.Equals(dto.Name) && x.Supplier.Equals(dto.Supplier)).CountAsync();
+            //if (find > 0)
+            //{
+            //    ModelState.AddModelError(nameof(dto.Name), "Vật tư này đã được tạo trên hệ thống");
+            //}
 
             if (!ModelState.IsValid)
             {

@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
 .ag-react-container{
     height: 100% !important;
     display: flex;
@@ -17,4 +19,16 @@
 }
 .ag-bl-overlay {
     pointer-events: auto;
+}
+.ant-picker-suffix{
+    display: flex !important;
+}
+.header-sider-bar{
+    color: #bdad21;
+    font-family: 'Trocchi', serif;
+    font-size: 30px;
+    font-weight: normal;
+    line-height: 48px;
+    margin: 0;
+    text-shadow: 2px 2px 4px #000000;
 }

@@ -131,7 +131,8 @@ import {
   cilBusAlt,
   cilTruck,
   cilBuilding,
-  cilObjectUngroup
+  cilObjectUngroup,
+  cilBook
 } from '@coreui/icons'
 
 export const icons = Object.assign({}, {
@@ -233,7 +234,8 @@ export const icons = Object.assign({}, {
   cilBusAlt,
   cilTruck,
   cilBuilding,
-  cilObjectUngroup
+  cilObjectUngroup,
+  cilBook
 }, {
   cifUs,
   cifBr,

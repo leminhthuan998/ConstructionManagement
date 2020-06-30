@@ -45,16 +45,7 @@ class TheSidebar extends Component {
         onShowChange={()=>store.dispatch(onToggleSider())}
       >
         <CSidebarBrand className="d-md-down-none" to="/">
-          <CIcon
-            className="c-sidebar-brand-full"
-            name="logo-negative"
-            height={35}
-          />
-          <CIcon
-            className="c-sidebar-brand-minimized"
-            name="sygnet"
-            height={35}
-          />
+          <div className='header-sider-bar' >Ánh Dương </div>          
         </CSidebarBrand>
         <CSidebarNav>
 

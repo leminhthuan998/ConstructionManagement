@@ -40,6 +40,8 @@ const User = React.lazy(() => import('./views/users/User'));
 const Vehicle = React.lazy(() => import('./component/vehicle/view/ViewVehicle'));
 const MAC = React.lazy(() => import('./component/mac/MacListView'));
 const VatTu = React.lazy(() => import('./component/vatTu/view/VatTuListView'));
+const HopDong = React.lazy(() => import('./component/hopDong/HopDongListView'));
+const LoaiVatTu = React.lazy(() => import('./component/loaiVatTu/LoaiVatTuListView'));
 
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 
@@ -86,10 +88,12 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 
-
   { path: '/vehicle', exact: true, name: 'Phương tiện', component: Vehicle },
   { path: '/mac', exact: true, name: 'Loại bê tông (MAC)', component: MAC },
   { path: '/vat-tu', exact: true, name: 'Vật tư', component: VatTu },
+  { path: '/hop-dong', exact: true, name: 'Hợp đồng', component: HopDong },
+  { path: '/loai-vat-tu', exact: true, name: 'Loại vật tư', component: LoaiVatTu },
+
 
   { path: "*", component: Page404 },
 ];

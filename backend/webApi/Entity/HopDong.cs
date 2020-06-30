@@ -12,5 +12,6 @@ namespace ConstructionApp.Entity
         public string CongTrinh { get; set; }
         public string NhaCungCapBeTong { get; set; }
         public MAC MAC { get; set; }
+        public Guid MacId { get; set; }
     }
 }
