@@ -23,10 +23,12 @@ namespace ConstructionApp.Controllers
         private readonly DbSet<Role> _repository;
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
-        public RoleController(ApplicationDbContext dbContext, RoleManager<Role> roleManager, UserManager<User> userManager)
+        private readonly IRoleStore<Role> _roleStore;
+        public RoleController(ApplicationDbContext dbContext, RoleManager<Role> roleManager, UserManager<User> userManager, IRoleStore<Role> roleStore)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
+            this._roleStore = roleStore;
+            this._userManager = userManager;
+            this._roleManager = roleManager;
             this._dbContext = dbContext;
             _repository = _dbContext.Set<Role>();
         }
@@ -57,10 +59,12 @@ namespace ConstructionApp.Controllers
             }
 
             var newRole = InputCreateRoleDto.ToEntity(dto);
+            Console.WriteLine("newrole " + newRole);
             var result = await _roleManager.CreateAsync(newRole);
             // await _dbContext.Set<Role>().AddAsync(newRole);
             // await _dbContext.SaveChangesAsync();
-            if(result.Succeeded) {
+            if (result.Succeeded)
+            {
                 return Ok(ApiResponse<Role>.ApiOk(newRole));
             }
             return Ok(ApiResponse<IdentityResult>.ApiOk(result));
@@ -86,7 +90,8 @@ namespace ConstructionApp.Controllers
             var result = await _roleManager.UpdateAsync(role);
             // _repository.Update(role);
             // await _dbContext.SaveChangesAsync();
-            if(result.Succeeded) {
+            if (result.Succeeded)
+            {
                 return Ok(ApiResponse<IdentityResult>.ApiOk(result));
             }
             return Ok(ApiResponse<Role>.ApiOk(role));
@@ -110,7 +115,7 @@ namespace ConstructionApp.Controllers
         public async Task<IActionResult> AddUserToRole(string userId, string roleName)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            if(user != null)
+            if (user != null)
             {
                 var result = _userManager.AddToRoleAsync(user, roleName);
             }
