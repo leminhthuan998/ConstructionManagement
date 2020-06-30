@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { onDeleteConfirm } from '../../../application/actions/appAction';
 import store from '../../../AppStore';
-import { API_VAT_TU_DETAIL, API_VAT_TU_DELETE } from '../../../constants/ApiConstant';
+import { API_VAT_TU_DETAIL, API_VAT_TU_DELETE, API_LOAIVT_DETAIL } from '../../../constants/ApiConstant';
 import AppUtil from '../../../utils/AppUtil';
 import FormDetail from '../form/FormDetail';
 import FormUpdate from '../form/FormUpdate';
@@ -41,7 +41,7 @@ class VatTuListView extends Component {
                     field: "inputDate",
                     minWidth: 150,
                     cellRendererFramework: function (params) {
-                        return moment.utc(_.get(params.data,'inputDate')).format("DD/MM/YYYY")
+                        return moment.utc(_.get(params.data, 'inputDate')).format("DD/MM/YYYY")
                     }
                 },
                 {
@@ -58,6 +58,11 @@ class VatTuListView extends Component {
                     headerName: "Khối lượng thực tế",
                     field: "realWeight",
                     minWidth: 100,
+                },
+                {
+                    headerName: "Loại vật tư",
+                    field: "loaiVatTu.name",
+                    minWidth: 120,
                 },
                 {
                     headerName: "Hành động",
@@ -77,10 +82,28 @@ class VatTuListView extends Component {
             onDelete: false,
             rowSelect: {},
             visibleCreate: false,
+            dataLVT: [],
             overlayLoadingTemplate:
                 '<span class="ag-overlay-loading-center">Please wait while your rows are loading</span>'
         }
         this.gridApi = ''
+    }
+
+    componentDidMount() {
+        Axios.get(AppUtil.GLOBAL_API_PATH + API_LOAIVT_DETAIL)
+            .then(res => {
+                const { data } = res;
+                if (data.success) {
+                    this.setState({
+                        dataLVT: data.result
+                    })
+                }
+            })
+            .catch(() => {
+                AppUtil.ToastError();
+            })
+            .finally(() => {
+            });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -242,6 +265,7 @@ class VatTuListView extends Component {
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
+                    width={'50%'}
                     footer={[
                         <Button key="back" size="large" type="danger" onClick={this.handleCancel}>Đóng</Button>,
                     ]}
@@ -253,6 +277,7 @@ class VatTuListView extends Component {
                     visible={this.state.visibleEdit}
                     onOk={this.handleOkEdit}
                     onCancel={this.handleCancelEdit}
+                    width={'50%'}
                     footer={[
                         <Button key="submit" type="primary" size="large" onClick={this.handleOkEdit}>
                             Submit
@@ -261,13 +286,14 @@ class VatTuListView extends Component {
 
                     ]}
                 >
-                    <FormUpdate ref={c => this.formUpdate = c} data={this.state.rowSelect} loadData={() => this.loadData()} />
+                    <FormUpdate ref={c => this.formUpdate = c} dataLVT={this.state.dataLVT} data={this.state.rowSelect} loadData={() => this.loadData()} />
                 </Modal>
                 <Modal
                     title="Tạo mới"
                     visible={this.state.visibleCreate}
                     onOk={this.handleOkCreate}
                     onCancel={this.handleCancelCreate}
+                    width={'50%'}
                     footer={[
                         <Button key="submit" type="primary" size="large" onClick={this.handleOkCreate}>
                             Submit
@@ -276,7 +302,7 @@ class VatTuListView extends Component {
 
                     ]}
                 >
-                    <FormUpdate create ref={c => this.formUpdate = c} data={this.state.rowSelect} loadData={() => this.loadData()} />
+                    <FormUpdate create ref={c => this.formUpdate = c} dataLVT={this.state.dataLVT} data={this.state.rowSelect} loadData={() => this.loadData()} />
                 </Modal>
             </div>
         );

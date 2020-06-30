@@ -13,7 +13,8 @@ namespace ConstructionApp.Dto.VatTuDto
         public string Supplier { get; set; } //nha cung cap
         public double InputWeight { get; set; }
         public double RealWeight { get; set; }
-
+        public Guid LoaiVatTuId { get; set; }
+        public LoaiVatTu LoaiVatTu { get; set; }
         public static VatTu ToEntity(InputCreateVatTuDto dto)
         {
             return new VatTu()
@@ -22,7 +23,8 @@ namespace ConstructionApp.Dto.VatTuDto
                 InputDate = dto.InputDate,
                 Supplier = dto.Supplier,
                 InputWeight = dto.InputWeight,
-                RealWeight = dto.RealWeight
+                RealWeight = dto.RealWeight,
+                LoaiVatTuId = dto.LoaiVatTuId
             };
         }
     }

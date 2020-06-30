@@ -14,6 +14,8 @@ namespace ConstructionApp.Dto.VatTuDto
         public string Supplier { get; set; } //nha cung cap
         public double InputWeight { get; set; }
         public double RealWeight { get; set; }
+        public Guid LoaiVatTuId { get; set; }
+        public LoaiVatTu LoaiVatTu { get; set; }
         public static void UpdateEntity(InputUpdateVatTuDto dto, VatTu vt)
         {
             vt.Id = dto.Id;
@@ -22,7 +24,7 @@ namespace ConstructionApp.Dto.VatTuDto
             vt.Supplier = dto.Supplier;
             vt.InputWeight = dto.InputWeight;
             vt.RealWeight = dto.RealWeight;
-
+            vt.LoaiVatTuId = dto.LoaiVatTuId;
         }
     }
 }

@@ -32,11 +32,19 @@ namespace ConstructionApp.Controllers
         public async Task<IActionResult> IndexAction()
         {
             var results = await _repository.ToListAsync();
-            return Ok(ApiResponse<List<VatTu>>.ApiOk(results));
+            var newRs = new List<VatTu>();
+            foreach (var item in results)
+            {
+                var mac = await _dbContext.Set<LoaiVatTu>()
+                .FirstAsync(x => x.Id == item.LoaiVatTuId);
+                item.LoaiVatTu = mac;
+                newRs.Add(item);
+            }
+            return Ok(ApiResponse<List<VatTu>>.ApiOk(newRs));
         }
 
         [HttpPost("create")]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<Vehicle>))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<VatTu>))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
         public async Task<IActionResult> CreateAction([FromBody] InputCreateVatTuDto dto)
         {
@@ -52,7 +60,12 @@ namespace ConstructionApp.Controllers
             {
                 return Ok(ApiResponse<object>.ApiError(ModelState));
             }
-
+            var loaiVattu = await _dbContext.Set<LoaiVatTu>()
+               .FirstOrDefaultAsync(x => x.Id == dto.LoaiVatTuId);
+            if (loaiVattu != null)
+            {
+                dto.LoaiVatTu = loaiVattu;
+            }
             var newVatTu = InputCreateVatTuDto.ToEntity(dto);
             await _dbContext.Set<VatTu>().AddAsync(newVatTu);
             await _dbContext.SaveChangesAsync();
@@ -77,6 +90,12 @@ namespace ConstructionApp.Controllers
             }
 
             var vatTu = await _repository.FirstAsync(x => x.Id.Equals(dto.Id));
+            var loaiVattu = await _dbContext.Set<LoaiVatTu>()
+               .FirstOrDefaultAsync(x => x.Id == dto.LoaiVatTuId);
+            if (loaiVattu != null)
+            {
+                dto.LoaiVatTu = loaiVattu;
+            }
             InputUpdateVatTuDto.UpdateEntity(dto, vatTu);
             _repository.Update(vatTu);
             await _dbContext.SaveChangesAsync();

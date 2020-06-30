@@ -1,8 +1,10 @@
 import { DatePicker, Form, Input } from 'antd';
 import moment from 'moment';
 import React, { Component } from 'react';
+import _ from 'lodash'
+
 const layout = {
-    labelCol: { span: 7 },
+    labelCol: { span: 4 },
 };
 class FormDetail extends Component {
     constructor(props) {
@@ -11,6 +13,12 @@ class FormDetail extends Component {
         this.state = {
             data: props.data ? me.formatValue(props.data) : {}
         }
+    }
+
+    componentDidMount() {
+        this.form.setFieldsValue({
+            loaiVatTu: _.get(this.state.data, 'loaiVatTu.name')
+        })
     }
 
     formatValue(data) {
@@ -28,11 +36,12 @@ class FormDetail extends Component {
     componentWillReceiveProps(nextProps) {
         const me = this
         if (nextProps.data && nextProps.data !== this.state.data) {
+            const dataSet = Object.assign(nextProps.data, { loaiVatTu: _.get(nextProps.data, 'loaiVatTu.name') })
             this.setState({
                 data: me.formatValue(nextProps.data)
             })
             this.form.setFieldsValue(
-                me.formatValue(nextProps.data)
+                me.formatValue(dataSet)
             );
         }
     }
@@ -53,6 +62,9 @@ class FormDetail extends Component {
                     <Input disabled />
                 </Form.Item>
                 <Form.Item name="realWeight" label="Khối lượng thực tế" >
+                    <Input disabled />
+                </Form.Item>
+                <Form.Item name="loaiVatTu" label="Loại vật tư" >
                     <Input disabled />
                 </Form.Item>
 

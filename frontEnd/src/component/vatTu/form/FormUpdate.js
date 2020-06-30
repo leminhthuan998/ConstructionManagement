@@ -1,4 +1,4 @@
-import { DatePicker, Form, Input } from 'antd';
+import { DatePicker, Form, Input, Select } from 'antd';
 import Axios from 'axios';
 import _ from 'lodash';
 import React, { Component } from 'react';
@@ -7,7 +7,7 @@ import AppUtil from '../../../utils/AppUtil';
 import moment from 'moment';
 
 const layout = {
-    labelCol: { span: 7 },
+    labelCol: { span: 4 },
 };
 const { TextArea } = Input;
 class FormUpdate extends Component {
@@ -16,7 +16,9 @@ class FormUpdate extends Component {
         const me = this
         this.state = {
             data: props.data ? me.formatValue(props.data) : {},
-            create: props.create
+            create: props.create,
+            dataLVT: _.get(props, 'dataLVT')
+
         }
     }
 
@@ -42,15 +44,7 @@ class FormUpdate extends Component {
             );
         }
         if (nextProps.create) {
-            this.form.setFieldsValue(
-                {
-                    name: null,
-                    inputDate: null,
-                    supplier: null,
-                    inputWeight: null,
-                    realWeight: null
-                }
-            );
+            this.form.resetFields();
         }
     }
 
@@ -99,7 +93,7 @@ class FormUpdate extends Component {
     };
 
     render() {
-        const { data, create } = this.state
+        const { data, create, dataLVT } = this.state
         return (
             <Form ref={c => this.form = c} {...layout} name="basic" onFinish={this.onFinish} initialValues={create ? "" : data}>
                 <Form.Item name="name" label="Tên vật tư" >
@@ -116,6 +110,19 @@ class FormUpdate extends Component {
                 </Form.Item>
                 <Form.Item name="realWeight" label="Khối lượng thực tế" >
                     <Input />
+                </Form.Item>
+                <Form.Item name="loaiVatTuId" label="Loại vật tư">
+                    <Select
+                        placeholder="Chọn loại vật tư"
+                        // onChange={() => this.onChangeMac()}
+                        allowClear
+                    >
+                        {_.map(dataLVT, item => {
+                            return <Select.Option value={item.id} >
+                                {item.name}
+                            </Select.Option>
+                        })}
+                    </Select>
                 </Form.Item>
             </Form>
         );
