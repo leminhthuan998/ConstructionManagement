@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ConstructionApp.Dto.VatTuDto2
 {
-    public class InputCreateLoaiVatTuDto
+    public class InputCreateHopDongDto
     {
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public static LoaiVatTu ToEntity(InputCreateLoaiVatTuDto dto)
+        public static LoaiVatTu ToEntity(InputCreateHopDongDto dto)
         {
             return new LoaiVatTu()
             {
