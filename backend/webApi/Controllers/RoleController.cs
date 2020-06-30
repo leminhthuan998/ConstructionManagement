@@ -4,6 +4,7 @@ using ConstructionApp.Entity;
 using ConstructionApp.Entity.Identity;
 using ConstructionApp.Utils;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -20,17 +21,20 @@ namespace ConstructionApp.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly DbSet<Role> _repository;
-        public RoleController(ApplicationDbContext dbContext)
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
+        public RoleController(ApplicationDbContext dbContext, RoleManager<Role> roleManager, UserManager<User> userManager)
         {
+            _userManager = userManager;
+            _roleManager = roleManager;
             this._dbContext = dbContext;
-             _repository = _dbContext.Set<Role>();
+            _repository = _dbContext.Set<Role>();
         }
 
         [HttpGet("index")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<List<Role>>))]
         public async Task<IActionResult> IndexAction()
         {
-            // check biển số xe này đã được add hay chưa
             var results = await _repository.ToListAsync();
             return Ok(ApiResponse<List<Role>>.ApiOk(results));
         }
@@ -40,22 +44,26 @@ namespace ConstructionApp.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
         public async Task<IActionResult> CreateAction([FromBody] InputCreateRoleDto dto)
         {
-            // check biển số xe này đã được add hay chưa
-            var find = await _dbContext.Set<Role>().Where(x => x.Name.Equals(dto.Name)).CountAsync();
-            if(find > 0)
+            var find = await _roleManager.FindByNameAsync(dto.Name);
+            // var find = await _dbContext.Set<Role>().Where(x => x.Name.Equals(dto.Name)).CountAsync();
+            if (find != null)
             {
                 ModelState.AddModelError(nameof(dto.Name), "Role này đã được tạo trên hệ thống");
             }
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Ok(ApiResponse<object>.ApiError(ModelState));
             }
 
             var newRole = InputCreateRoleDto.ToEntity(dto);
-            await _dbContext.Set<Role>().AddAsync(newRole);
-            await _dbContext.SaveChangesAsync();
-            return Ok(ApiResponse<Role>.ApiOk(newRole));
+            var result = await _roleManager.CreateAsync(newRole);
+            // await _dbContext.Set<Role>().AddAsync(newRole);
+            // await _dbContext.SaveChangesAsync();
+            if(result.Succeeded) {
+                return Ok(ApiResponse<Role>.ApiOk(newRole));
+            }
+            return Ok(ApiResponse<IdentityResult>.ApiOk(result));
         }
 
         [HttpPost("update")]
@@ -73,22 +81,41 @@ namespace ConstructionApp.Controllers
                 return Ok(ApiResponse<ModelStateDictionary>.ApiError(ModelState));
             }
 
-            var role = await _repository.FirstAsync(x => x.Id.Equals(dto.Id));
+            var role = await _roleManager.FindByIdAsync(dto.Id);
             InputUpdateRoleDto.UpdateEntity(dto, role);
-            _repository.Update(role);
-            await _dbContext.SaveChangesAsync();
+            var result = await _roleManager.UpdateAsync(role);
+            // _repository.Update(role);
+            // await _dbContext.SaveChangesAsync();
+            if(result.Succeeded) {
+                return Ok(ApiResponse<IdentityResult>.ApiOk(result));
+            }
             return Ok(ApiResponse<Role>.ApiOk(role));
         }
 
 
         [HttpPost("delete")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
-        public async Task<IActionResult> DeleteAction(Guid roleId)
+        public async Task<IActionResult> DeleteAction(string roleId)
         {
-            var find = await _repository.Where(x => x.Id.Equals(roleId)).FirstAsync();
-            _repository.Remove(find);
-            await _dbContext.SaveChangesAsync();
+            var role = await _roleManager.FindByIdAsync(roleId);
+            if (role != null)
+            {
+                var result = await _roleManager.DeleteAsync(role);
+            }
             return Ok(ApiResponse<string>.ApiOk("Xoá thành công"));
         }
+
+        [HttpPost("addToRole")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
+        public async Task<IActionResult> AddUserToRole(string userId, string roleName)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if(user != null)
+            {
+                var result = _userManager.AddToRoleAsync(user, roleName);
+            }
+            return Ok(ApiResponse<string>.ApiOk("success"));
+        }
+
     }
 }
