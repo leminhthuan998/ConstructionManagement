@@ -1,5 +1,4 @@
 ﻿using ConstructionApp.Dto.HopDongDto;
-using ConstructionApp.Dto.VatTuDto;
 using ConstructionApp.Entity;
 using ConstructionApp.Utils;
 using Microsoft.AspNetCore.Authorization;
