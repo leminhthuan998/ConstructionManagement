@@ -37,7 +37,10 @@ namespace ConstructionApp.Controllers
             {
                 var mac = await _dbContext.Set<LoaiVatTu>()
                 .FirstAsync(x => x.Id == item.LoaiVatTuId);
-                item.LoaiVatTu = mac;
+                if(mac != null)
+                {
+                    item.LoaiVatTu = mac;
+                }
                 newRs.Add(item);
             }
             return Ok(ApiResponse<List<VatTu>>.ApiOk(newRs));

@@ -44,7 +44,7 @@ class LoaiVatTuListView extends Component {
         {
           headerName: "Hành động",
           field: "action",
-          width: 250,
+          minWidth: 250,
           cellRendererFramework: function (params) {
             return <div style={{ display: 'flex', alignItems: 'center' }}>
               <button onClick={() => me.openFormDetail(params.data)}
