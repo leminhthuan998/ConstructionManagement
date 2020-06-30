@@ -23,3 +23,10 @@ export const API_HOP_DONG_DETAIL = "/hop-dong/index";
 export const API_HOP_DONG_CREATE = "/hop-dong/create";
 export const API_HOP_DONG_UPDATE = "/hop-dong/update";
 export const API_HOP_DONG_DELETE = "/hop-dong/delete";
+
+
+
+export const API_LOAIVT_DETAIL = "/loai-vat-tu/index";
+export const API_LOAIVT_CREATE = "/loai-vat-tu/create";
+export const API_LOAIVT_UPDATE = "/loai-vat-tu/update";
+export const API_LOAIVT_DELETE = "/loai-vat-tu/delete";

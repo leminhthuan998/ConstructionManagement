@@ -33,6 +33,12 @@ export default [
   },
   {
     _tag: 'CSidebarNavItem',
+    name: 'Loại vật tư',
+    to: '/loai-vat-tu',
+    icon: 'cil-layers'
+  },
+  {
+    _tag: 'CSidebarNavItem',
     name: 'Hợp đồng',
     to: '/hop-dong',
     icon: 'cil-book'
