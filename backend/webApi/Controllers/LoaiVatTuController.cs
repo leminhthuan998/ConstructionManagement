@@ -63,14 +63,6 @@ namespace ConstructionApp.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<LoaiVatTu>))]
         public async Task<IActionResult> UpdateAction([FromBody] InputUpdateLoaiVatTuDto dto)
         {
-            // check vật tư này đã được add hay chưa
-            var find = await _repository
-               .Where(x => x.Name.Equals(dto.Name) && !x.Id.Equals(dto.Id)).CountAsync();
-            if (find > 0)
-            {
-                ModelState.AddModelError(nameof(dto.Name), "Vật tư này đã được tạo trên hệ thống");
-            }
-
             if (!ModelState.IsValid)
             {
                 return Ok(ApiResponse<ModelStateDictionary>.ApiError(ModelState));
