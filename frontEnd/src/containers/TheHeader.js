@@ -60,7 +60,8 @@ class TheHeader extends Component {
           onClick={this.toggleSidebar}
         />
         <CHeaderBrand className="mx-auto d-lg-none" to="/">
-          <CIcon name="logo" height="48" alt="Logo" />
+          {/* <CIcon name="logo" height="48" alt="Logo" /> */}
+          <div className='header-sider-bar-mobile' >ÁNH DƯƠNG</div>
         </CHeaderBrand>
 
         <CHeaderNav className="d-md-down-none mr-auto">
