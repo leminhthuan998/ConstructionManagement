@@ -1,5 +1,4 @@
-﻿using ConstructionApp.Dto.VatTuDto;
-using ConstructionApp.Dto.VatTuDto2;
+﻿using ConstructionApp.Dto.VatTuDto2;
 using ConstructionApp.Entity;
 using ConstructionApp.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -39,7 +38,7 @@ namespace ConstructionApp.Controllers
         [HttpPost("create")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<LoaiVatTu>))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
-        public async Task<IActionResult> CreateAction([FromBody] InputCreateHopDongDto dto)
+        public async Task<IActionResult> CreateAction([FromBody] InputCreateLoaiVatTuDto dto)
         {
             // check loại vật tư này đã được add hay chưa
             var find = await _repository
@@ -54,7 +53,7 @@ namespace ConstructionApp.Controllers
                 return Ok(ApiResponse<object>.ApiError(ModelState));
             }
 
-            var newVatTu = InputCreateHopDongDto.ToEntity(dto);
+            var newVatTu = InputCreateLoaiVatTuDto.ToEntity(dto);
             await _dbContext.Set<LoaiVatTu>().AddAsync(newVatTu);
             await _dbContext.SaveChangesAsync();
             return Ok(ApiResponse<LoaiVatTu>.ApiOk(newVatTu));
@@ -62,7 +61,7 @@ namespace ConstructionApp.Controllers
 
         [HttpPost("update")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<LoaiVatTu>))]
-        public async Task<IActionResult> UpdateAction([FromBody] InputUpdateHopDongDto dto)
+        public async Task<IActionResult> UpdateAction([FromBody] InputUpdateLoaiVatTuDto dto)
         {
             // check vật tư này đã được add hay chưa
             var find = await _repository
@@ -78,7 +77,7 @@ namespace ConstructionApp.Controllers
             }
 
             var vatTu = await _repository.FirstAsync(x => x.Id.Equals(dto.Id));
-            InputUpdateHopDongDto.UpdateEntity(dto, vatTu);
+            InputUpdateLoaiVatTuDto.UpdateEntity(dto, vatTu);
             _repository.Update(vatTu);
             await _dbContext.SaveChangesAsync();
             return Ok(ApiResponse<LoaiVatTu>.ApiOk(vatTu));

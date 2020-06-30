@@ -1,14 +1,14 @@
-import {Form, Input, InputNumber} from 'antd';
-import React, {Component} from 'react';
+import { Form, Input, InputNumber } from 'antd';
+import React, { Component } from 'react';
 import Axios from 'axios';
 import _ from 'lodash'
-import {API_CREATE_USER, API_MAC_CREATE, API_MAC_UPDATE} from "../../../constants/ApiConstant";
+import { API_CREATE_USER, API_MAC_CREATE, API_MAC_UPDATE } from "../../../constants/ApiConstant";
 import AppUtil from "../../../utils/AppUtil";
 
 const layout = {
-  labelCol: {span: 6},
+  labelCol: { span: 6 },
 };
-const {TextArea} = Input;
+const { TextArea } = Input;
 
 class FormUpdate extends Component {
   constructor(props) {
@@ -31,23 +31,30 @@ class FormUpdate extends Component {
     if (nextProps.create) {
       this.form.setFieldsValue(
         {
-          name: '',
-          serialNumber: '',
-          description: ''
+          macCode: null,
+          macName: null,
+          tuoi: null,
+          doSut: null,
+          cat: null,
+          xiMang: null,
+          da: null,
+          pg: null,
+          nuoc: null,
+          note: null
         }
       );
     }
   }
 
   onFinish = () => {
-    const {data} = this.state
+    const { data } = this.state
     const dataPost = this.form.getFieldsValue()
     if (this.props.create) {
       Axios.post(AppUtil.GLOBAL_API_PATH + API_MAC_CREATE, dataPost)
         .then(res => {
-          const {data} = res;
+          const { data } = res;
           if (data.success) {
-            AppUtil.ToastSuccess('Cập nhật dữ liệu thành công!');
+            AppUtil.ToastSuccess('Tạo mới dữ liệu thành công!');
             this.props.loadData && this.props.loadData()
           } else {
             AppUtil.ToastError(_.get(data.result, 'SerialNumber.errors[0].errorMessage'));
@@ -63,9 +70,9 @@ class FormUpdate extends Component {
       dataPost.id = data.id
       Axios.post(AppUtil.GLOBAL_API_PATH + API_MAC_UPDATE, dataPost)
         .then(res => {
-          const {data} = res;
+          const { data } = res;
           if (data.success) {
-            AppUtil.ToastSuccess('Tạo mới dữ liệu thành công!');
+            AppUtil.ToastSuccess('Cập nhật dữ liệu thành công!');
             this.props.loadData && this.props.loadData()
           }
         })
@@ -80,12 +87,12 @@ class FormUpdate extends Component {
   };
 
   render() {
-    const {data, create} = this.state;
+    const { data, create } = this.state;
     return (
       <Form ref={c => this.form = c} {...layout} name="basic" onFinish={this.onFinish}
-            initialValues={create ? "" : data}>
+        initialValues={create ? "" : data}>
         <Form.Item name="macCode" label="MAC CODE">
-          <Input  disabled={true}/>
+          <Input disabled={true} />
         </Form.Item>
         <Form.Item name="macName" label="Tên loại bê tông">
           <Input type={"text"} />

@@ -32,31 +32,31 @@ class FormDetail extends Component {
                 <Input type={"text"}  disabled={true}/>
               </Form.Item>
               <Form.Item name="macName" label="Tên loại bê tông">
-                <Input type={"text"} />
+                <Input type={"text"} disabled/>
               </Form.Item>
               <Form.Item name="tuoi" label="Tuổi">
-                <InputNumber />
+                <InputNumber disabled/>
               </Form.Item>
               <Form.Item name="doSut" label="Độ sụt">
-                <InputNumber />
+                <InputNumber disabled/>
               </Form.Item>
               <Form.Item name="cat" label="Cát">
-                <InputNumber />
+                <InputNumber disabled/>
               </Form.Item>
               <Form.Item name="xiMang" label="Xi Măng">
-                <InputNumber />
+                <InputNumber disabled/>
               </Form.Item>
               <Form.Item name="da" label="Đá">
-                <InputNumber />
+                <InputNumber disabled/>
               </Form.Item>
               <Form.Item name="pg" label="Phụ gia">
-                <InputNumber />
+                <InputNumber disabled/>
               </Form.Item>
               <Form.Item name="nuoc" label="Nước">
-                <InputNumber />
+                <InputNumber disabled/>
               </Form.Item>
               <Form.Item name="note" label="Mô tả">
-                <TextArea />
+                <TextArea disabled/>
               </Form.Item>
             </Form>
         );

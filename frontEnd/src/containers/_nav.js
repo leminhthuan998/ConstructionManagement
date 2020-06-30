@@ -31,6 +31,12 @@ export default [
     to: '/vat-tu',
     icon: 'cil-object-ungroup'
   },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Hợp đồng',
+    to: '/hop-dong',
+    icon: 'cil-book'
+  },
   // {
   //   _tag: 'CSidebarNavTitle',
   //   _children: ['Theme']

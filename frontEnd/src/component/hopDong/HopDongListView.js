@@ -1,12 +1,12 @@
-import {CButton} from '@coreui/react';
-import {AgGridReact} from "ag-grid-react";
-import {Button, Modal} from 'antd';
+import { CButton } from '@coreui/react';
+import { AgGridReact } from "ag-grid-react";
+import { Button, Modal } from 'antd';
 import Axios from 'axios';
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {onDeleteConfirm} from '../../application/actions/appAction';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { onDeleteConfirm } from '../../application/actions/appAction';
 import store from '../../AppStore';
-import {API_MAC_DELETE, API_MAC_DETAIL} from '../../constants/ApiConstant';
+import { API_HOP_DONG_DELETE, API_HOP_DONG_DETAIL, API_MAC_DETAIL } from '../../constants/ApiConstant';
 import AppUtil from '../../utils/AppUtil';
 import FormUpdate from './form/FormUpdate';
 import FormDetail from "./form/FormDetail";
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-class MacListView extends Component {
+class HopDongListView extends Component {
   constructor(props) {
     super(props);
     const me = this
@@ -30,50 +30,30 @@ class MacListView extends Component {
           width: 80
         },
         {
-          headerName: "Mã bê tông",
-          field: "macCode",
+          headerName: "Tên hợp đồng",
+          field: "tenHopDong",
           minWidth: 120,
           suppressSizeToFit: true
         },
         {
-          headerName: "Tên loại bê tông",
-          field: "macName",
+          headerName: "Chủ đầu tư",
+          field: "chuDauTu",
           minWidth: 150,
           suppressSizeToFit: true
         },
         {
-          headerName: "Tuổi bê tông",
-          field: "tuoi",
+          headerName: "Nhà thầu",
+          field: "nhaThau",
           minWidth: 120
         },
         {
-          headerName: "Độ sụt",
-          field: "doSut",
+          headerName: "Nhà cung cấp bê tông",
+          field: "nhaCungCapBeTong",
           minWidth: 120,
         },
         {
-          headerName: "Cát",
-          field: "cat",
-          minWidth: 120,
-        },
-        {
-          headerName: "Xi Măng",
-          field: "xiMang",
-          minWidth: 120,
-        },
-        {
-          headerName: "Đá",
-          field: "da",
-          minWidth: 120,
-        },
-        {
-          headerName: "Phụ gia",
-          field: "pg",
-          minWidth: 120,
-        },
-        {
-          headerName: "Nước",
-          field: "nuoc",
+          headerName: "Loại bê tông",
+          field: "mac.macCode",
           minWidth: 120,
         },
         {
@@ -81,18 +61,18 @@ class MacListView extends Component {
           field: "action",
           minWidth: 250,
           cellRendererFramework: function (params) {
-            return <div style={{display: 'flex', alignItems: 'center'}}>
+            return <div style={{ display: 'flex', alignItems: 'center' }}>
               <button onClick={() => me.openFormDetail(params.data)}
-                      style={{height: 30, marginRight: 5, display: 'flex', alignItems: 'center'}} type="button"
-                      className="btn btn-info">Chi tiết
+                style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button"
+                className="btn btn-info">Chi tiết
               </button>
               <button onClick={() => me.openFormEdit(params.data)}
-                      style={{height: 30, marginRight: 5, display: 'flex', alignItems: 'center'}} type="button"
-                      className="btn btn-success">Chỉnh sửa
+                style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button"
+                className="btn btn-success">Chỉnh sửa
               </button>
               <button onClick={() => me.onDelete(params.data)}
-                      style={{height: 30, display: 'flex', alignItems: 'center'}} type="button"
-                      className="btn btn-danger">Xóa
+                style={{ height: 30, display: 'flex', alignItems: 'center' }} type="button"
+                className="btn btn-danger">Xóa
               </button>
             </div>
           }
@@ -102,12 +82,30 @@ class MacListView extends Component {
       visibleEdit: false,
       onDelete: false,
       rowSelect: {},
-      visibleCreate: false
+      visibleCreate: false,
+      dataMac: []
     }
     this.gridApi = ''
   }
 
-  
+  componentDidMount(){
+    Axios.get(AppUtil.GLOBAL_API_PATH + API_MAC_DETAIL)
+        .then(res => {
+          const {data} = res;
+          if (data.success) {
+            this.setState({
+              dataMac: data.result
+            })
+          }
+        })
+        .catch(() => {
+          AppUtil.ToastError();
+        })
+        .finally(() => {
+        });
+  }
+
+
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.onDelete !== this.state.onDelete) {
@@ -119,7 +117,6 @@ class MacListView extends Component {
 
   //detail
   openFormDetail(data) {
-    console.log(data)
     this.setState({
       visible: true,
       rowSelect: data,
@@ -191,11 +188,11 @@ class MacListView extends Component {
   onConfirmDelete(data) {
     const params = {}
     params['id'] = data.id
-    Axios.post(AppUtil.GLOBAL_API_PATH + API_MAC_DELETE, null, {
+    Axios.post(AppUtil.GLOBAL_API_PATH + API_HOP_DONG_DELETE, null, {
       params
     })
       .then(res => {
-        const {data} = res;
+        const { data } = res;
         if (data.success) {
           AppUtil.ToastSuccess('Xóa dữ liệu thành công!');
           this.loadData()
@@ -212,12 +209,12 @@ class MacListView extends Component {
 
   loadData() {
     this.gridApi && this.gridApi.showLoadingOverlay();
-    Axios.get(AppUtil.GLOBAL_API_PATH + API_MAC_DETAIL)
+    Axios.get(AppUtil.GLOBAL_API_PATH + API_HOP_DONG_DETAIL)
       .then(res => {
-        const {data} = res;
+        const { data } = res;
         if (data.success) {
           this.setState({
-            rowData: data.result
+            rowData: data.result 
           })
         }
       })
@@ -245,7 +242,7 @@ class MacListView extends Component {
         paddingTop: 0, boxShadow: 'unset',
         marginTop: -15
       }}>
-        <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 5}}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 5 }}>
           <CButton color="primary" onClick={() => this.openFormCreate()}>+ Tạo mới</CButton>
         </div>
         <AgGridReact
@@ -263,17 +260,19 @@ class MacListView extends Component {
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
+          width={'50%'}
           footer={[
             <Button key="back" size="large" type="danger" onClick={this.handleCancel}>Đóng</Button>,
           ]}
         >
-          <FormDetail data={this.state.rowSelect}/>
+          <FormDetail data={this.state.rowSelect} />
         </Modal>
         <Modal
           title="Chỉnh sửa"
           visible={this.state.visibleEdit}
           onOk={this.handleOkEdit}
           onCancel={this.handleCancelEdit}
+          width={'50%'}
           footer={[
             <Button key="submit" type="primary" size="large" onClick={this.handleOkEdit}>
               Submit
@@ -282,13 +281,14 @@ class MacListView extends Component {
 
           ]}
         >
-          <FormUpdate ref={c => this.formUpdate = c} data={this.state.rowSelect} loadData={() => this.loadData()}/>
+          <FormUpdate ref={c => this.formUpdate = c} data={this.state.rowSelect}  dataMac={this.state.dataMac} loadData={() => this.loadData()} />
         </Modal>
         <Modal
           title="Tạo mới"
           visible={this.state.visibleCreate}
           onOk={this.handleOkCreate}
           onCancel={this.handleCancelCreate}
+          width={'50%'}
           footer={[
             <Button key="submit" type="primary" size="large" onClick={this.handleOkCreate}>
               Submit
@@ -297,12 +297,12 @@ class MacListView extends Component {
 
           ]}
         >
-          <FormUpdate create ref={c => this.formUpdate = c} data={this.state.rowSelect}
-                      loadData={() => this.loadData()}/>
+          <FormUpdate create ref={c => this.formUpdate = c} data={this.state.rowSelect} dataMac={this.state.dataMac}
+            loadData={() => this.loadData()} />
         </Modal>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(MacListView);
+export default connect(mapStateToProps)(HopDongListView);

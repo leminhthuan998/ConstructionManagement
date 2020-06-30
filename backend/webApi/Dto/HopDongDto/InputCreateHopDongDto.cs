@@ -1,8 +1,5 @@
 ﻿using ConstructionApp.Entity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ConstructionApp.Dto.HopDongDto
 {
@@ -13,6 +10,8 @@ namespace ConstructionApp.Dto.HopDongDto
         public string NhaThau { get; set; }
         public string CongTrinh { get; set; }
         public string NhaCungCapBeTong { get; set; }
+        public Guid MacId { get; set; }
+
         public MAC MAC { get; set; }
 
         public static HopDong ToEntity(InputCreateHopDongDto dto)
@@ -24,7 +23,7 @@ namespace ConstructionApp.Dto.HopDongDto
                 NhaThau = dto.NhaThau,
                 CongTrinh = dto.CongTrinh,
                 NhaCungCapBeTong = dto.NhaCungCapBeTong,
-                MAC = dto.MAC,
+                MacId = dto.MacId
             };
         }
     }

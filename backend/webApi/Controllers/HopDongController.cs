@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -30,7 +31,16 @@ namespace ConstructionApp.Controllers
         public async Task<IActionResult> IndexAction()
         {
             var results = await _repository.ToListAsync();
-            return Ok(ApiResponse<List<HopDong>>.ApiOk(results));
+            var newRs = new List<HopDong>();
+            foreach (var item in results)
+            {
+                var mac = await _dbContext.Set<MAC>()
+                .FirstAsync(x => x.Id == item.MacId);
+                item.MAC = mac;
+                newRs.Add(item);
+            }           
+
+            return Ok(ApiResponse<List<HopDong>>.ApiOk(newRs));
         }
 
         [HttpPost("create")]
@@ -40,6 +50,7 @@ namespace ConstructionApp.Controllers
         public async Task<IActionResult> CreateAction([FromBody] InputCreateHopDongDto dto)
         {
             // check hợp đồng này đã được add hay chưa
+            
             var find = await _dbContext.Set<HopDong>()
                .Where(x => x.TenHopDong.Equals(dto.TenHopDong) && x.ChuDauTu.Equals(dto.ChuDauTu) && x.NhaThau.Equals(dto.NhaThau)
                && x.CongTrinh.Equals(dto.CongTrinh))
@@ -54,6 +65,9 @@ namespace ConstructionApp.Controllers
                 return Ok(ApiResponse<object>.ApiError(ModelState));
             }
 
+            var mac = await _dbContext.Set<MAC>()
+                .FirstAsync(x => x.Id == dto.MacId);
+            dto.MAC = mac;
             var newHd = InputCreateHopDongDto.ToEntity(dto);
             await _dbContext.Set<HopDong>().AddAsync(newHd);
             await _dbContext.SaveChangesAsync();
@@ -70,6 +84,9 @@ namespace ConstructionApp.Controllers
             }
 
             var hopDong = await _repository.FirstAsync(x => x.Id.Equals(dto.Id));
+            var mac = await _dbContext.Set<MAC>()
+              .FirstAsync(x => x.Id == dto.MacId);
+            dto.MAC = mac;
             InputUpdateHopDongDto.UpdateEntity(dto, hopDong);
             _repository.Update(hopDong);
             await _dbContext.SaveChangesAsync();
