@@ -13,7 +13,6 @@ namespace ConstructionApp.Dto.HopDongDto
         public string NhaThau { get; set; }
         public string CongTrinh { get; set; }
         public string NhaCungCapBeTong { get; set; }
-        public MAC MAC { get; set; }
         public Guid MacId { get; set; }
 
 

@@ -67,7 +67,6 @@ namespace ConstructionApp.Controllers
 
             var mac = await _dbContext.Set<MAC>()
                 .FirstAsync(x => x.Id == dto.MacId);
-            dto.MAC = mac;
             var newHd = InputCreateHopDongDto.ToEntity(dto);
             await _dbContext.Set<HopDong>().AddAsync(newHd);
             await _dbContext.SaveChangesAsync();
@@ -86,8 +85,8 @@ namespace ConstructionApp.Controllers
             var hopDong = await _repository.FirstAsync(x => x.Id.Equals(dto.Id));
             var mac = await _dbContext.Set<MAC>()
               .FirstAsync(x => x.Id == dto.MacId);
-            dto.MAC = mac;
             InputUpdateHopDongDto.UpdateEntity(dto, hopDong);
+            hopDong.MAC = mac;
             _repository.Update(hopDong);
             await _dbContext.SaveChangesAsync();
             return Ok(ApiResponse<HopDong>.ApiOk(hopDong));

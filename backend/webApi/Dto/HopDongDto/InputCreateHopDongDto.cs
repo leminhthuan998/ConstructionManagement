@@ -12,8 +12,6 @@ namespace ConstructionApp.Dto.HopDongDto
         public string NhaCungCapBeTong { get; set; }
         public Guid MacId { get; set; }
 
-        public MAC MAC { get; set; }
-
         public static HopDong ToEntity(InputCreateHopDongDto dto)
         {
             return new HopDong()
