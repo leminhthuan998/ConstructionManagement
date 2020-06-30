@@ -52,10 +52,13 @@ namespace ConstructionApp
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwaggerDocumentation();
+            app.UseDefaultFiles();
+
             // serve wwwroot
             app.UseStaticFiles();
 
-            app.UseSwaggerDocumentation();
+            var logger = app.ApplicationServices.GetRequiredService<ILoggerFactory>();
 
             app.UseRouting();
 
