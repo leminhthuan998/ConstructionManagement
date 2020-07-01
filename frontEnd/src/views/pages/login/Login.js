@@ -60,6 +60,9 @@ class Login extends Component {
                 // ApiUtil.error();
             })
             .finally(() => {
+                this.setState({
+                    loading: false
+                });
             });
     }
 
@@ -164,7 +167,7 @@ class Login extends Component {
                         </CCol>
                     </CRow>
                 </CContainer>
-                {this.state.loading ? <div style={{ position: "fixed", background: "#fff", top: 0, left: 0, width: "100%", height: "100%" }}><Loading /></div> : null}
+                {this.state.loading ? <div style={{ zIndex: 9999, position: "fixed", background: "#fff", top: 0, left: 0, width: "100%", height: "100%" }}><Loading /></div> : null}
 
             </div>
         )
