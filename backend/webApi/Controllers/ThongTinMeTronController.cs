@@ -51,6 +51,10 @@ namespace ConstructionApp.Controllers
 
         public async Task<IActionResult> CreateAction([FromBody] InputCreateTTMTDto dto)
         {
+            if(!ModelState.IsValid)
+            {
+                return Ok(ApiResponse<ModelStateDictionary>.ApiError(ModelState));
+            }
             // check thông tin mẻ trộn này đã được add hay chưa
             
             var find = await _dbContext.Set<ThongTinMeTron>().Where(x => x.VehicleId.Equals(dto.VehicleId) 
