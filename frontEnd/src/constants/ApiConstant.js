@@ -30,3 +30,10 @@ export const API_LOAIVT_DETAIL = "/loai-vat-tu/index";
 export const API_LOAIVT_CREATE = "/loai-vat-tu/create";
 export const API_LOAIVT_UPDATE = "/loai-vat-tu/update";
 export const API_LOAIVT_DELETE = "/loai-vat-tu/delete";
+
+
+
+export const API_TTMT_DETAIL = "/thong-tin-me-tron/index";
+export const API_TTMT_CREATE = "/thong-tin-me-tron/create";
+export const API_TTMT_UPDATE = "/thong-tin-me-tron/update";
+export const API_TTMT_DELETE = "/thong-tin-me-tron/delete";
