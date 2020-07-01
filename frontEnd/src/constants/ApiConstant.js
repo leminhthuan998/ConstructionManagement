@@ -37,3 +37,9 @@ export const API_TTMT_DETAIL = "/thong-tin-me-tron/index";
 export const API_TTMT_CREATE = "/thong-tin-me-tron/create";
 export const API_TTMT_UPDATE = "/thong-tin-me-tron/update";
 export const API_TTMT_DELETE = "/thong-tin-me-tron/delete";
+
+
+export const API_ROLE_DETAIL = "/role/index";
+export const API_ROLE_CREATE = "/role/create";
+export const API_ROLE_UPDATE = "/role/update";
+export const API_ROLE_DELETE = "/role/delete";
