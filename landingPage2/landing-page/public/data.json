@@ -1,0 +1,133 @@
+{
+    "Header": {
+        "title": "Uy tín khai tâm, nâng tầm giá trị",
+        "paragraph": "Chúng tôi sản xuất bê tông và các sản phẩm từ xi măng và thạch cao, cung cấp bê tông cho các công trình dân dụng và công nghiệp,.."
+    },
+    "About": {
+        "paragraph": "Công ty Cổ phần Sản xuất & Kinh doanh VLXD Ánh Dương - Công ty ADC, thành lập theo Giấy chứng nhận đăng ký kinh doanh số 4201674207 do Sở Kế Hoạch và Đầu tư Tỉnh Khánh Hòa cấp ngày 18 tháng 01 năm 2016 - lần 1.",
+        "Why": [
+            "Kinh nghiệm lâu năm trong lĩnh vực sản và kinh doanh bê tông thương phẩm",
+            "Năng lực sản xuất cao, đủ đáp ứng kịp thời cho nhu cầu trong khu vực",
+            "Là nhà cung cấp cho các dự án trọng điểm trong khu vực"
+            
+        ],
+        "Why2": [
+            "Đội ngũ lãnh đạo chuyên môn cao",
+            "Đội ngũ lao động có tay nghề, kinh nghiệm lâu năm",
+            "Có tâm, có tầm đặt yếu tố con người là quan trọng nhất"           
+        ]
+    },
+    "Services": [{
+            "icon": "fa fa-cubes",
+            "name": "Sản xuất",
+            "text": "Bê tông, các sản phẩm từ xi măng và thạch cao."
+        },
+        {
+            "icon": "fa fa-cart-arrow-down",
+            "name": "Khai thác",
+            "text": "Khai thác đá, cát, sỏi và đất sét."
+        },
+        {
+            "icon": "fa fa-building-o",
+            "name": "Xây dựng dân dụng",
+            "text": "Xây dựng nhà các loại."
+        },
+        {
+            "icon": "fa fa-hospital-o",
+            "name": "Xây dựng công nghiệp",
+            "text": "Xây dựng công trình kỹ đường sắt, đường bộ, công ích và các công trình kỹ thuật dân dụng khác."
+        },
+        {
+            "icon": "fa fa-paint-brush",
+            "name": "Thiết kế",
+            "text": "Hoạt động thiết kế chuyên dụng."
+        },
+        {
+            "icon": "fa fa-pie-chart",
+            "name": "Hoạt động khác",
+            "text": "Phá dỡ, chuẩn bị mặt bằng"
+        }
+
+
+    ],
+    "Testimonials": [{
+            "img": "img/testimonials/01.jpg",
+            "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+            "name": "John Doe"
+        },
+        {
+            "img": "img/testimonials/02.jpg",
+            "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+            "name": "Johnathan Doe"
+        },
+        {
+            "img": "img/testimonials/03.jpg",
+            "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+            "name": "John Doe"
+        },
+        {
+            "img": "img/testimonials/04.jpg",
+            "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+            "name": "Johnathan Doe"
+        },
+        {
+            "img": "img/testimonials/05.jpg",
+            "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+            "name": "John Doe"
+        },
+        {
+            "img": "img/testimonials/06.jpg",
+            "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+            "name": "Johnathan Doe"
+        }
+    ],
+    "Team": [{
+            "img": "img/team/01.jpg",
+            "name": "John Doe",
+            "job": "Director"
+        },
+        {
+            "img": "img/team/02.jpg",
+            "name": "Mike Doe",
+            "job": "Senior Designer"
+        }, {
+            "img": "img/team/03.jpg",
+            "name": "Jane Doe",
+            "job": "Senior Designer"
+        },
+        {
+            "img": "img/team/04.jpg",
+            "name": "Karen Doe",
+            "job": "Project Manager"
+        }
+    ],
+    "Contact": {
+        "address": "Thôn Thủy Triều, Xã Cam Hải Đông, Huyện Cam Lâm, Tỉnh Khánh Hòa",
+        "phone": "091 345 67 83",
+        "email": "adc.betong@gmail.com",
+        "facebook": "https://www.facebook.com/pg/Betonganhduong",
+        "twitter": "twitter.com",
+        "youtube": "youtube.com"
+    },
+    "Features": [{
+            "icon": "fa fa-thumbs-up",
+            "title": "TÍN",
+            "text": "ADC đặt chữ TÍN lên vị trí hàng đầu, lấy chữ TÍN làm vũ khí cạnh tranh và bảo vệ chữ TÍN như bảo vệ danh dự của chính mình."
+        },
+        {
+            "icon": "fa fa-heartbeat",
+            "title": "TÂM",
+            "text": "ADC coi trọng khách hàng và luôn lấy khách hàng làm trung tâm, đặt lợi ích và mong muốn của khách hàng lên hàng đầu."
+        },
+        {
+            "icon": "fa fa-magic",
+            "title": "TRÍ",
+            "text": "ADC đề cao chủ trương về một “Doanh nghiệp học tập”, không ngại khó khăn để học, tự học và “vượt lên chính mình”."
+        },
+        {
+            "icon": "fa fa-group",
+            "title": "NHÂN",
+            "text": "ADC xây dựng các mối quan hệ với khách hàng, đối tác, đồng nghiệp, nhà đầu tư và xã hội bằng sự thiện chí, tình thân ái, tinh thần nhân văn."
+        }
+    ]
+}
