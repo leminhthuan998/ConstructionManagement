@@ -200,7 +200,7 @@ class FormUpdate extends Component {
                 </Form.Item>
 
                 <Form.Item name="khoiLuong" label="Khối lượng">
-                    <Input type={"number"}/>
+                    <InputNumber />
                 </Form.Item>
             </Form>
         );
