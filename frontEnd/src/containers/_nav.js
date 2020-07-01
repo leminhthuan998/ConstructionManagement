@@ -11,6 +11,16 @@ export default [
   },
   {
     _tag: 'CSidebarNavTitle',
+    _children: ['Sản xuất']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Thông tin mẻ trộn',
+    to: '/thong-tin-me-tron',
+    icon: 'cil-puzzle'
+  },
+  {
+    _tag: 'CSidebarNavTitle',
     _children: ['Quản lý danh mục']
   },
   {
@@ -44,10 +54,8 @@ export default [
     icon: 'cil-book'
   },
   {
-    _tag: 'CSidebarNavItem',
-    name: 'Thông tin mẻ trộn',
-    to: '/thong-tin-me-tron',
-    icon: 'cil-puzzle'
+    _tag: 'CSidebarNavTitle',
+    _children: ['Hệ thống']
   },
   {
     _tag: 'CSidebarNavItem',

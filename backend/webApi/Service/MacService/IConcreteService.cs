@@ -12,7 +12,7 @@ namespace ConstructionApp.Service.MacService
         /// tạo mẻ trộn mới
         /// </summary>
         /// <returns></returns>
-        Task<ThongTinMeTron> TaoMeTron();
+        Task<ThongTinMeTron> TaoMeTron(ThongTinMeTron thongTinMeTron);
 
         /// <summary>
         /// Tính cấp phối cho mẻ trộn
@@ -26,7 +26,7 @@ namespace ConstructionApp.Service.MacService
         /// </summary>
         /// <param name="meTron"></param>
         /// <returns></returns>
-        Task<ThanhPhanMeTronCan> TinhThanhPhanMeTronCan(ThongTinMeTron meTron);
+        Task<ThanhPhanMeTronCan> CapnhatThanhPhanMeTronCan(ThongTinMeTron meTron);
 
 
         /// <summary>

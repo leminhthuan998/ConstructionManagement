@@ -1,12 +1,13 @@
-import { Modal } from 'antd';
+import {Modal} from 'antd';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import React from 'react';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import {ExclamationCircleOutlined} from '@ant-design/icons';
 import store from '../AppStore';
-import { onDeleteConfirm } from '../application/actions/appAction';
+import {onDeleteConfirm} from '../application/actions/appAction';
 
 const { confirm } = Modal;
+
 
 export default class AppUtil {
     static GLOBAL_DOMAIN_PATH = "/";

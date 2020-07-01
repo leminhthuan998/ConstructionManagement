@@ -1,4 +1,6 @@
 import React from 'react';
+import Page500 from "./views/pages/page500/Page500";
+import Page401 from "./views/pages/page401/Page401";
 
 const Toaster = React.lazy(() => import('./views/notifications/toaster/Toaster'));
 const Tables = React.lazy(() => import('./views/base/tables/Tables'));
@@ -97,6 +99,7 @@ const routes = [
   { path: '/loai-vat-tu', exact: true, name: 'Loại vật tư', component: LoaiVatTu },
   { path: '/thong-tin-me-tron', exact: true, name: 'Thông tin mẻ trộn', component: ThongTinMeTron },
   { path: '/role', exact: true, name: 'Role', component: Role },
+  { path: '/unauthorized', exact: true, name: 'Unauthorized', component: Page401 },
 
 
   { path: "*", component: Page404 },

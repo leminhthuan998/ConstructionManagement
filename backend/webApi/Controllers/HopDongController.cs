@@ -1,5 +1,7 @@
-﻿using ConstructionApp.Dto.HopDongDto;
+﻿using ConstructionApp.Authorize;
+using ConstructionApp.Dto.HopDongDto;
 using ConstructionApp.Entity;
+using ConstructionApp.Entity.Identity;
 using ConstructionApp.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +40,7 @@ namespace ConstructionApp.Controllers
                 .FirstAsync(x => x.Id == item.MacId);
                 item.MAC = mac;
                 newRs.Add(item);
-            }           
+            }
 
             return Ok(ApiResponse<List<HopDong>>.ApiOk(newRs));
         }
@@ -50,7 +52,7 @@ namespace ConstructionApp.Controllers
         public async Task<IActionResult> CreateAction([FromBody] InputCreateHopDongDto dto)
         {
             // check hợp đồng này đã được add hay chưa
-            
+
             var find = await _dbContext.Set<HopDong>()
                .Where(x => x.TenHopDong.Equals(dto.TenHopDong) && x.ChuDauTu.Equals(dto.ChuDauTu) && x.NhaThau.Equals(dto.NhaThau)
                && x.CongTrinh.Equals(dto.CongTrinh))
@@ -76,7 +78,7 @@ namespace ConstructionApp.Controllers
         [HttpPost("update")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<HopDong>))]
         public async Task<IActionResult> UpdateAction([FromBody] InputUpdateHopDongDto dto)
-        {            
+        {
             if (!ModelState.IsValid)
             {
                 return Ok(ApiResponse<ModelStateDictionary>.ApiError(ModelState));

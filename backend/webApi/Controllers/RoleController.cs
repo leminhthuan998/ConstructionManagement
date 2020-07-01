@@ -1,4 +1,5 @@
 using ConstructionApp;
+using ConstructionApp.Authorize;
 using ConstructionApp.Dto.RoleDto;
 using ConstructionApp.Entity;
 using ConstructionApp.Entity.Identity;
@@ -121,5 +122,36 @@ namespace ConstructionApp.Controllers
             return Ok(ApiResponse<string>.ApiOk("success"));
         }
 
+
+        [HttpGet("create-role-default")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateRoleDefault()
+        {
+            await _roleManager.CreateAsync(new Role
+            {
+                Name = RoleConstants.MemberRole
+            });
+            await _roleManager.CreateAsync(new Role
+            {
+                Name = RoleConstants.AdministratorRole
+            });
+            await _roleManager.CreateAsync(new Role
+            {
+                Name = RoleConstants.ManagerRole
+            });
+            return Ok();
+        }
+
+
+        [HttpGet("add-user-role-admin")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddUserRoleDefault()
+        {
+            var user = await _userManager.FindByNameAsync("super.admin");
+            await _userManager.AddToRoleAsync(user, RoleConstants.AdministratorRole);
+            return Ok();
+        }
     }
 }

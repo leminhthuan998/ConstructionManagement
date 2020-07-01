@@ -6,8 +6,10 @@ using ConstructionApp.Entity.Identity;
 using ConstructionApp.Extensions;
 using ConstructionApp.Service;
 using ConstructionApp.Service.Abstract;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +34,8 @@ namespace ConstructionApp
         {
             services.AddControllers();   // Add Identity and configure it to use the default user and role models and the database context we just added.
 
+            Console.WriteLine("connection string {0}" ,Configuration.GetConnectionString("AppDbContext"));
+
             // Add the database context we will use.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
@@ -39,6 +43,31 @@ namespace ConstructionApp
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 ;
+
+            services.ConfigureApplicationCookie(o =>
+            {
+                o.Events = new CookieAuthenticationEvents()
+                {
+                    OnRedirectToLogin = (ctx) =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
+                        {
+                            ctx.Response.StatusCode = 401;
+                        }
+
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToAccessDenied = (ctx) =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
+                        {
+                            ctx.Response.StatusCode = 403;
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
             services.AddSwaggerDocumentation();
 

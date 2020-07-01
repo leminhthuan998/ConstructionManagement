@@ -1,14 +1,6 @@
-import React, { Component } from 'react'
-import {
-    TheContent,
-    TheSidebar,
-    TheFooter,
-    TheHeader
-} from './index'
-import { connect } from 'react-redux';
-import AppUtil from '../utils/AppUtil';
-import { API_CHECK_LOGIN } from '../constants/ApiConstant'
-import Axios from 'axios';
+import React, {Component} from 'react'
+import {TheContent, TheFooter, TheHeader, TheSidebar} from './index'
+import {connect} from 'react-redux';
 
 const Login = React.lazy(() => import('../views/pages/login/Login'));
 
@@ -24,7 +16,7 @@ class TheLayout extends Component {
         this.state = {
             isAuthenticated: props.isAuthenticated,
         }
-    } 
+    }
     render() {
         return (
             this.props.isAuthenticated == true ?
