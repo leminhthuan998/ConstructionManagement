@@ -43,6 +43,12 @@ export default [
     to: '/hop-dong',
     icon: 'cil-book'
   },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Thông tin mẻ trộn',
+    to: '/thong-tin-me-tron',
+    icon: 'cil-book'
+  },
   // {
   //   _tag: 'CSidebarNavTitle',
   //   _children: ['Theme']

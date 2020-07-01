@@ -33,9 +33,9 @@ namespace ConstructionApp.Controllers
             var newRs = new List<ThongTinMeTron>();
             foreach (var item in results)
             {
-                var mac = await _dbContext.Set<MAC>().FirstAsync(x => x.Id == item.MAC.Id);
-                var vehicle = await _dbContext.Set<Vehicle>().FirstAsync(x => x.Id == item.Vehicle.Id);
-                var hopDong = await _dbContext.Set<HopDong>().FirstAsync(x => x.Id == item.HopDong.Id);
+                var mac = await _dbContext.Set<MAC>().FirstAsync(x => x.Id == item.MacId);
+                var vehicle = await _dbContext.Set<Vehicle>().FirstAsync(x => x.Id == item.VehicleId);
+                var hopDong = await _dbContext.Set<HopDong>().FirstAsync(x => x.Id == item.HopDongId);
                 item.MAC = mac;
                 item.HopDong = hopDong;
                 item.Vehicle = vehicle;
@@ -53,9 +53,9 @@ namespace ConstructionApp.Controllers
         {
             // check thông tin mẻ trộn này đã được add hay chưa
             
-            var find = await _dbContext.Set<ThongTinMeTron>().Where(x => x.Vehicle.SerialNumber.Equals(dto.Vehicle.SerialNumber) 
-            && x.MAC.MacCode.Equals(dto.MAC.MacCode)
-            && x.HopDong.TenHopDong.Equals(dto.HopDong.TenHopDong)
+            var find = await _dbContext.Set<ThongTinMeTron>().Where(x => x.VehicleId.Equals(dto.VehicleId) 
+            && x.MacId.Equals(dto.MacId)
+            && x.HopDongId.Equals(dto.HopDongId)
             && x.NgayTron.Equals(dto.NgayTron)
             && x.KhoiLuong.Equals(dto.KhoiLuong))
             .CountAsync();
@@ -69,13 +69,13 @@ namespace ConstructionApp.Controllers
                 return Ok(ApiResponse<object>.ApiError(ModelState));
             }
 
-            var mac = await _dbContext.Set<MAC>().FirstAsync(x => x.Id == dto.MAC.Id);
-            var hopDong = await _dbContext.Set<HopDong>().FirstAsync(x => x.Id == dto.HopDong.Id);
-            var vehicle = await _dbContext.Set<Vehicle>().FirstAsync(x => x.Id == dto.Vehicle.Id);
+            // var mac = await _dbContext.Set<MAC>().FirstAsync(x => x.Id == dto.MacId);
+            // var hopDong = await _dbContext.Set<HopDong>().FirstAsync(x => x.Id == dto.HopDongId);
+            // var vehicle = await _dbContext.Set<Vehicle>().FirstAsync(x => x.Id == dto.VehicleId);
 
-            dto.MAC = mac;
-            dto.HopDong = hopDong;
-            dto.Vehicle = vehicle;
+            // dto.MacId = mac;
+            // dto.HopDongId = hopDong;
+            // dto.VehicleId = vehicle;
 
             var newTTMT = InputCreateTTMTDto.ToEntity(dto);
             await _dbContext.Set<ThongTinMeTron>().AddAsync(newTTMT);
@@ -94,13 +94,13 @@ namespace ConstructionApp.Controllers
 
             var thongTinMeTron = await _repository.FirstAsync(x => x.Id.Equals(dto.Id));
 
-            var mac = await _dbContext.Set<MAC>().FirstAsync(x => x.Id == dto.MAC.Id);
-            var hopDong = await _dbContext.Set<HopDong>().FirstAsync(x => x.Id == dto.HopDong.Id);
-            var vehicle = await _dbContext.Set<Vehicle>().FirstAsync(x => x.Id == dto.Vehicle.Id);
+            var mac = await _dbContext.Set<MAC>().FirstAsync(x => x.Id == dto.MacId);
+            var hopDong = await _dbContext.Set<HopDong>().FirstAsync(x => x.Id == dto.HopDongId);
+            var vehicle = await _dbContext.Set<Vehicle>().FirstAsync(x => x.Id == dto.VehicleId);
 
-            dto.MAC = mac;
-            dto.HopDong = hopDong;
-            dto.Vehicle = vehicle;
+            thongTinMeTron.MAC = mac;
+            thongTinMeTron.HopDong = hopDong;
+            thongTinMeTron.Vehicle = vehicle;
 
             InputUpdateTTMTDto.UpdateEntity(dto, thongTinMeTron);
             _repository.Update(thongTinMeTron);
