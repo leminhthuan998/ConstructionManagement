@@ -47,7 +47,13 @@ export default [
     _tag: 'CSidebarNavItem',
     name: 'Thông tin mẻ trộn',
     to: '/thong-tin-me-tron',
-    icon: 'cil-book'
+    icon: 'cil-puzzle'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Chức vụ',
+    to: '/role',
+    icon: 'cil-user'
   },
   // {
   //   _tag: 'CSidebarNavTitle',

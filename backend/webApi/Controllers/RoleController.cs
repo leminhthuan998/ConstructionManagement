@@ -44,22 +44,24 @@ namespace ConstructionApp.Controllers
         [HttpPost("create")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<Role>))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
-        public async Task<IActionResult> CreateAction([FromBody] InputCreateRoleDto dto)
+        public async Task<IActionResult> CreateAction(string roleName)
         {
-            var find = await _roleManager.FindByNameAsync(dto.Name);
+            var find = await _roleManager.FindByNameAsync(roleName);
             // var find = await _dbContext.Set<Role>().Where(x => x.Name.Equals(dto.Name)).CountAsync();
             if (find != null)
             {
-                ModelState.AddModelError(nameof(dto.Name), "Role này đã được tạo trên hệ thống");
+                ModelState.AddModelError(nameof(roleName), "Role này đã được tạo trên hệ thống");
             }
 
             if (!ModelState.IsValid)
             {
                 return Ok(ApiResponse<object>.ApiError(ModelState));
             }
+            var newRole = new Role()
+            {
+                Name = roleName
+            };
 
-            var newRole = InputCreateRoleDto.ToEntity(dto);
-            Console.WriteLine("newrole " + newRole);
             var result = await _roleManager.CreateAsync(newRole);
             // await _dbContext.Set<Role>().AddAsync(newRole);
             // await _dbContext.SaveChangesAsync();
@@ -74,18 +76,15 @@ namespace ConstructionApp.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<Role>))]
         public async Task<IActionResult> UpdateAction([FromBody] InputUpdateRoleDto dto)
         {
-            var find = await _repository.Where(x => x.Name.Equals(dto.Name) && !x.Id.Equals(dto.Id)).CountAsync();
-            if (find > 0)
-            {
-                ModelState.AddModelError(nameof(dto.Name), "Role này đã được tạo trên hệ thống");
-            }
 
             if (!ModelState.IsValid)
             {
                 return Ok(ApiResponse<ModelStateDictionary>.ApiError(ModelState));
             }
 
-            var role = await _roleManager.FindByIdAsync(dto.Id);
+            var dtoId = dto.Id.ToString();
+
+            var role = await _roleManager.FindByIdAsync(dtoId);
             InputUpdateRoleDto.UpdateEntity(dto, role);
             var result = await _roleManager.UpdateAsync(role);
             // _repository.Update(role);
