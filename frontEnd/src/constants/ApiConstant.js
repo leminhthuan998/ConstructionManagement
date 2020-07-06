@@ -44,3 +44,5 @@ export const API_ROLE_DETAIL = "/role/index";
 export const API_ROLE_CREATE = "/role/create";
 export const API_ROLE_UPDATE = "/role/update";
 export const API_ROLE_DELETE = "/role/delete";
+
+export const API_CAP_PHOI_DETAIL = "/cap-phoi/index";

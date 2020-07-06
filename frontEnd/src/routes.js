@@ -46,6 +46,7 @@ const HopDong = React.lazy(() => import('./component/hopDong/HopDongListView'));
 const LoaiVatTu = React.lazy(() => import('./component/loaiVatTu/LoaiVatTuListView'));
 const ThongTinMeTron = React.lazy(() => import('./component/thongTinMeTron/ThongTinMeTronListView'));
 const Role = React.lazy(() => import('./component/Role/RoleListView'));
+const CapPhoi = React.lazy(() => import('./component/capPhoi/CapPhoiListView'));
 
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 
@@ -100,6 +101,7 @@ const routes = [
   { path: '/thong-tin-me-tron', exact: true, name: 'Thông tin mẻ trộn', component: ThongTinMeTron },
   { path: '/role', exact: true, name: 'Role', component: Role },
   { path: '/unauthorized', exact: true, name: 'Unauthorized', component: Page401 },
+  { path: '/cap-phoi', exact: true, name: 'Cấp phối', component: CapPhoi },
 
 
   { path: "*", component: Page404 },

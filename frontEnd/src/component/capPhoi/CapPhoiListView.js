@@ -6,10 +6,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { onDeleteConfirm } from '../../application/actions/appAction';
 import store from '../../AppStore';
-import { API_HOP_DONG_DELETE, API_HOP_DONG_DETAIL, API_MAC_DETAIL } from '../../constants/ApiConstant';
+import { API_HOP_DONG_DELETE, API_CAP_PHOI_DETAIL, API_TTMT_DETAIL, API_MAC_DETAIL, API_HOP_DONG_DETAIL } from '../../constants/ApiConstant';
 import AppUtil from '../../utils/AppUtil';
-import FormUpdate from './form/FormUpdate';
+// import FormUpdate from './form/FormUpdate';
 import FormDetail from "./form/FormDetail";
+import moment from 'moment';
+import _ from 'lodash';
+
 
 const mapStateToProps = (state) => {
   return {
@@ -17,7 +20,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-class HopDongListView extends Component {
+class CapPhoiListView extends Component {
   constructor(props) {
     super(props);
     const me = this
@@ -30,30 +33,75 @@ class HopDongListView extends Component {
           width: 80
         },
         {
-          headerName: "Tên hợp đồng",
-          field: "tenHopDong",
-          minWidth: 120,
+            headerName: "Ngày trộn",
+            field: "thongTinMeTron.ngayTron",
+            width: 150,
+            suppressSizeToFit: true,
+            cellRendererFramework: function (params) {
+                return moment.utc(_.get(params.data, 'thongTinMeTron.ngayTron')).format("DD/MM/YYYY HH:mm")
+            }
+        },
+        {
+            headerName: "Số xe",
+            field: "thongTinMeTron.vehicle.serialNumber",
+            width: 130,
+            suppressSizeToFit: true
+        },
+        {
+            headerName: "Tên Hợp đồng",
+            field: "thongTinMeTron.hopDong.tenHopDong",
+            minWidth: 160
+        },
+        {
+            headerName: "Loại bê tông",
+            field: "thongTinMeTron.mac.macCode",
+            minWidth: 160,
+        },
+        {
+            headerName: "Khối lượng",
+            field: "thongTinMeTron.khoiLuong",
+            minWidth: 120,
+        },
+        {
+            headerName: "Đá",
+            field: "da",
+            minWidth: 100
+        },
+        {
+          headerName: "Cát nhân tạo",
+          field: "catNhanTao",
+          width: 150,
           suppressSizeToFit: true
         },
         {
-          headerName: "Chủ đầu tư",
-          field: "chuDauTu",
-          minWidth: 150,
+          headerName: "Cát sông",
+          field: "catSong",
+          width: 150,
           suppressSizeToFit: true
         },
         {
-          headerName: "Nhà thầu",
-          field: "nhaThau",
-          minWidth: 120
-        },
-        {
-          headerName: "Nhà cung cấp bê tông",
-          field: "nhaCungCapBeTong",
+          headerName: "Xi măng",
+          field: "xiMang",
           minWidth: 120,
         },
         {
-          headerName: "Loại bê tông",
-          field: "mac.macCode",
+          headerName: "Nước",
+          field: "nuoc",
+          minWidth: 120,
+        },
+        {
+          headerName: "Phụ gia 1",
+          field: "phuGia1",
+          minWidth: 120,
+        },
+        {
+          headerName: "Phụ gia 2",
+          field: "phuGia2",
+          minWidth: 120,
+        },
+        {
+          headerName: "Tỉ trọng",
+          field: "tiTrong",
           minWidth: 120,
         },
         {
@@ -66,14 +114,14 @@ class HopDongListView extends Component {
                 style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button"
                 className="btn btn-info">Chi tiết
               </button>
-              <button onClick={() => me.openFormEdit(params.data)}
+              {/* <button onClick={() => me.openFormEdit(params.data)}
                 style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button"
                 className="btn btn-success">Chỉnh sửa
               </button>
               <button onClick={() => me.onDelete(params.data)}
                 style={{ height: 30, display: 'flex', alignItems: 'center' }} type="button"
                 className="btn btn-danger">Xóa
-              </button>
+              </button> */}
             </div>
           }
         },
@@ -83,19 +131,19 @@ class HopDongListView extends Component {
       onDelete: false,
       rowSelect: {},
       visibleCreate: false,
-      dataMac: []
+      dataMeTron: []
     }
     this.gridApi = ''
   }
 
   componentDidMount(){
-    Axios.get(AppUtil.GLOBAL_API_PATH + API_MAC_DETAIL)
+    Axios.get(AppUtil.GLOBAL_API_PATH + API_TTMT_DETAIL)
         .then(res => {
-        console.log("HopDongListView -> componentDidMount -> res", res)
+        console.log("CapPhoiListView -> componentDidMount -> res", res)
           const {data} = res;
           if (data.success) {
             this.setState({
-              dataMac: data.result
+                dataMeTron: data.result
             })
           }
         })
@@ -146,7 +194,7 @@ class HopDongListView extends Component {
 
 
   handleOkEdit = e => {
-    this.formUpdate.onFinish()
+    // this.formUpdate.onFinish()
     this.setState({
       visibleEdit: false,
     });
@@ -166,7 +214,7 @@ class HopDongListView extends Component {
   }
 
   handleOkCreate = e => {
-    this.formUpdate.onFinish()
+    // this.formUpdate.onFinish()
     this.setState({
       visibleCreate: false,
     });
@@ -210,8 +258,9 @@ class HopDongListView extends Component {
 
   loadData() {
     this.gridApi && this.gridApi.showLoadingOverlay();
-    Axios.get(AppUtil.GLOBAL_API_PATH + API_HOP_DONG_DETAIL)
+    Axios.get(AppUtil.GLOBAL_API_PATH + API_CAP_PHOI_DETAIL)
       .then(res => {
+      console.log("CapPhoiListView -> loadData -> res", res)
         const { data } = res;
         if (data.success) {
           this.setState({
@@ -282,7 +331,7 @@ class HopDongListView extends Component {
 
           ]}
         >
-          <FormUpdate ref={c => this.formUpdate = c} data={this.state.rowSelect}  dataMac={this.state.dataMac} loadData={() => this.loadData()} />
+          {/* <FormUpdate ref={c => this.formUpdate = c} data={this.state.rowSelect}  dataMac={this.state.dataMac} loadData={() => this.loadData()} /> */}
         </Modal>
         <Modal
           title="Tạo mới"
@@ -298,12 +347,12 @@ class HopDongListView extends Component {
 
           ]}
         >
-          <FormUpdate create ref={c => this.formUpdate = c} data={this.state.rowSelect} dataMac={this.state.dataMac}
-            loadData={() => this.loadData()} />
+          {/* <FormUpdate create ref={c => this.formUpdate = c} data={this.state.rowSelect} dataMac={this.state.dataMac}
+            loadData={() => this.loadData()} /> */}
         </Modal>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(HopDongListView);
+export default connect(mapStateToProps)(CapPhoiListView);

@@ -20,6 +20,12 @@ export default [
     icon: 'cil-puzzle'
   },
   {
+    _tag: 'CSidebarNavItem',
+    name: 'Thông tin cấp phối',
+    to: '/cap-phoi',
+    icon: 'cil-puzzle'
+  },
+  {
     _tag: 'CSidebarNavTitle',
     _children: ['Quản lý danh mục']
   },
