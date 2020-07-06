@@ -89,10 +89,10 @@ namespace ConstructionApp
 
             #region thong tin me tron
             builder.Entity<ThongTinMeTron>(b => {
-                b.HasOne(d => d.ThanhPhanMeTronDat).WithOne(d => d.ThongTinMeTron).HasForeignKey<ThanhPhanMeTronDat>(d => d.ThongTinMeTronId);
-                b.HasOne(d => d.ThanhPhanMeTronCan).WithOne(d => d.ThongTinMeTron).HasForeignKey<ThanhPhanMeTronCan>(d => d.ThongTinMeTronId);
-                b.HasOne(d => d.CapPhoi).WithOne(d => d.ThongTinMeTron).HasForeignKey<CapPhoi>(d => d.ThongTinMeTronId);
-                b.HasOne(d => d.SaiSo).WithOne(d => d.ThongTinMeTron).HasForeignKey<SaiSo>(d => d.ThongTinMeTronId);
+                b.HasOne(d => d.ThanhPhanMeTronDat).WithOne(d => d.ThongTinMeTron).HasForeignKey<ThanhPhanMeTronDat>(d => d.ThongTinMeTronId).OnDelete(DeleteBehavior.Cascade);
+                b.HasOne(d => d.ThanhPhanMeTronCan).WithOne(d => d.ThongTinMeTron).HasForeignKey<ThanhPhanMeTronCan>(d => d.ThongTinMeTronId).OnDelete(DeleteBehavior.Cascade);
+                b.HasOne(d => d.CapPhoi).WithOne(d => d.ThongTinMeTron).HasForeignKey<CapPhoi>(d => d.ThongTinMeTronId).OnDelete(DeleteBehavior.Cascade);
+                b.HasOne(d => d.SaiSo).WithOne(d => d.ThongTinMeTron).HasForeignKey<SaiSo>(d => d.ThongTinMeTronId).OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<ThanhPhanMeTronDat>();

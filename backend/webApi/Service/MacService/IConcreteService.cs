@@ -30,11 +30,12 @@ namespace ConstructionApp.Service.MacService
 
 
         /// <summary>
-        /// Tính thành phần thực tế mẻ trộn đạt được
+        /// Tính thành phần thực tế mẻ trộn đặt
         /// </summary>
         /// <param name="meTron"></param>
         /// <returns></returns>
         Task<ThanhPhanMeTronDat> TinhThanhPhanMetronDat(ThongTinMeTron meTron);
+        Task<ThanhPhanMeTronCan> TinhThanhPhanMetronCan(ThongTinMeTron meTron);
 
 
         /// <summary>

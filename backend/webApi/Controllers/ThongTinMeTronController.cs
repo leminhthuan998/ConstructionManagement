@@ -94,9 +94,17 @@ namespace ConstructionApp.Controllers
 
             var newTTMT = InputCreateTTMTDto.ToEntity(dto);
             await _dbContext.Set<ThongTinMeTron>().AddAsync(newTTMT);
-            await _dbContext.SaveChangesAsync();
+            SaiSo saiSo = new SaiSo() 
+            {
+                ThongTinMeTron = newTTMT,
+                ThongTinMeTronId = newTTMT.Id
+            };
+            await _dbContext.Set<SaiSo>().AddAsync(saiSo);
             ConcreteService service = new ConcreteService(_dbContext);
             await service.TaoMeTron(newTTMT);
+
+            await _dbContext.SaveChangesAsync();
+
             return Ok(ApiResponse<ThongTinMeTron>.ApiOk(newTTMT));
         }
 
@@ -128,10 +136,11 @@ namespace ConstructionApp.Controllers
 
         [HttpPost("delete")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
-        public async Task<IActionResult> DeleteAction(Guid ttmtId)
+        public async Task<IActionResult> DeleteAction(Guid Id)
         {
             // check đã được add hay chưa
-            var find = await _repository.Where(x => x.Id.Equals(ttmtId)).FirstAsync();
+            var find = await _repository.Where(x => x.Id.Equals(Id)).FirstAsync();
+            
             _repository.Remove(find);
             await _dbContext.SaveChangesAsync();
             return Ok(ApiResponse<string>.ApiOk("Xoá thành công"));
