@@ -32,9 +32,11 @@ namespace ConstructionApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();   // Add Identity and configure it to use the default user and role models and the database context we just added.
+            services.AddControllers().AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );   // Add Identity and configure it to use the default user and role models and the database context we just added.
 
-            Console.WriteLine("connection string {0}" ,Configuration.GetConnectionString("AppDbContext"));
+            Console.WriteLine("connection string {0}", Configuration.GetConnectionString("AppDbContext"));
 
             // Add the database context we will use.
             services.AddDbContext<ApplicationDbContext>(options =>

@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using ConstructionApp.Dto.ThongTinMeTronDto;
 using ConstructionApp.Entity;
+using ConstructionApp.Service.MacService;
 using ConstructionApp.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +20,20 @@ namespace ConstructionApp.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly DbSet<ThongTinMeTron> _repository;
+        private readonly DbSet<ThanhPhanMeTronDat> _dat;
+        private readonly DbSet<ThanhPhanMeTronCan> _can;
+        private readonly DbSet<CapPhoi> _capPhoi;
+        private readonly DbSet<SaiSo> _saiSo;
+        // private readonly IConcreteService _concreteService;
         public ThongTinMeTronController(ApplicationDbContext dbContext)
         {
+            // _concreteService = concreteService;
             this._dbContext = dbContext;
             _repository = _dbContext.Set<ThongTinMeTron>();
+            _dat = _dbContext.Set<ThanhPhanMeTronDat>();
+            _can = _dbContext.Set<ThanhPhanMeTronCan>();
+            _capPhoi = _dbContext.Set<CapPhoi>();
+            _saiSo = _dbContext.Set<SaiSo>();
         }
 
         [HttpGet("index")]
@@ -40,7 +51,7 @@ namespace ConstructionApp.Controllers
                 item.HopDong = hopDong;
                 item.Vehicle = vehicle;
                 newRs.Add(item);
-            }           
+            }
 
             return Ok(ApiResponse<List<ThongTinMeTron>>.ApiOk(newRs));
         }
@@ -51,13 +62,13 @@ namespace ConstructionApp.Controllers
 
         public async Task<IActionResult> CreateAction([FromBody] InputCreateTTMTDto dto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Ok(ApiResponse<ModelStateDictionary>.ApiError(ModelState));
             }
             // check thông tin mẻ trộn này đã được add hay chưa
-            
-            var find = await _dbContext.Set<ThongTinMeTron>().Where(x => x.VehicleId.Equals(dto.VehicleId) 
+
+            var find = await _dbContext.Set<ThongTinMeTron>().Where(x => x.VehicleId.Equals(dto.VehicleId)
             && x.MacId.Equals(dto.MacId)
             && x.HopDongId.Equals(dto.HopDongId)
             && x.NgayTron.Equals(dto.NgayTron)
@@ -84,13 +95,15 @@ namespace ConstructionApp.Controllers
             var newTTMT = InputCreateTTMTDto.ToEntity(dto);
             await _dbContext.Set<ThongTinMeTron>().AddAsync(newTTMT);
             await _dbContext.SaveChangesAsync();
+            ConcreteService service = new ConcreteService(_dbContext);
+            await service.TaoMeTron(newTTMT);
             return Ok(ApiResponse<ThongTinMeTron>.ApiOk(newTTMT));
         }
 
         [HttpPost("update")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<ThongTinMeTron>))]
         public async Task<IActionResult> UpdateAction([FromBody] InputUpdateTTMTDto dto)
-        {            
+        {
             if (!ModelState.IsValid)
             {
                 return Ok(ApiResponse<ModelStateDictionary>.ApiError(ModelState));

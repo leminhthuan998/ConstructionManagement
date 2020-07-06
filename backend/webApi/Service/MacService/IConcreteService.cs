@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConstructionApp.Service.MacService
 {
-    interface IConcreteService
+    public interface IConcreteService
     {
         /// <summary>
         /// tạo mẻ trộn mới
