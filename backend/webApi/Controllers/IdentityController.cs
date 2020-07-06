@@ -95,5 +95,17 @@ namespace ConstructionApp.Controllers
             await Task.CompletedTask;
             return Ok();
         }
+        [HttpPost("/api/logout")]
+        [AllowAnonymous]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<User>))]
+        public async Task<IActionResult> LoginAction()
+        {
+            if (ModelState.IsValid)
+            {
+                await _signInManager.SignOutAsync();
+            }
+            await Task.CompletedTask;
+            return Ok();
+        }
     }
 }

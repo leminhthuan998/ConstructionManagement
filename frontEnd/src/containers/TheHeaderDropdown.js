@@ -8,8 +8,17 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import { API_LOGOUT } from '../constants/ApiConstant'
+import Axios from 'axios';
+import AppUtil from '../utils/AppUtil';
+
+
 
 const TheHeaderDropdown = () => {
+  const onLogout = () => {
+    
+  };
+
   return (
     <CDropdown
       inNav
@@ -82,7 +91,17 @@ const TheHeaderDropdown = () => {
         <CDropdownItem divider />
         <CDropdownItem>
           <CIcon name="cil-lock-locked" className="mfe-2" /> 
-          Lock out
+          <div onClick={() => Axios.post(AppUtil.GLOBAL_API_PATH + API_LOGOUT)
+            .then((response) => {              
+                    AppUtil.ToastSuccess("Đăng xuất thành công")
+                    window.location.replace('/')
+            })
+            .catch(() => {
+                AppUtil.ToastError("Đăng nhập không thành công!")
+            })
+            .finally(() => {
+                
+            })}>Log out</div>
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
