@@ -46,3 +46,10 @@ export const API_ROLE_UPDATE = "/role/update";
 export const API_ROLE_DELETE = "/role/delete";
 
 export const API_CAP_PHOI_DETAIL = "/cap-phoi/index";
+
+export const API_THANH_PHAN_DAT_DETAIL = "/thanh-phan-dat/index";
+
+export const API_THANH_PHAN_CAN_DETAIL = "/thanh-phan-can/index";
+export const API_THANH_PHAN_CAN_UPDATE = "/thanh-phan-can/update";
+
+

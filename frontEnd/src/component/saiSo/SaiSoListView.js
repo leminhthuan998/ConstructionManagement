@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { onDeleteConfirm } from '../../application/actions/appAction';
 import store from '../../AppStore';
-import { API_HOP_DONG_DELETE, API_CAP_PHOI_DETAIL, API_TTMT_DETAIL } from '../../constants/ApiConstant';
+import { API_HOP_DONG_DELETE, API_CAP_PHOI_DETAIL, API_TTMT_DETAIL, API_MAC_DETAIL, API_HOP_DONG_DETAIL } from '../../constants/ApiConstant';
 import AppUtil from '../../utils/AppUtil';
 // import FormUpdate from './form/FormUpdate';
 import FormDetail from "./form/FormDetail";
@@ -20,7 +20,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-class CapPhoiListView extends Component {
+class SaiSoListView extends Component {
   constructor(props) {
     super(props);
     const me = this
@@ -33,39 +33,39 @@ class CapPhoiListView extends Component {
           width: 80
         },
         {
-          headerName: "Ngày trộn",
-          field: "thongTinMeTron.ngayTron",
-          width: 150,
-          suppressSizeToFit: true,
-          cellRendererFramework: function (params) {
-            return moment.utc(_.get(params.data, 'thongTinMeTron.ngayTron')).format("DD/MM/YYYY HH:mm")
-          }
+            headerName: "Ngày trộn",
+            field: "thongTinMeTron.ngayTron",
+            width: 150,
+            suppressSizeToFit: true,
+            cellRendererFramework: function (params) {
+                return moment.utc(_.get(params.data, 'thongTinMeTron.ngayTron')).format("DD/MM/YYYY HH:mm")
+            }
         },
         {
-          headerName: "Số xe",
-          field: "thongTinMeTron.vehicle.serialNumber",
-          width: 130,
-          suppressSizeToFit: true
+            headerName: "Số xe",
+            field: "thongTinMeTron.vehicle.serialNumber",
+            width: 130,
+            suppressSizeToFit: true
         },
         {
-          headerName: "Tên Hợp đồng",
-          field: "thongTinMeTron.hopDong.tenHopDong",
-          minWidth: 160
+            headerName: "Tên Hợp đồng",
+            field: "thongTinMeTron.hopDong.tenHopDong",
+            minWidth: 160
         },
         {
-          headerName: "Loại bê tông",
-          field: "thongTinMeTron.mac.macCode",
-          minWidth: 160,
+            headerName: "Loại bê tông",
+            field: "thongTinMeTron.mac.macCode",
+            minWidth: 160,
         },
         {
-          headerName: "Khối lượng",
-          field: "thongTinMeTron.khoiLuong",
-          minWidth: 120,
+            headerName: "Khối lượng",
+            field: "thongTinMeTron.khoiLuong",
+            minWidth: 120,
         },
         {
-          headerName: "Đá",
-          field: "da",
-          minWidth: 100
+            headerName: "Đá",
+            field: "da",
+            minWidth: 100
         },
         {
           headerName: "Cát nhân tạo",
@@ -136,21 +136,22 @@ class CapPhoiListView extends Component {
     this.gridApi = ''
   }
 
-  componentDidMount() {
+  componentDidMount(){
     Axios.get(AppUtil.GLOBAL_API_PATH + API_TTMT_DETAIL)
-      .then(res => {
-        const { data } = res;
-        if (data.success) {
-          this.setState({
-            dataMeTron: data.result
-          })
-        }
-      })
-      .catch(() => {
-        AppUtil.ToastError();
-      })
-      .finally(() => {
-      });
+        .then(res => {
+        console.log("CapPhoiListView -> componentDidMount -> res", res)
+          const {data} = res;
+          if (data.success) {
+            this.setState({
+                dataMeTron: data.result
+            })
+          }
+        })
+        .catch(() => {
+          AppUtil.ToastError();
+        })
+        .finally(() => {
+        });
   }
 
 
@@ -259,11 +260,11 @@ class CapPhoiListView extends Component {
     this.gridApi && this.gridApi.showLoadingOverlay();
     Axios.get(AppUtil.GLOBAL_API_PATH + API_CAP_PHOI_DETAIL)
       .then(res => {
-        console.log("CapPhoiListView -> loadData -> res", res)
+      console.log("CapPhoiListView -> loadData -> res", res)
         const { data } = res;
         if (data.success) {
           this.setState({
-            rowData: data.result
+            rowData: data.result 
           })
         }
       })
@@ -354,4 +355,4 @@ class CapPhoiListView extends Component {
   }
 }
 
-export default connect(mapStateToProps)(CapPhoiListView);
+export default connect(mapStateToProps)(SaiSoListView);

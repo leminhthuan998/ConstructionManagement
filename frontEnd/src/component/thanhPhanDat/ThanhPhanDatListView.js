@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { onDeleteConfirm } from '../../application/actions/appAction';
 import store from '../../AppStore';
-import { API_HOP_DONG_DELETE, API_CAP_PHOI_DETAIL, API_TTMT_DETAIL } from '../../constants/ApiConstant';
+import { API_HOP_DONG_DELETE, API_TTMT_DETAIL, API_THANH_PHAN_DAT_DETAIL } from '../../constants/ApiConstant';
 import AppUtil from '../../utils/AppUtil';
 // import FormUpdate from './form/FormUpdate';
 import FormDetail from "./form/FormDetail";
@@ -20,7 +20,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-class CapPhoiListView extends Component {
+class ThanhPhanDatListView extends Component {
   constructor(props) {
     super(props);
     const me = this
@@ -33,55 +33,70 @@ class CapPhoiListView extends Component {
           width: 80
         },
         {
-          headerName: "Ngày trộn",
-          field: "thongTinMeTron.ngayTron",
-          width: 150,
-          suppressSizeToFit: true,
-          cellRendererFramework: function (params) {
-            return moment.utc(_.get(params.data, 'thongTinMeTron.ngayTron')).format("DD/MM/YYYY HH:mm")
-          }
+            headerName: "Ngày trộn",
+            field: "thongTinMeTron.ngayTron",
+            width: 150,
+            suppressSizeToFit: true,
+            cellRendererFramework: function (params) {
+                return moment.utc(_.get(params.data, 'thongTinMeTron.ngayTron')).format("DD/MM/YYYY HH:mm")
+            }
         },
         {
-          headerName: "Số xe",
-          field: "thongTinMeTron.vehicle.serialNumber",
-          width: 130,
+            headerName: "Số xe",
+            field: "thongTinMeTron.vehicle.serialNumber",
+            width: 130,
+            suppressSizeToFit: true
+        },
+        {
+            headerName: "Tên Hợp đồng",
+            field: "thongTinMeTron.hopDong.tenHopDong",
+            minWidth: 160
+        },
+        {
+            headerName: "Loại bê tông",
+            field: "thongTinMeTron.mac.macCode",
+            minWidth: 160,
+        },
+        {
+            headerName: "Khối lượng",
+            field: "thongTinMeTron.khoiLuong",
+            minWidth: 120,
+        },
+        {
+            headerName: "Đá 1",
+            field: "da1",
+            minWidth: 100
+        },
+        {
+            headerName: "Đá 2",
+            field: "da2",
+            minWidth: 100
+        },
+        {
+          headerName: "Cát 1",
+          field: "cat1",
+          width: 150,
           suppressSizeToFit: true
         },
         {
-          headerName: "Tên Hợp đồng",
-          field: "thongTinMeTron.hopDong.tenHopDong",
-          minWidth: 160
+          headerName: "Cát 2",
+          field: "cat2",
+          width: 150,
+          suppressSizeToFit: true
         },
         {
-          headerName: "Loại bê tông",
-          field: "thongTinMeTron.mac.macCode",
-          minWidth: 160,
-        },
-        {
-          headerName: "Khối lượng",
-          field: "thongTinMeTron.khoiLuong",
+          headerName: "Xi măng 1",
+          field: "xiMang1",
           minWidth: 120,
         },
         {
-          headerName: "Đá",
-          field: "da",
-          minWidth: 100
+          headerName: "Xi măng 2",
+          field: "xiMang2",
+          minWidth: 120,
         },
         {
-          headerName: "Cát nhân tạo",
-          field: "catNhanTao",
-          width: 150,
-          suppressSizeToFit: true
-        },
-        {
-          headerName: "Cát sông",
-          field: "catSong",
-          width: 150,
-          suppressSizeToFit: true
-        },
-        {
-          headerName: "Xi măng",
-          field: "xiMang",
+          headerName: "Tro bay",
+          field: "troBay",
           minWidth: 120,
         },
         {
@@ -97,11 +112,6 @@ class CapPhoiListView extends Component {
         {
           headerName: "Phụ gia 2",
           field: "phuGia2",
-          minWidth: 120,
-        },
-        {
-          headerName: "Tỉ trọng",
-          field: "tiTrong",
           minWidth: 120,
         },
         {
@@ -136,21 +146,22 @@ class CapPhoiListView extends Component {
     this.gridApi = ''
   }
 
-  componentDidMount() {
+  componentDidMount(){
     Axios.get(AppUtil.GLOBAL_API_PATH + API_TTMT_DETAIL)
-      .then(res => {
-        const { data } = res;
-        if (data.success) {
-          this.setState({
-            dataMeTron: data.result
-          })
-        }
-      })
-      .catch(() => {
-        AppUtil.ToastError();
-      })
-      .finally(() => {
-      });
+        .then(res => {
+        console.log("TPDAT -> componentDidMount -> res", res)
+          const {data} = res;
+          if (data.success) {
+            this.setState({
+                dataMeTron: data.result
+            })
+          }
+        })
+        .catch(() => {
+          AppUtil.ToastError();
+        })
+        .finally(() => {
+        });
   }
 
 
@@ -257,13 +268,13 @@ class CapPhoiListView extends Component {
 
   loadData() {
     this.gridApi && this.gridApi.showLoadingOverlay();
-    Axios.get(AppUtil.GLOBAL_API_PATH + API_CAP_PHOI_DETAIL)
+    Axios.get(AppUtil.GLOBAL_API_PATH + API_THANH_PHAN_DAT_DETAIL)
       .then(res => {
-        console.log("CapPhoiListView -> loadData -> res", res)
+      console.log("CapPhoiListView -> loadData -> res", res)
         const { data } = res;
         if (data.success) {
           this.setState({
-            rowData: data.result
+            rowData: data.result 
           })
         }
       })
@@ -354,4 +365,4 @@ class CapPhoiListView extends Component {
   }
 }
 
-export default connect(mapStateToProps)(CapPhoiListView);
+export default connect(mapStateToProps)(ThanhPhanDatListView);

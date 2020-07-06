@@ -47,6 +47,8 @@ const LoaiVatTu = React.lazy(() => import('./component/loaiVatTu/LoaiVatTuListVi
 const ThongTinMeTron = React.lazy(() => import('./component/thongTinMeTron/ThongTinMeTronListView'));
 const Role = React.lazy(() => import('./component/Role/RoleListView'));
 const CapPhoi = React.lazy(() => import('./component/capPhoi/CapPhoiListView'));
+const ThanhPhanDat = React.lazy(() => import('./component/thanhPhanDat/ThanhPhanDatListView'));
+const ThanhPhanCan = React.lazy(() => import('./component/thanhPhanCan/ThanhPhanCanListView'));
 
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 
@@ -102,6 +104,8 @@ const routes = [
   { path: '/role', exact: true, name: 'Role', component: Role },
   { path: '/unauthorized', exact: true, name: 'Unauthorized', component: Page401 },
   { path: '/cap-phoi', exact: true, name: 'Cấp phối', component: CapPhoi },
+  { path: '/thanh-phan-dat', exact: true, name: 'Thành phần đặt', component: ThanhPhanDat },
+  { path: '/thanh-phan-can', exact: true, name: 'Thành phần cân', component: ThanhPhanCan },
 
 
   { path: "*", component: Page404 },

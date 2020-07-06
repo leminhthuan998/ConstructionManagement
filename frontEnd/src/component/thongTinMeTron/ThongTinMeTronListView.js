@@ -71,15 +71,15 @@ class ThongTinMeTronListView extends Component {
                             <button onClick={() => me.openFormDetail(params.data)}
                                 style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button"
                                 className="btn btn-info">Chi tiết
-              </button>
-                            <button onClick={() => me.openFormEdit(params.data)}
+                            </button>
+                            {/* <button onClick={() => me.openFormEdit(params.data)}
                                 style={{ height: 30, marginRight: 5, display: 'flex', alignItems: 'center' }} type="button"
                                 className="btn btn-success">Chỉnh sửa
-              </button>
+                            </button> */}
                             <button onClick={() => me.onDelete(params.data)}
                                 style={{ height: 30, display: 'flex', alignItems: 'center' }} type="button"
                                 className="btn btn-danger">Xóa
-              </button>
+                            </button>
                         </div>
                     }
                 },

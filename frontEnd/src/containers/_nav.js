@@ -21,6 +21,18 @@ export default [
   },
   {
     _tag: 'CSidebarNavItem',
+    name: 'Thành phần mẻ trộn đặt',
+    to: '/thanh-phan-dat',
+    icon: 'cil-puzzle'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Thành phần mẻ trộn cân',
+    to: '/thanh-phan-can',
+    icon: 'cil-puzzle'
+  },
+  {
+    _tag: 'CSidebarNavItem',
     name: 'Thông tin cấp phối',
     to: '/cap-phoi',
     icon: 'cil-puzzle'
