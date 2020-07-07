@@ -28,10 +28,11 @@ axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
   const statusCode = _.get(error, "response.status");
-  if(statusCode === 403) {
+  if(statusCode === 403 || statusCode === 401) {
     console.error("Unauthorized!");
+    appStore.history.push("/unauthorized");
   }
-  appStore.history.push("/unauthorized");
+
   console.log({error});
   // Do something with response error
   return Promise.reject(error);

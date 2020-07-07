@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace ConstructionApp.Controllers
 {
+    [Authorize]
     [Route("/api/vehicle")]
     public class VehicleController : ControllerBase
     {
