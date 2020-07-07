@@ -87,12 +87,11 @@ namespace ConstructionApp
                 app.UseDeveloperExceptionPage();
             }
             app.UseSwaggerDocumentation();
+
             app.UseDefaultFiles();
 
             // serve wwwroot
             app.UseStaticFiles();
-
-            var logger = app.ApplicationServices.GetRequiredService<ILoggerFactory>();
 
             app.UseRouting();
 
