@@ -44,7 +44,7 @@ namespace ConstructionApp.Controllers
 
         [HttpPost("filter")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<List<SaiSo>>))]
-        public async Task<IActionResult> FilterAction(DateTime startDate, DateTime endDate, string macCode, string tenHopDong)
+        public async Task<IActionResult> FilterAction(DateTime startDate, DateTime endDate, string macCode, Guid hopDongId)
         {
             // var results = await _repository.ToListAsync();
             var newRs = new List<SaiSo>();
@@ -58,7 +58,7 @@ namespace ConstructionApp.Controllers
             {
                 foreach(var item in results)
                 {
-                var thongTinMeTron = await _dbContext.Set<ThongTinMeTron>().FirstAsync(x => x.Id.Equals(item.ThongTinMeTronId) && x.MAC.MacCode.Equals(macCode) && x.HopDong.TenHopDong.Equals(tenHopDong));
+                var thongTinMeTron = await _dbContext.Set<ThongTinMeTron>().FirstAsync(x => x.Id.Equals(item.ThongTinMeTronId) && x.MAC.MacCode.Equals(macCode) && x.HopDong.Id.Equals(hopDongId));
                 item.ThongTinMeTron = thongTinMeTron;
                 newRs.Add(item);
                 }
