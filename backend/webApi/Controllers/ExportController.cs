@@ -142,12 +142,58 @@ namespace ConstructionApp.Controllers
 
 
             workSheet.Cells[startRow, 1].Style.Font.Bold = true;
-            for(int x = 7; x <= 16; x++)
+            for (int x = 1; x <= 50; x++)
             {
-                workSheet.Cells[startRow, x].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                workSheet.Cells[startRow, x].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#C0504D"));
-                workSheet.Cells[startRow, x].Style.Font.Bold = true;
-                workSheet.Cells[startRow, x].Style.Font.Color.SetColor(Color.White);
+                if (x >= 1 && x <= 6)
+                {
+                    workSheet.Cells[startRow, x].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    workSheet.Cells[startRow, x].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#FABF8F"));
+                    workSheet.Cells[startRow, x].Style.Font.Bold = true;
+                    workSheet.Cells[startRow, x].Style.Font.Color.SetColor(Color.Black);
+                }
+                else if (x >= 7 && x <= 16)
+                {
+                    workSheet.Cells[startRow, x].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    workSheet.Cells[startRow, x].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#C0504D"));
+                    workSheet.Cells[startRow, x].Style.Font.Bold = true;
+                    workSheet.Cells[startRow, x].Style.Font.Color.SetColor(Color.White);
+                }
+                else if (x > 16 && x <= 26)
+                {
+                    workSheet.Cells[startRow, x].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    workSheet.Cells[startRow, x].Style.Fill.BackgroundColor.SetColor(Color.Red);
+                    workSheet.Cells[startRow, x].Style.Font.Bold = true;
+                    workSheet.Cells[startRow, x].Style.Font.Color.SetColor(Color.White);
+                }
+                else if (x > 26 && x <= 34)
+                {
+                    workSheet.Cells[startRow, x].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    workSheet.Cells[startRow, x].Style.Fill.BackgroundColor.SetColor(Color.Cyan);
+                    workSheet.Cells[startRow, x].Style.Font.Bold = true;
+                    workSheet.Cells[startRow, x].Style.Font.Color.SetColor(Color.Black);
+                }
+                else if (x > 34 && x <= 38)
+                {
+                    workSheet.Cells[startRow, x].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    workSheet.Cells[startRow, x].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#92D050"));
+                    workSheet.Cells[startRow, x].Style.Font.Bold = true;
+                    workSheet.Cells[startRow, x].Style.Font.Color.SetColor(Color.Black);
+                }
+                else if (x > 38 && x <= 43)
+                {
+                    workSheet.Cells[startRow, x].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    workSheet.Cells[startRow, x].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#D8E4BC"));
+                    workSheet.Cells[startRow, x].Style.Font.Bold = true;
+                    workSheet.Cells[startRow, x].Style.Font.Color.SetColor(Color.Black);
+                }
+                else 
+                {
+                    workSheet.Cells[startRow, x].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    workSheet.Cells[startRow, x].Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#C5D9F1"));
+                    workSheet.Cells[startRow, x].Style.Font.Bold = true;
+                    workSheet.Cells[startRow, x].Style.Font.Color.SetColor(Color.Black);
+                }
+
             }
             //Body of table  
             //  
@@ -208,11 +254,12 @@ namespace ConstructionApp.Controllers
                 workSheet.Cells[recordIndex, 48].Value = meTron.SaiSo.PhuGia2;
                 workSheet.Cells[recordIndex, 49].Value = meTron.SaiSo.Nuoc;
                 workSheet.Cells[recordIndex, 50].Value = meTron.SaiSo.TroBay;
-              
+
                 recordIndex++;
             }
             int i = 1;
-            while(i <= 50) {
+            while (i <= 50)
+            {
                 workSheet.Column(i).AutoFit();
                 i++;
             }
