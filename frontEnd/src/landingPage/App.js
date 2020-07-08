@@ -27,7 +27,7 @@ export class App extends Component {
             resumeData: {
                 Header: {
                     paragraph: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sed commodo nibh ante facilisis bibendum.",
-                    title: "Công ty VLXD Ánh Dương"
+                    title: "Công ty VLXD ADC"
                 }
             },
         }

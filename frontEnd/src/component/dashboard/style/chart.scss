@@ -1,0 +1,53 @@
+.recharts-text,
+.recharts-cartesian-axis-tick-value {
+    font-weight: 500;
+    font-size: 11px;
+}
+.body-grid {
+    border-bottom: 1px solid #ddd;
+}
+
+
+.recharts-legend-wrapper {
+    left: 0 !important;
+}
+
+.recharts-wrapper {
+    font-size: 12px;
+}
+
+.hover-style-stack {
+    // min-width: 300px;
+    height: 100%;
+    padding: 5px 15px;
+    background: white;
+    font-size: 13px !important;
+    line-height: 30px;
+    border-radius: 5px;
+    .stack-title{
+        color: #000;
+        font-size: 14px;
+        font-weight:bold ;
+    }
+    .detail-style-stack{
+            padding: 0 5px;
+            line-height: 26px;
+            font-size: 12px;
+            display: flex;
+            color: #333;
+            .dot-detail {
+                margin: 9px 10px 9px 0;
+                height: 8px;
+                width: 8px;
+                border-radius: 50%;
+                display: inline-block;
+              }
+            .detail-title{
+                flex: 1;
+                text-align: left;
+            }
+            .detail-value{
+                text-align: right;
+            }
+    }
+  }
