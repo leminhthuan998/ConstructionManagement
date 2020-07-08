@@ -45,7 +45,7 @@ class TheSidebar extends Component {
         onShowChange={()=>store.dispatch(onToggleSider())}
       >
         <CSidebarBrand className="d-md-down-none" to="/">
-          <div className='header-sider-bar' >Ánh Dương </div>          
+          <div className='header-sider-bar' >ADC </div>          
         </CSidebarBrand>
         <CSidebarNav>
 

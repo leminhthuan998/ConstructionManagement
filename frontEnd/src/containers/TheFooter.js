@@ -10,7 +10,7 @@ const TheFooter = () => {
       </div>
       <div className="mfs-auto">
         <span className="mr-1">Bản quyền thuộc về Công ty VLXD</span>
-        <a href="https://www.facebook.com/Betonganhduong/" target="_blank" rel="noopener noreferrer">Ánh Dương</a>
+        <a href="https://www.facebook.com/Betonganhduong/" target="_blank" rel="noopener noreferrer">ADC</a>
       </div>
     </CFooter>
   )

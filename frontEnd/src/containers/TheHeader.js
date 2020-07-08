@@ -61,7 +61,7 @@ class TheHeader extends Component {
         />
         <CHeaderBrand className="mx-auto d-lg-none" to="/">
           {/* <CIcon name="logo" height="48" alt="Logo" /> */}
-          <div className='header-sider-bar-mobile' >ÁNH DƯƠNG</div>
+          <div className='header-sider-bar-mobile' >ADC</div>
         </CHeaderBrand>
 
         <CHeaderNav className="d-md-down-none mr-auto">
