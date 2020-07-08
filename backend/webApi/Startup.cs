@@ -34,9 +34,9 @@ namespace ConstructionApp
         {
             // Add Identity and configure it to use the default user and role models and the database context we just added.
             services.AddControllers()
-            //    .AddNewtonsoftJson(options =>
-            //        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            //)
+               .AddNewtonsoftJson(options =>
+                   options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            )
             ; 
 
             Console.WriteLine("connection string {0}", Configuration.GetConnectionString("AppDbContext"));

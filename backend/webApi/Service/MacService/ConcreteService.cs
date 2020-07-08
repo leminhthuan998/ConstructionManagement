@@ -89,8 +89,9 @@ namespace ConstructionApp.Service.MacService
 
         public async Task<ThanhPhanMeTronCan> CapnhatThanhPhanMeTronCan(ThongTinMeTron thongTinMeTron)
         {
+            var Can = await _dbContext.Set<ThanhPhanMeTronCan>().FirstAsync(x => x.ThongTinMeTronId == thongTinMeTron.Id); 
             await TinhSaiSoCuaMeTron(thongTinMeTron);
-            throw new NotImplementedException();
+            return Can;
         }
 
         public async Task<ThanhPhanMeTronDat> TinhThanhPhanMetronDat(ThongTinMeTron meTron)
