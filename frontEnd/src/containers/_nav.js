@@ -87,6 +87,12 @@ export default [
     to: '/role',
     icon: 'cil-user'
   },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Người dùng',
+    to: '/identity',
+    icon: 'cil-user'
+  },
   // {
   //   _tag: 'CSidebarNavTitle',
   //   _children: ['Theme']

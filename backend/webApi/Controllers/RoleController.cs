@@ -100,8 +100,9 @@ namespace ConstructionApp.Controllers
 
         [HttpPost("delete")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
-        public async Task<IActionResult> DeleteAction(string roleId)
+        public async Task<IActionResult> DeleteAction(Guid Id)
         {
+            var roleId = Id.ToString();
             var role = await _roleManager.FindByIdAsync(roleId);
             if (role != null)
             {

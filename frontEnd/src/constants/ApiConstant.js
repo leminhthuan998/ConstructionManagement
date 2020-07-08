@@ -45,6 +45,11 @@ export const API_ROLE_CREATE = "/role/create";
 export const API_ROLE_UPDATE = "/role/update";
 export const API_ROLE_DELETE = "/role/delete";
 
+export const API_USER_DETAIL = "/identity/index";
+export const API_USER_CREATE = "/identity/create";
+export const API_USER_UPDATE = "/identity/update";
+export const API_USER_DELETE = "/identity/delete";
+
 export const API_CAP_PHOI_DETAIL = "/cap-phoi/index";
 
 export const API_THANH_PHAN_DAT_DETAIL = "/thanh-phan-dat/index";
