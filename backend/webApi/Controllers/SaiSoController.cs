@@ -35,7 +35,13 @@ namespace ConstructionApp.Controllers
             foreach(var item in results)
             {
                 var thongTinMeTron = await _dbContext.Set<ThongTinMeTron>().FirstAsync(x => x.Id.Equals(item.ThongTinMeTronId));
+
+                thongTinMeTron.MAC = await _dbContext.Set<MAC>().FirstAsync(x => x.Id == thongTinMeTron.MacId);
+                thongTinMeTron.Vehicle = await _dbContext.Set<Vehicle>().FirstAsync(x => x.Id == thongTinMeTron.VehicleId);
+                thongTinMeTron.HopDong = await _dbContext.Set<HopDong>().FirstAsync(x => x.Id == thongTinMeTron.HopDongId);
+
                 item.ThongTinMeTron = thongTinMeTron;
+                
                 newRs.Add(item);
             }
 

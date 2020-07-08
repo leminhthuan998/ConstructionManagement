@@ -1,6 +1,8 @@
 import { Form, Input, Select } from 'antd';
 import React, { Component } from 'react';
-import _ from 'lodash'
+import _ from 'lodash';
+import moment from 'moment';
+
 const layout = {
     labelCol: { span: 5 },
 };
@@ -17,7 +19,7 @@ class FormDetail extends Component {
 
     componentDidMount() {
         this.form.setFieldsValue({
-            ngayTron: _.get(this.state.data, 'thongTinMeTron.ngayTron'),
+            ngayTron: moment.utc(_.get(this.state.data, 'thongTinMeTron.ngayTron')).format("DD/MM/YYYY HH:mm"),
             serialNumber: _.get(this.state.data, 'thongTinMeTron.vehicle.serialNumber'),
             tenHopDong: _.get(this.state.data, 'thongTinMeTron.hopDong.tenHopDong'),
             macCode: _.get(this.state.data, 'thongTinMeTron.mac.macCode'),

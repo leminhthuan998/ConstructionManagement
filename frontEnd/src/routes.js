@@ -49,6 +49,7 @@ const Role = React.lazy(() => import('./component/Role/RoleListView'));
 const CapPhoi = React.lazy(() => import('./component/capPhoi/CapPhoiListView'));
 const ThanhPhanDat = React.lazy(() => import('./component/thanhPhanDat/ThanhPhanDatListView'));
 const ThanhPhanCan = React.lazy(() => import('./component/thanhPhanCan/ThanhPhanCanListView'));
+const SaiSo = React.lazy(() => import('./component/saiSo/SaiSoListView'));
 
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 
@@ -106,6 +107,7 @@ const routes = [
   { path: '/cap-phoi', exact: true, name: 'Cấp phối', component: CapPhoi },
   { path: '/thanh-phan-dat', exact: true, name: 'Thành phần đặt', component: ThanhPhanDat },
   { path: '/thanh-phan-can', exact: true, name: 'Thành phần cân', component: ThanhPhanCan },
+  { path: '/sai-so', exact: true, name: 'Sai số', component: SaiSo },
 
 
   { path: "*", component: Page404 },
