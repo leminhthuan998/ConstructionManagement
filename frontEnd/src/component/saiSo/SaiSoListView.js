@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { onDeleteConfirm } from '../../application/actions/appAction';
 import store from '../../AppStore';
-import { API_HOP_DONG_DELETE, API_CAP_PHOI_DETAIL, API_TTMT_DETAIL, API_MAC_DETAIL, API_HOP_DONG_DETAIL } from '../../constants/ApiConstant';
+import { API_HOP_DONG_DELETE, API_SAI_SO_DETAIL, API_TTMT_DETAIL } from '../../constants/ApiConstant';
 import AppUtil from '../../utils/AppUtil';
 // import FormUpdate from './form/FormUpdate';
 import FormDetail from "./form/FormDetail";
@@ -63,25 +63,75 @@ class SaiSoListView extends Component {
             minWidth: 120,
         },
         {
-            headerName: "Đá",
-            field: "da",
+            headerName: "W/C Lý thuyết",
+            field: "wclt",
             minWidth: 100
         },
         {
-          headerName: "Cát nhân tạo",
-          field: "catNhanTao",
-          width: 150,
+          headerName: "W/C Thực tế",
+          field: "wctt",
+          minWidth: 100,
           suppressSizeToFit: true
+        },
+        {
+          headerName: "S/A Lý thuyết",
+          field: "catSong",
+          minWidth: 100,
+          suppressSizeToFit: true
+        },
+        {
+          headerName: "S/A Thực tế",
+          field: "satt",
+          minWidth: 120,
+        },
+        {
+          headerName: "Đá (1m3)",
+          field: "da_1m3",
+          minWidth: 120,
+        },
+        {
+          headerName: "Cát sông (1m3)",
+          field: "catSong_1m3",
+          minWidth: 120,
+        },
+        {
+          headerName: "Xi măng (1m3)",
+          field: "xiMang_1m3",
+          minWidth: 120,
+        },
+        {
+          headerName: "Phụ gia 1 (1m3)",
+          field: "phuGia1_1m3",
+          minWidth: 120,
+        },
+        {
+          headerName: "Phụ gia 2 (1m3)",
+          field: "phuGia2_1m3",
+          minWidth: 120,
+        },
+        {
+          headerName: "Đá",
+          field: "da",
+          minWidth: 120,
         },
         {
           headerName: "Cát sông",
           field: "catSong",
-          width: 150,
-          suppressSizeToFit: true
+          minWidth: 120,
         },
         {
           headerName: "Xi măng",
           field: "xiMang",
+          minWidth: 120,
+        },
+        {
+          headerName: "Nước",
+          field: "nuoc",
+          minWidth: 120,
+        },
+        {
+          headerName: "Tro bay",
+          field: "troBay",
           minWidth: 120,
         },
         {
@@ -97,11 +147,6 @@ class SaiSoListView extends Component {
         {
           headerName: "Phụ gia 2",
           field: "phuGia2",
-          minWidth: 120,
-        },
-        {
-          headerName: "Tỉ trọng",
-          field: "tiTrong",
           minWidth: 120,
         },
         {
@@ -139,7 +184,6 @@ class SaiSoListView extends Component {
   componentDidMount(){
     Axios.get(AppUtil.GLOBAL_API_PATH + API_TTMT_DETAIL)
         .then(res => {
-        console.log("CapPhoiListView -> componentDidMount -> res", res)
           const {data} = res;
           if (data.success) {
             this.setState({
@@ -258,9 +302,8 @@ class SaiSoListView extends Component {
 
   loadData() {
     this.gridApi && this.gridApi.showLoadingOverlay();
-    Axios.get(AppUtil.GLOBAL_API_PATH + API_CAP_PHOI_DETAIL)
+    Axios.get(AppUtil.GLOBAL_API_PATH + API_SAI_SO_DETAIL)
       .then(res => {
-      console.log("CapPhoiListView -> loadData -> res", res)
         const { data } = res;
         if (data.success) {
           this.setState({
@@ -317,7 +360,7 @@ class SaiSoListView extends Component {
         >
           <FormDetail data={this.state.rowSelect} />
         </Modal>
-        <Modal
+        {/* <Modal
           title="Chỉnh sửa"
           visible={this.state.visibleEdit}
           onOk={this.handleOkEdit}
@@ -331,9 +374,9 @@ class SaiSoListView extends Component {
 
           ]}
         >
-          {/* <FormUpdate ref={c => this.formUpdate = c} data={this.state.rowSelect}  dataMac={this.state.dataMac} loadData={() => this.loadData()} /> */}
-        </Modal>
-        <Modal
+          <FormUpdate ref={c => this.formUpdate = c} data={this.state.rowSelect}  dataMac={this.state.dataMac} loadData={() => this.loadData()} />
+        </Modal> */}
+        {/* <Modal
           title="Tạo mới"
           visible={this.state.visibleCreate}
           onOk={this.handleOkCreate}
@@ -347,9 +390,9 @@ class SaiSoListView extends Component {
 
           ]}
         >
-          {/* <FormUpdate create ref={c => this.formUpdate = c} data={this.state.rowSelect} dataMac={this.state.dataMac}
-            loadData={() => this.loadData()} /> */}
-        </Modal>
+          <FormUpdate create ref={c => this.formUpdate = c} data={this.state.rowSelect} dataMac={this.state.dataMac}
+            loadData={() => this.loadData()} />
+        </Modal> */}
       </div>
     );
   }

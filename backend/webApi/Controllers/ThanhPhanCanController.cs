@@ -7,6 +7,8 @@ using ConstructionApp.Entity;
 using System.Threading.Tasks;
 using System.Net;
 using System.Collections.Generic;
+using ConstructionApp.Dto.ThanhPhanCanDto;
+using ConstructionApp.Service.MacService;
 
 namespace ConstructionApp.Controllers
 {
@@ -45,6 +47,30 @@ namespace ConstructionApp.Controllers
             }
 
             return Ok(ApiResponse<List<ThanhPhanMeTronCan>>.ApiOk(newRs));
+        }
+
+        [HttpPost("update")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<ThanhPhanMeTronCan>))]
+        public async Task<IActionResult> UpdateAction([FromBody] InputUpdateThanhPhanCanDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Ok(ApiResponse<ModelStateDictionary>.ApiError(ModelState));
+            }
+            
+            var thanhPhanCan = await _repository.FirstAsync(x => x.Id.Equals(dto.Id));
+            var thongTinMeTron = await _dbContext.Set<ThongTinMeTron>().FirstAsync(x => x.Id.Equals(thanhPhanCan.ThongTinMeTronId));
+
+            // thanhPhanCan.ThongTinMeTronId = thongTinMeTron.Id;
+
+
+            InputUpdateThanhPhanCanDto.UpdateEntity(dto, thanhPhanCan);
+            _repository.Update(thanhPhanCan);
+            await _dbContext.SaveChangesAsync();
+            ConcreteService service = new ConcreteService(_dbContext);
+            await service.CapnhatThanhPhanMeTronCan(thongTinMeTron);
+            await _dbContext.SaveChangesAsync();
+            return Ok(ApiResponse<ThanhPhanMeTronCan>.ApiOk(thanhPhanCan));
         }
     }
 }

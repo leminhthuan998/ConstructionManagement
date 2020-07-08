@@ -52,6 +52,8 @@ export const API_THANH_PHAN_DAT_DETAIL = "/thanh-phan-dat/index";
 export const API_THANH_PHAN_CAN_DETAIL = "/thanh-phan-can/index";
 export const API_THANH_PHAN_CAN_UPDATE = "/thanh-phan-can/update";
 
+export const API_SAI_SO_DETAIL = "/sai-so/index";
+
 
 export const API_SAI_SO = "/sai-so/index";
 export const API_SAI_SO_FILTER = "/sai-so/filter";

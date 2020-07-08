@@ -33,6 +33,12 @@ export default [
   },
   {
     _tag: 'CSidebarNavItem',
+    name: 'Sai số',
+    to: '/sai-so',
+    icon: 'cil-puzzle'
+  },
+  {
+    _tag: 'CSidebarNavItem',
     name: 'Thông tin cấp phối',
     to: '/cap-phoi',
     icon: 'cil-puzzle'

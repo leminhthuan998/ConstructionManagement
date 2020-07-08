@@ -8,7 +8,7 @@ import { onDeleteConfirm } from '../../application/actions/appAction';
 import store from '../../AppStore';
 import { API_HOP_DONG_DELETE, API_TTMT_DETAIL, API_THANH_PHAN_CAN_DETAIL } from '../../constants/ApiConstant';
 import AppUtil from '../../utils/AppUtil';
-// import FormUpdate from './form/FormUpdate';
+import FormUpdate from './form/FormUpdate';
 import FormDetail from "./form/FormDetail";
 import moment from 'moment';
 import _ from 'lodash';
@@ -204,7 +204,7 @@ class ThanhPhanCanListView extends Component {
 
 
   handleOkEdit = e => {
-    // this.formUpdate.onFinish()
+    this.formUpdate.onFinish()
     this.setState({
       visibleEdit: false,
     });
@@ -341,9 +341,9 @@ class ThanhPhanCanListView extends Component {
 
           ]}
         >
-          {/* <FormUpdate ref={c => this.formUpdate = c} data={this.state.rowSelect}  dataMac={this.state.dataMac} loadData={() => this.loadData()} /> */}
+          <FormUpdate ref={c => this.formUpdate = c} data={this.state.rowSelect}  dataMeTron={this.state.dataMeTron} loadData={() => this.loadData()} />
         </Modal>
-        <Modal
+        {/* <Modal
           title="Tạo mới"
           visible={this.state.visibleCreate}
           onOk={this.handleOkCreate}
@@ -357,9 +357,9 @@ class ThanhPhanCanListView extends Component {
 
           ]}
         >
-          {/* <FormUpdate create ref={c => this.formUpdate = c} data={this.state.rowSelect} dataMac={this.state.dataMac}
-            loadData={() => this.loadData()} /> */}
-        </Modal>
+          <FormUpdate create ref={c => this.formUpdate = c} data={this.state.rowSelect} dataMac={this.state.dataMac}
+            loadData={() => this.loadData()} />
+        </Modal> */}
       </div>
     );
   }
