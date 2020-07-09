@@ -1,4 +1,6 @@
-﻿using ConstructionApp.Entity.Identity;
+﻿using ConstructionApp.Dto.RoleDto;
+using ConstructionApp.Dto.UserDto;
+using ConstructionApp.Entity.Identity;
 using ConstructionApp.Service.Abstract;
 using ConstructionApp.Utils;
 using ConstructionApp.ViewModel;
@@ -6,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,17 +26,19 @@ namespace ConstructionApp.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IUserStore<User> _userStore;
+        private readonly ApplicationDbContext _dbContext;
 
         public IdentityController(ICurrentUser currentUser,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IUserStore<User> userStore
+            IUserStore<User> userStore, ApplicationDbContext dbContext
             )
         {
             this._currentUser = currentUser;
             this._userManager = userManager;
             this._signInManager = signInManager;
             this._userStore = userStore;
+            this._dbContext = dbContext;
         }
 
         [HttpGet("check-login")]
@@ -65,6 +71,69 @@ namespace ConstructionApp.Controllers
                 return Ok(ApiResponse<User>.ApiOk(user));
             }
             return Ok(ApiResponse<IdentityResult>.ApiError(result));
+        }
+
+        [HttpGet("index")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<List<User>>))]
+        public async Task<IActionResult> IndexAction()
+        {
+            var results = await _dbContext.Set<User>().ToListAsync();
+            return Ok(ApiResponse<List<User>>.ApiOk(results));
+        }
+
+        [HttpPost("create")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<User>))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IdentityResult>))]
+        public async Task<IActionResult> CreateAction([FromBody] InputCreateUserDto dto)
+        {
+            if(!ModelState.IsValid)
+            {
+                return Ok(ApiResponse<object>.ApiError(ModelState));
+            }
+            var newUser = InputCreateUserDto.ToEntity(dto);
+            var result = await _userManager.CreateAsync(newUser, "Abcdef@123");
+            if(result.Succeeded)
+            {
+                return Ok(ApiResponse<User>.ApiOk(newUser));
+            }
+            return Ok(ApiResponse<IdentityResult>.ApiError(result));
+        }
+
+        [HttpPost("update")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<User>))]
+        public async Task<IActionResult> UpdateAction([FromBody] InputUpdateUserDto dto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return Ok(ApiResponse<ModelStateDictionary>.ApiError(ModelState));
+            }
+
+            var dtoId = dto.Id.ToString();
+
+            var user = await _userManager.FindByIdAsync(dtoId);
+            InputUpdateUserDto.UpdateEntity(dto, user);
+            var result = await _userManager.UpdateAsync(user);
+            // _repository.Update(role);
+            // await _dbContext.SaveChangesAsync();
+            if (result.Succeeded)
+            {
+                return Ok(ApiResponse<IdentityResult>.ApiOk(result));
+            }
+            return Ok(ApiResponse<User>.ApiOk(user));
+        }
+
+        [HttpPost("delete")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
+        public async Task<IActionResult> DeleteAction(Guid Id)
+        {
+            var userId = Id.ToString();
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var result = await _userManager.DeleteAsync(user);
+            }
+            return Ok(ApiResponse<string>.ApiOk("Xoá thành công"));
         }
 
 
