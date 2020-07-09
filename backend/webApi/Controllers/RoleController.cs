@@ -113,14 +113,22 @@ namespace ConstructionApp.Controllers
 
         [HttpPost("addToRole")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
-        public async Task<IActionResult> AddUserToRole(string userId, string roleName)
+        public async Task<IActionResult> AddUserToRole(Guid userId, string roleName)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user != null)
-            {
-                var result = _userManager.AddToRoleAsync(user, roleName);
-            }
-            return Ok(ApiResponse<string>.ApiOk("success"));
+            // var user = await _userManager.FindByIdAsync(userId);
+            // if (user != null)
+            // {
+            //     var result = await _userManager.AddToRoleAsync(user, roleName);
+            //     if (result == null)
+            //     {
+            //         return Ok(ApiResponse<IdentityResult>.ApiError(result));
+            //     }
+            // }
+            // return Ok(ApiResponse<string>.ApiOk("success"));
+            var Id = userId.ToString();
+            var user = await _userManager.FindByIdAsync(Id);
+            await _userManager.AddToRoleAsync(user, roleName);
+            return Ok();
         }
 
 
