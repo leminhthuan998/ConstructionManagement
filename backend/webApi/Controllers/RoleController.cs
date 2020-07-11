@@ -42,6 +42,20 @@ namespace ConstructionApp.Controllers
             return Ok(ApiResponse<List<Role>>.ApiOk(results));
         }
 
+        [HttpGet("get-role-user")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<List<User>>))]
+        public async Task<IActionResult> GetUserInRole(Guid roleId)
+        {
+            var userRole = await _dbContext.Set<UserRole>().Where(x => x.RoleId.Equals(roleId)).ToListAsync();
+            var users = new List<User>();
+            foreach(var item in userRole)
+            {
+                var user = await _dbContext.Set<User>().FirstAsync(x => x.Id.Equals(item.UserId));
+                users.Add(user);
+            }
+            return Ok(ApiResponse<List<User>>.ApiOk(users));
+        }
+
         [HttpPost("create")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<Role>))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]

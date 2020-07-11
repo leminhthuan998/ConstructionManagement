@@ -44,6 +44,7 @@ export const API_ROLE_DETAIL = "/role/index";
 export const API_ROLE_CREATE = "/role/create";
 export const API_ROLE_UPDATE = "/role/update";
 export const API_ROLE_DELETE = "/role/delete";
+export const API_ROLE_USER = "/role/get-role-user";
 
 export const API_USER_DETAIL = "/identity/index";
 export const API_USER_CREATE = "/identity/create";

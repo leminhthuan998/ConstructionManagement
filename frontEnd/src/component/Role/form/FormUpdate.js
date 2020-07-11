@@ -2,8 +2,9 @@ import { Form, Input, InputNumber } from 'antd';
 import React, { Component } from 'react';
 import Axios from 'axios';
 import _ from 'lodash'
-import {API_ROLE_CREATE, API_ROLE_UPDATE } from "../../../constants/ApiConstant";
+import { API_ROLE_CREATE, API_ROLE_UPDATE, API_ROLE_USER } from "../../../constants/ApiConstant";
 import AppUtil from "../../../utils/AppUtil";
+import AddUserToRole from './AddUserToRole'
 
 const layout = {
   labelCol: { span: 6 },
@@ -15,9 +16,29 @@ class FormUpdate extends Component {
     super(props);
     this.state = {
       data: props.data,
-      create: props.create
+      create: props.create,
+      dataUserRole: props.dataUserRole,
+      dataUser: props.dataUser
     }
   }
+
+  // componentDidMount() {
+  //   Axios.get(AppUtil.GLOBAL_API_PATH + API_ROLE_USER + `?roleId=${this.state.data.id}`)
+  //     .then(res => {
+  //       const { data } = res;
+  //       console.log("FormUpdate -> componentDidMount -> data", data)
+  //       if (data.success) {
+  //         this.setState({
+  //           dataUserRole: data.result
+  //         })
+  //       }
+  //     })
+  //     .catch(() => {
+  //       AppUtil.ToastError();
+  //     })
+  //     .finally(() => {
+  //     });
+  // }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.data !== this.state.data && !nextProps.create) {
@@ -80,7 +101,12 @@ class FormUpdate extends Component {
   };
 
   render() {
-    const { data, create } = this.state;
+    const { data, create, dataUserRole, dataUser } = this.state;
+    console.log("FormUpdate -> render -> dataUserRole -> props", this.props.dataUserRole)
+    console.log("FormUpdate -> render -> dataUserRole", dataUserRole)
+    // console.log("FormUpdate -> render -> dataUser", dataUser)
+    // console.log("FormUpdate -> render -> data", data)
+    // console.log("FormUpdate -> render -> data", this.props)
     return (
       <Form ref={c => this.form = c} {...layout} name="basic" onFinish={this.onFinish}
         initialValues={create ? "" : data}>
@@ -93,7 +119,9 @@ class FormUpdate extends Component {
         <Form.Item name="normalizedName" label="Normalized Name">
           <Input />
         </Form.Item>
-        
+        <Form.Item>
+          <AddUserToRole dataUser={dataUser} dataUserRole={this.props.dataUserRole}/>
+        </Form.Item>
       </Form>
     );
   }
