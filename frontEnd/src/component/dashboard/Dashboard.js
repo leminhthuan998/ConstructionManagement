@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
-import DashBoardItem from './DashBoardItem';
-import Loading from '../../views/pages/Loading';
-import _ from 'lodash'
-import AppUtil from '../../utils/AppUtil';
-import { API_SAI_SO, API_SAI_SO_FILTER } from '../../constants/ApiConstant';
+import { DatePicker, Form, Select } from 'antd';
 import Axios from 'axios';
-import { Form, Input, Button, Checkbox, Select } from 'antd';
+import _ from 'lodash';
+import moment from 'moment';
+import React, { Component } from 'react';
+import { API_SAI_SO, API_MAC_DETAIL, API_HOP_DONG_DETAIL, API_SAI_SO_FILTER } from '../../constants/ApiConstant';
+import AppUtil from '../../utils/AppUtil';
+import Loading from '../../views/pages/Loading';
+import DashBoardItem from './DashBoardItem';
 
-import moment from 'moment'
+
+const { RangePicker } = DatePicker;
+
+const dateFormat = 'DD/MM/YYYY';
+
 const layout = {
     labelCol: {
         span: 6,
@@ -72,7 +77,9 @@ class Dashboard extends Component {
 
             ],
             loading: true,
-            year: moment().year()
+            year: moment().year(),
+            startDate: moment(moment().format('DD/MM/YYYY'), 'DD/MM/YYYY').add(-1, 'Y').format('DD/MM/YYYY'),
+            endDate: moment().format('DD/MM/YYYY')
         }
         this.labelTooltip = "Chênh lệch"
 
@@ -83,7 +90,7 @@ class Dashboard extends Component {
     getRangeDateMonth(fromDate, toDate) {
         const timekeys = [];
         const endDate = moment(toDate, 'DD/MM/YYYY').endOf('month');
-        let currentDate = moment(fromDate, 'DD/MM/YYYY').add(1, 'M').startOf('month');
+        let currentDate = moment(fromDate, 'DD/MM/YYYY').startOf('month');
         while (currentDate <= endDate) {
             const obj = {
                 label: currentDate.format('MM/YYYY'),
@@ -97,18 +104,118 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        Axios.get(AppUtil.GLOBAL_API_PATH + API_SAI_SO)
+        const requestMac = Axios.get(AppUtil.GLOBAL_API_PATH + API_MAC_DETAIL);
+        const requestHopDong = Axios.get(AppUtil.GLOBAL_API_PATH + API_HOP_DONG_DETAIL);
+        const requestSaiSo = Axios.get(AppUtil.GLOBAL_API_PATH + API_SAI_SO);
+        Axios.all([requestMac, requestHopDong, requestSaiSo])
+            .then(Axios.spread((...res) => {
+
+                const responseMac = res[0];
+                const responseHopDong = res[1];
+                const responseSaiSo = res[2];
+
+                if (res) {
+                    // console.log("ThongTinMeTronListView -> componentDidMount -> data", data)
+                    this.setState({
+                        dataMac: responseMac.data.result,
+                        dataHopDong: responseHopDong.data.result,
+                        dataSaiSo: responseSaiSo.data.result
+                    })
+                    this.loadData(responseSaiSo.data.result, this.state.startDate, this.state.endDate)
+                }
+
+            }))
+            .catch(() => {
+                AppUtil.ToastError();
+            })
+            .finally(() => {
+            });
+
+
+    }
+
+    onChangeMac(val) {
+        const dataPost = {
+            startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY') : '',
+            endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY') : '',
+            macCode: val ? val : '',
+            hopDongId: this.state.hopDongId ? this.state.hopDongId : ''
+        }
+        Axios.post(AppUtil.GLOBAL_API_PATH + API_SAI_SO_FILTER, dataPost)
             .then(res => {
                 const { data } = res;
                 if (data.success) {
-                    this.loadData(data.result, this.state.year)
+                    this.loadData(data.result, this.state.startDate, this.state.endDate)
+
+                    this.setState({
+                        macCode: val
+                    })
+                } else {
                 }
             })
             .catch(() => {
                 AppUtil.ToastError();
-                this.setState({
-                    loading: false
-                })
+            })
+            .finally(() => {
+
+            });
+    }
+    onChangeHopDong(val) {
+        const dataPost = {
+            startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY') : '',
+            endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY') : '',
+            macCode: this.state.macCode ? this.state.macCode : '',
+            hopDongId: val ? val : ''
+        }
+        Axios.post(AppUtil.GLOBAL_API_PATH + API_SAI_SO_FILTER, dataPost)
+            .then(res => {
+                const { data } = res;
+                if (data.success) {
+                    this.loadData(data.result, this.state.startDate, this.state.endDate)
+
+                    this.setState({
+                        hopDongId: val
+                    })
+                } else {
+                    AppUtil.ToastError();
+
+                }
+            })
+            .catch(() => {
+                AppUtil.ToastError();
+            })
+            .finally(() => {
+
+            });
+    }
+
+    onChangeDate(val) {
+        const dataPost = {
+            startDate: val[0] ? val[0] : '',
+            endDate: val[1] ? val[1] : '',
+            macCode: this.state.macCode ? this.state.macCode : '',
+            hopDongId: this.state.hopDongId ? this.state.hopDongId : ''
+        }
+        Axios.post(AppUtil.GLOBAL_API_PATH + API_SAI_SO_FILTER, dataPost)
+            .then(res => {
+                const { data } = res;
+                if (data.success) {
+                    this.loadData(data.result, moment(val[0]).format('DD/MM/YYYY'), moment(val[1]).format('DD/MM/YYYY'))
+
+                    this.setState({
+                        startDate: moment(val[0]).format('DD/MM/YYYY'),
+                        endDate: moment(val[1]).format('DD/MM/YYYY')
+                    })
+                } else {
+                    AppUtil.ToastError();
+
+                    this.setState({
+
+                    })
+                }
+            })
+            .catch(() => {
+                AppUtil.ToastError();
             })
             .finally(() => {
 
@@ -117,122 +224,87 @@ class Dashboard extends Component {
 
 
     renderFilter() {
+        const { dataMac, dataHopDong } = this.state
         return <Form  {...layout}
             name="basic"
             style={{ display: 'flex', background: '#fff', alignItems: 'center', borderRadius: 5, padding: 5, height: 60 }}
-        // initialValues={{
-        //   remember: true,
-        // }}
-        // onFinish={onFinish}
-        // onFinishFailed={onFinishFailed}
+
         >
             <Form.Item
                 label="Từ ngày"
                 name="startDate"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input your username!',
-                    },
-                ]}
-                style={{ flex: 1, marginBottom: 0 }}
-            >
-                <Select
-                    placeholder="Select a option and change input text above"
-                    // onChange={onGenderChange}
-                    allowClear
-                >
-                    <Select.Option value="male">male</Select.Option>
-                    <Select.Option value="female">female</Select.Option>
-                    <Select.Option value="other">other</Select.Option>
-                </Select>
-            </Form.Item>
-            <Form.Item
-                label="Đến ngày"
-                name="endDate"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input your username!',
-                    },
-                ]}
-                style={{ flex: 1, marginBottom: 0 }}
 
+                style={{ flex: 1, marginBottom: 0 }}
             >
-                <Select
-                    placeholder="Select a Select.option and change input text above"
-                    // onChange={onGenderChange}
-                    allowClear
-                >
-                    <Select.Option value="male">male</Select.Option>
-                    <Select.Option value="female">female</Select.Option>
-                    <Select.Option value="other">other</Select.Option>
-                </Select>
+                <RangePicker
+                    defaultValue={[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]}
+                    format={dateFormat}
+                    onChange={(val) => this.onChangeDate(val)}
+
+                />
             </Form.Item>
+
             <Form.Item
                 label="MAC"
                 name="macCode"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input your username!',
-                    },
-                ]}
                 style={{ flex: 1, marginBottom: 0 }}
 
             >
                 <Select
-                    placeholder="Select a Select.option and change input text above"
+                    placeholder="Chọn"
                     // onChange={onGenderChange}
                     allowClear
+                    onChange={(val) => this.onChangeMac(val)}
+
                 >
-                    <Select.Option value="male">male</Select.Option>
-                    <Select.Option value="female">female</Select.Option>
-                    <Select.Option value="other">other</Select.Option>
+                    {_.map(dataMac, item => {
+                        return <Select.Option value={item.id} >
+                            {item.macCode}
+                        </Select.Option>
+                    })}
                 </Select>
             </Form.Item>
             <Form.Item
                 label="Hợp đồng"
                 name="hopDongId"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input your username!',
-                    },
-                ]}
                 style={{ flex: 1, marginBottom: 0 }}
 
             >
                 <Select
-                    placeholder="Select a Select.option and change input text above"
+                    placeholder="Chọn"
                     // onChange={onGenderChange}
                     allowClear
+                    onChange={(val) => this.onChangeHopDong(val)}
+
                 >
-                    <Select.Option value="male">male</Select.Option>
-                    <Select.Option value="female">female</Select.Option>
-                    <Select.Option value="other">other</Select.Option>
+                    {_.map(dataHopDong, item => {
+                        return <Select.Option value={item.id} >
+                            {item.tenHopDong}
+                        </Select.Option>
+                    })}
                 </Select>
             </Form.Item>
         </Form>
     }
 
-    loadData(dataChart, year) {
-        console.log('load data')
+    loadData(dataChart, startDate, endDate) {
+        console.log('load data', startDate, endDate)
         const { data } = this.state;
-        let startDate = ''
-        let endDate = ''
+        // let startDate = ''
+        // let endDate = ''
         const dataChartTong = []
         const dataChartM3 = []
-        if (year = moment().year) {
-            endDate = moment().format('DD/MM/YYYY')
-            startDate = moment(year, 'DD/MM/YYYY').add(-1, 'Y').format('DD/MM/YYYY');
-        }
+        // if (year = moment().year) {
+        //     endDate = moment().format('DD/MM/YYYY')
+        //     startDate = moment(year, 'DD/MM/YYYY').add(-1, 'Y').format('DD/MM/YYYY');
+        // }
 
         const dataGroupByMonth = _.groupBy(dataChart, x => {
             return moment(_.get(x.thongTinMeTron, 'ngayTron')).format('MM/YYYY')
         })
-        console.log(dataGroupByMonth)
         const timekeys = this.getRangeDateMonth(startDate, endDate);
+        console.log(dataGroupByMonth, timekeys)
+
         _.forEach(timekeys, timekey => {
             Object.keys(dataGroupByMonth).forEach(month => {
                 if (month == timekey.label) {
@@ -305,7 +377,6 @@ class Dashboard extends Component {
     }
     render() {
         const { loading, data, maxData, minData } = this.state;
-        console.log(this.state)
         if (loading) {
             return <Loading />
         }
