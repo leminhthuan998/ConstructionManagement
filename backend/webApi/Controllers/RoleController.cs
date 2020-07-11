@@ -42,6 +42,20 @@ namespace ConstructionApp.Controllers
             return Ok(ApiResponse<List<Role>>.ApiOk(results));
         }
 
+        [HttpGet("get-role-user")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<List<User>>))]
+        public async Task<IActionResult> GetUserInRole(Guid roleId)
+        {
+            var userRole = await _dbContext.Set<UserRole>().Where(x => x.RoleId.Equals(roleId)).ToListAsync();
+            var users = new List<User>();
+            foreach(var item in userRole)
+            {
+                var user = await _dbContext.Set<User>().FirstAsync(x => x.Id.Equals(item.UserId));
+                users.Add(user);
+            }
+            return Ok(ApiResponse<List<User>>.ApiOk(users));
+        }
+
         [HttpPost("create")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<Role>))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
@@ -113,14 +127,22 @@ namespace ConstructionApp.Controllers
 
         [HttpPost("addToRole")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
-        public async Task<IActionResult> AddUserToRole(string userId, string roleName)
+        public async Task<IActionResult> AddUserToRole(Guid userId, string roleName)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user != null)
-            {
-                var result = _userManager.AddToRoleAsync(user, roleName);
-            }
-            return Ok(ApiResponse<string>.ApiOk("success"));
+            // var user = await _userManager.FindByIdAsync(userId);
+            // if (user != null)
+            // {
+            //     var result = await _userManager.AddToRoleAsync(user, roleName);
+            //     if (result == null)
+            //     {
+            //         return Ok(ApiResponse<IdentityResult>.ApiError(result));
+            //     }
+            // }
+            // return Ok(ApiResponse<string>.ApiOk("success"));
+            var Id = userId.ToString();
+            var user = await _userManager.FindByIdAsync(Id);
+            await _userManager.AddToRoleAsync(user, roleName);
+            return Ok();
         }
 
 

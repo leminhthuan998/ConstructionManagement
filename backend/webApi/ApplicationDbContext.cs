@@ -88,7 +88,8 @@ namespace ConstructionApp
             #endregion
 
             #region thong tin me tron
-            builder.Entity<ThongTinMeTron>(b => {
+            builder.Entity<ThongTinMeTron>(b =>
+            {
                 b.HasOne(d => d.ThanhPhanMeTronDat).WithOne(d => d.ThongTinMeTron).HasForeignKey<ThanhPhanMeTronDat>(d => d.ThongTinMeTronId).OnDelete(DeleteBehavior.Cascade);
                 b.HasOne(d => d.ThanhPhanMeTronCan).WithOne(d => d.ThongTinMeTron).HasForeignKey<ThanhPhanMeTronCan>(d => d.ThongTinMeTronId).OnDelete(DeleteBehavior.Cascade);
                 b.HasOne(d => d.CapPhoi).WithOne(d => d.ThongTinMeTron).HasForeignKey<CapPhoi>(d => d.ThongTinMeTronId).OnDelete(DeleteBehavior.Cascade);
@@ -104,7 +105,21 @@ namespace ConstructionApp
             builder.Entity<SaiSo>();
 
             builder.Entity<HopDong>();
-                
+
+            builder.Entity<UserActivity>(x => x.HasKey(ua =>
+                new { ua.UserId, ua.ThongTinMeTronId }
+            ));
+
+            // builder.Entity<UserActivity>()
+            // .HasOne(u => u.User)
+            // .WithMany(m => m.UserActivities)
+            // .HasForeignKey(u => u.UserId);
+
+            // builder.Entity<UserActivity>()
+            // .HasOne(m => m.ThongTinMeTron)
+            // .WithMany(u => u.UserActivities)
+            // .HasForeignKey(m => m.ThongTinMeTronId);
+
             #endregion
 
         }
