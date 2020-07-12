@@ -48,7 +48,7 @@ namespace ConstructionApp.Controllers
             return Ok(ApiResponse<List<SaiSo>>.ApiOk(newRs));
         }
 
-        [HttpGet("filter")]
+        [HttpPost("filter")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<List<SaiSo>>))]
         public async Task<IActionResult> FilterAction([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate, [FromQuery] string macCode, [FromQuery] Guid? hopDongId)
         {
