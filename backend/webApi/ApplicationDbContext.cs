@@ -106,19 +106,6 @@ namespace ConstructionApp
 
             builder.Entity<HopDong>();
 
-            builder.Entity<UserActivity>(x => x.HasKey(ua =>
-                new { ua.UserId, ua.ThongTinMeTronId }
-            ));
-
-            // builder.Entity<UserActivity>()
-            // .HasOne(u => u.User)
-            // .WithMany(m => m.UserActivities)
-            // .HasForeignKey(u => u.UserId);
-
-            // builder.Entity<UserActivity>()
-            // .HasOne(m => m.ThongTinMeTron)
-            // .WithMany(u => u.UserActivities)
-            // .HasForeignKey(m => m.ThongTinMeTronId);
 
             #endregion
 
