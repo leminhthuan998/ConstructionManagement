@@ -5,9 +5,12 @@ using System.Net;
 using System.Threading.Tasks;
 using ConstructionApp.Dto.ThongTinMeTronDto;
 using ConstructionApp.Entity;
+using ConstructionApp.Entity.Identity;
 using ConstructionApp.Service.MacService;
 using ConstructionApp.Utils;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -25,8 +28,10 @@ namespace ConstructionApp.Controllers
         private readonly DbSet<CapPhoi> _capPhoi;
         private readonly DbSet<SaiSo> _saiSo;
         // private readonly IConcreteService _concreteService;
-        public ThongTinMeTronController(ApplicationDbContext dbContext)
+        private readonly UserManager<User> _userManager;
+        public ThongTinMeTronController(ApplicationDbContext dbContext, UserManager<User> userManager)
         {
+            this._userManager = userManager;
             // _concreteService = concreteService;
             this._dbContext = dbContext;
             _repository = _dbContext.Set<ThongTinMeTron>();
@@ -60,12 +65,20 @@ namespace ConstructionApp.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<ThongTinMeTron>))]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
 
-        public async Task<IActionResult> CreateAction([FromBody] InputCreateTTMTDto dto)
+        public async Task<IActionResult> CreateAction(
+            [FromBody] InputCreateTTMTDto dto,
+            [FromServices] IHttpContextAccessor httpContext
+            )
         {
             if (!ModelState.IsValid)
             {
                 return Ok(ApiResponse<ModelStateDictionary>.ApiError(ModelState));
             }
+
+            // httpContext.HttpContext.User.Identity.Name;
+            var user = await _userManager.FindByNameAsync(httpContext.HttpContext.User.Identity.Name);
+
+
             // check thông tin mẻ trộn này đã được add hay chưa
 
             var find = await _dbContext.Set<ThongTinMeTron>().Where(x => x.VehicleId.Equals(dto.VehicleId)
@@ -93,8 +106,9 @@ namespace ConstructionApp.Controllers
             // dto.VehicleId = vehicle;
 
             var newTTMT = InputCreateTTMTDto.ToEntity(dto);
+            newTTMT.UserId = user.Id;
             await _dbContext.Set<ThongTinMeTron>().AddAsync(newTTMT);
-            SaiSo saiSo = new SaiSo() 
+            SaiSo saiSo = new SaiSo()
             {
                 ThongTinMeTron = newTTMT,
                 ThongTinMeTronId = newTTMT.Id
@@ -140,7 +154,7 @@ namespace ConstructionApp.Controllers
         {
             // check đã được add hay chưa
             var find = await _repository.Where(x => x.Id.Equals(Id)).FirstAsync();
-            
+
             _repository.Remove(find);
             await _dbContext.SaveChangesAsync();
             return Ok(ApiResponse<string>.ApiOk("Xoá thành công"));

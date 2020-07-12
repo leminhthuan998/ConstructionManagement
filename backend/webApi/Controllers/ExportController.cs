@@ -49,27 +49,7 @@ namespace ConstructionApp.Controllers
             }
 
 
-            var students = new[]
-    {
-        new {
-            Id = "101", Name = "Vivek", Address = "Hyderabad"
-        },
-        new {
-            Id = "102", Name = "Ranjeet", Address = "Hyderabad"
-        },
-        new {
-            Id = "103", Name = "Sharath", Address = "Hyderabad"
-        },
-        new {
-            Id = "104", Name = "Ganesh", Address = "Hyderabad"
-        },
-        new {
-            Id = "105", Name = "Gajanan", Address = "Hyderabad"
-        },
-        new {
-            Id = "106", Name = "Ashish", Address = "Hyderabad"
-        }
-    };
+            
             ExcelPackage excel = new ExcelPackage();
             var startRow = 2;
             var workSheet = excel.Workbook.Worksheets.Add("Sheet1");

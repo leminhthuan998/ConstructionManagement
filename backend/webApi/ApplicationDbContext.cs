@@ -25,7 +25,8 @@ namespace ConstructionApp
                 .HasForeignKey(x => x.LoaiVatTuId)
                 ;
             builder.Entity<VatTu>();
-            builder.Entity<MAC>();
+            builder.Entity<MAC>()
+            ;
 
             #region UserRole Entity
             builder.Entity<User>(b =>
@@ -94,6 +95,10 @@ namespace ConstructionApp
                 b.HasOne(d => d.ThanhPhanMeTronCan).WithOne(d => d.ThongTinMeTron).HasForeignKey<ThanhPhanMeTronCan>(d => d.ThongTinMeTronId).OnDelete(DeleteBehavior.Cascade);
                 b.HasOne(d => d.CapPhoi).WithOne(d => d.ThongTinMeTron).HasForeignKey<CapPhoi>(d => d.ThongTinMeTronId).OnDelete(DeleteBehavior.Cascade);
                 b.HasOne(d => d.SaiSo).WithOne(d => d.ThongTinMeTron).HasForeignKey<SaiSo>(d => d.ThongTinMeTronId).OnDelete(DeleteBehavior.Cascade);
+                b.HasOne(x => x.MAC)
+                .WithMany()
+                .HasForeignKey(x => x.MacId)
+                .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<ThanhPhanMeTronDat>();

@@ -1,4 +1,5 @@
 using System;
+using ConstructionApp.Entity.Identity;
 
 namespace ConstructionApp.Entity
 {
@@ -17,5 +18,7 @@ namespace ConstructionApp.Entity
         public ThanhPhanMeTronDat ThanhPhanMeTronDat { get; set; }
         public SaiSo SaiSo { get; set; }
         public CapPhoi CapPhoi { get; set; }
+        public Guid UserId {get;set;}
+        public User  User {get;set;}
     }
 }
