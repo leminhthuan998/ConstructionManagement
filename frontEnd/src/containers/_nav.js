@@ -17,25 +17,25 @@ export default [
     _tag: 'CSidebarNavItem',
     name: 'Thông tin mẻ trộn',
     to: '/thong-tin-me-tron',
-    icon: 'cil-puzzle'
+    icon: 'cil-pencil'
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Thành phần mẻ trộn đặt',
     to: '/thanh-phan-dat',
-    icon: 'cil-puzzle'
+    icon: 'cil-star'
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Thành phần mẻ trộn cân',
     to: '/thanh-phan-can',
-    icon: 'cil-puzzle'
+    icon: 'cil-chart-pie'
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Sai số',
     to: '/sai-so',
-    icon: 'cil-puzzle'
+    icon: 'cil-calculator'
   },
   {
     _tag: 'CSidebarNavItem',
@@ -85,7 +85,7 @@ export default [
     _tag: 'CSidebarNavItem',
     name: 'Chức vụ',
     to: '/role',
-    icon: 'cil-user'
+    icon: 'cil-cursor'
   },
   {
     _tag: 'CSidebarNavItem',
