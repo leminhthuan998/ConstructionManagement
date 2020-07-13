@@ -3,10 +3,12 @@ import Axios from 'axios';
 import _ from 'lodash';
 import moment from 'moment';
 import React, { Component } from 'react';
-import { API_SAI_SO, API_MAC_DETAIL, API_HOP_DONG_DETAIL, API_SAI_SO_FILTER } from '../../constants/ApiConstant';
+import { API_SAI_SO, API_MAC_DETAIL, API_HOP_DONG_DETAIL, API_SAI_SO_FILTER, API_EXPORT_EXCEL } from '../../constants/ApiConstant';
 import AppUtil from '../../utils/AppUtil';
 import Loading from '../../views/pages/Loading';
 import DashBoardItem from './DashBoardItem';
+import CIcon from '@coreui/icons-react';
+import { Button, Modal } from 'antd';
 
 
 const { RangePicker } = DatePicker;
@@ -106,16 +108,16 @@ class Dashboard extends Component {
 
     getRangeDate(fromDate, toDate) {
         const timekeys = [];
-        const endDate = moment(toDate, 'DD/MM/YYYY').endOf('days');
-        let currentDate = moment(fromDate, 'DD/MM/DYYYY').startOf('days');
+        const endDate = moment(toDate, 'DD/MM/YYYY');
+        let currentDate = moment(fromDate, 'DD/MM/DYYYY');
         while (currentDate <= endDate) {
             const obj = {
                 label: currentDate.format('DD/MM/YYYY'),
-                end: currentDate.endOf('days').format('DD/MM/YYYY'),
-                start: currentDate.startOf('days').format('DD/MM/YYYY')
+                // end: currentDate.endOf('days').format('DD/MM/YYYY'),
+                // start: currentDate.startOf('days').format('DD/MM/YYYY')
             }
             timekeys.push(obj);
-            currentDate.add(1, 'D');
+            currentDate.add(1, 'd');
         }
         return timekeys;
     }
@@ -257,14 +259,12 @@ class Dashboard extends Component {
             .then(res => {
                 const { data } = res;
                 if (data.success) {
-                    this.loadData(data.result, moment(val[0]).format('DD/MM/YYYY'), moment(val[1]).format('DD/MM/YYYY'), val)
-
+                    this.loadData(data.result, this.state.startDate, this.state.endDate, val)
                     this.setState({
                         typeFilter: val
                     })
                 } else {
                     AppUtil.ToastError();
-
 
                 }
             })
@@ -358,7 +358,37 @@ class Dashboard extends Component {
                     })}
                 </Select>
             </Form.Item>
+            <Form.Item
+                // label={'Export excel'}
+                name="export"
+                style={{marginBottom: 0 }}
+
+            >
+                <Button tile='Export excel' style={{height: 32, marginBottom: 10}} key="submit" type="primary" size="large" onClick={this.exportExcel}>
+                    <CIcon style={{ zIndex: 10, color: '#fff', fontSize: 12 }} name="cilDataTransferDown" />
+                </Button>
+            </Form.Item>
         </Form>
+    }
+
+    exportExcel = () => {
+        Axios.get(AppUtil.GLOBAL_API_PATH + API_EXPORT_EXCEL)
+            .then(res => {
+                const { data } = res;
+                if (data.success) {
+                    AppUtil.ToastSuccess('Xuất excel thành công');
+                } else {
+                    AppUtil.ToastError();
+
+                }
+            })
+            .catch(() => {
+                AppUtil.ToastError();
+            })
+            .finally(() => {
+
+
+            });
     }
 
 
@@ -387,7 +417,7 @@ class Dashboard extends Component {
                 return moment(_.get(x.thongTinMeTron, 'ngayTron')).format('DD/MM/YYYY')
             })
         }
-        console.log(dataGroupBy, timekeys)
+        console.log(dataGroupBy, timekeys, startDate, endDate)
 
         _.forEach(timekeys, timekey => {
             Object.keys(dataGroupBy).forEach(month => {

@@ -63,6 +63,7 @@ export const API_SAI_SO_DETAIL = "/sai-so/index";
 
 export const API_SAI_SO = "/sai-so/index";
 export const API_SAI_SO_FILTER = "/sai-so/filter";
+export const API_EXPORT_EXCEL = "/export/excel";
 
 
 
