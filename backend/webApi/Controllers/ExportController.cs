@@ -256,7 +256,7 @@ namespace ConstructionApp.Controllers
             //Response.Flush();
             //Response.End();
             memoryStream.Seek(0, SeekOrigin.Begin);
-            string name = "test/xlsx";
+            string name = "test.xlsx";
             return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", name);
         }
     }
