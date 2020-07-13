@@ -478,7 +478,6 @@ class Dashboard extends Component {
             data,
             loading: false
         })
-        console.log(data)
     }
 
 
