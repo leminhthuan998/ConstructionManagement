@@ -19,7 +19,7 @@ class AddUserToRole extends Component {
         const targetKeys = [];
         const mockData = [];
         const arr = this.props.dataUser;
-        // const roleUser = this.props.dataUserRole;
+        const roleUser = this.props.dataUserRole;
         // console.log("add to role -> getMock ", this.props.dataUserRole)
         // console.log("AddUserToRole -> getMock -> roleUser", roleUser)
         // console.log("AddUserToRole -> getMock -> arr", arr)

@@ -28,6 +28,7 @@ axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
   const statusCode = _.get(error, "response.status");
+  console.log('statusCode',statusCode)
   if(statusCode === 403 || statusCode === 401) {
     console.error("Unauthorized!");
     appStore.history.push("/unauthorized");

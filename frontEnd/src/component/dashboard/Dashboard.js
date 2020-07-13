@@ -18,7 +18,7 @@ const layout = {
         span: 6,
     },
     wrapperCol: {
-        span: 14,
+        span: 16,
     },
 };
 class Dashboard extends Component {
@@ -79,7 +79,8 @@ class Dashboard extends Component {
             loading: true,
             year: moment().year(),
             startDate: moment(moment().format('DD/MM/YYYY'), 'DD/MM/YYYY').add(-1, 'Y').format('DD/MM/YYYY'),
-            endDate: moment().format('DD/MM/YYYY')
+            endDate: moment().format('DD/MM/YYYY'),
+            typeFilter: 1
         }
         this.labelTooltip = "Chênh lệch"
 
@@ -103,6 +104,22 @@ class Dashboard extends Component {
         return timekeys;
     }
 
+    getRangeDate(fromDate, toDate) {
+        const timekeys = [];
+        const endDate = moment(toDate, 'DD/MM/YYYY').endOf('days');
+        let currentDate = moment(fromDate, 'DD/MM/DYYYY').startOf('days');
+        while (currentDate <= endDate) {
+            const obj = {
+                label: currentDate.format('DD/MM/YYYY'),
+                end: currentDate.endOf('days').format('DD/MM/YYYY'),
+                start: currentDate.startOf('days').format('DD/MM/YYYY')
+            }
+            timekeys.push(obj);
+            currentDate.add(1, 'D');
+        }
+        return timekeys;
+    }
+
     componentDidMount() {
         const requestMac = Axios.get(AppUtil.GLOBAL_API_PATH + API_MAC_DETAIL);
         const requestHopDong = Axios.get(AppUtil.GLOBAL_API_PATH + API_HOP_DONG_DETAIL);
@@ -121,7 +138,7 @@ class Dashboard extends Component {
                         dataHopDong: responseHopDong.data.result,
                         dataSaiSo: responseSaiSo.data.result
                     })
-                    this.loadData(responseSaiSo.data.result, this.state.startDate, this.state.endDate)
+                    this.loadData(responseSaiSo.data.result, this.state.startDate, this.state.endDate, this.state.typeFilter)
                 }
 
             }))
@@ -135,6 +152,8 @@ class Dashboard extends Component {
     }
 
     onChangeMac(val) {
+        this.loadingComponent && this.loadingComponent.onLoading()
+
         const dataPost = {
             startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY') : '',
             endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY') : '',
@@ -145,7 +164,7 @@ class Dashboard extends Component {
             .then(res => {
                 const { data } = res;
                 if (data.success) {
-                    this.loadData(data.result, this.state.startDate, this.state.endDate)
+                    this.loadData(data.result, this.state.startDate, this.state.endDate, this.state.typeFilter)
 
                     this.setState({
                         macCode: val
@@ -157,10 +176,13 @@ class Dashboard extends Component {
                 AppUtil.ToastError();
             })
             .finally(() => {
+                this.loadingComponent && this.loadingComponent.onStop()
 
             });
     }
     onChangeHopDong(val) {
+        this.loadingComponent && this.loadingComponent.onLoading()
+
         const dataPost = {
             startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY') : '',
             endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY') : '',
@@ -171,7 +193,7 @@ class Dashboard extends Component {
             .then(res => {
                 const { data } = res;
                 if (data.success) {
-                    this.loadData(data.result, this.state.startDate, this.state.endDate)
+                    this.loadData(data.result, this.state.startDate, this.state.endDate, this.state.typeFilter)
 
                     this.setState({
                         hopDongId: val
@@ -185,11 +207,13 @@ class Dashboard extends Component {
                 AppUtil.ToastError();
             })
             .finally(() => {
+                this.loadingComponent && this.loadingComponent.onStop()
 
             });
     }
 
     onChangeDate(val) {
+        this.loadingComponent && this.loadingComponent.onLoading()
         const dataPost = {
             startDate: val[0] ? val[0] : '',
             endDate: val[1] ? val[1] : '',
@@ -200,7 +224,7 @@ class Dashboard extends Component {
             .then(res => {
                 const { data } = res;
                 if (data.success) {
-                    this.loadData(data.result, moment(val[0]).format('DD/MM/YYYY'), moment(val[1]).format('DD/MM/YYYY'))
+                    this.loadData(data.result, moment(val[0]).format('DD/MM/YYYY'), moment(val[1]).format('DD/MM/YYYY'), this.state.typeFilter)
 
                     this.setState({
                         startDate: moment(val[0]).format('DD/MM/YYYY'),
@@ -208,16 +232,48 @@ class Dashboard extends Component {
                     })
                 } else {
                     AppUtil.ToastError();
-
-                    this.setState({
-
-                    })
                 }
             })
             .catch(() => {
                 AppUtil.ToastError();
             })
             .finally(() => {
+                this.loadingComponent && this.loadingComponent.onStop()
+
+            });
+    }
+
+    onChangeFilterType(val) {
+        this.loadingComponent && this.loadingComponent.onLoading()
+
+
+        const dataPost = {
+            startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY') : '',
+            endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY') : '',
+            macCode: this.state.macCode ? this.state.macCode : '',
+            hopDongId: this.state.hopDongId ? this.state.hopDongId : ''
+        }
+        Axios.post(AppUtil.GLOBAL_API_PATH + API_SAI_SO_FILTER, dataPost)
+            .then(res => {
+                const { data } = res;
+                if (data.success) {
+                    this.loadData(data.result, moment(val[0]).format('DD/MM/YYYY'), moment(val[1]).format('DD/MM/YYYY'), val)
+
+                    this.setState({
+                        typeFilter: val
+                    })
+                } else {
+                    AppUtil.ToastError();
+
+
+                }
+            })
+            .catch(() => {
+                AppUtil.ToastError();
+            })
+            .finally(() => {
+
+                this.loadingComponent && this.loadingComponent.onStop()
 
             });
     }
@@ -230,6 +286,24 @@ class Dashboard extends Component {
             style={{ display: 'flex', background: '#fff', alignItems: 'center', borderRadius: 5, padding: 5, height: 60 }}
 
         >
+            <Form.Item
+                label="Loại"
+                name="type"
+                style={{ flex: 1, marginBottom: 0 }}
+
+            >
+                <Select
+                    placeholder="Chọn"
+                    // onChange={onGenderChange}
+                    allowClear={false}
+                    onChange={(val) => this.onChangeFilterType(val)}
+                    defaultValue={1}
+
+                >
+                    <Select.Option value={1}>Theo tháng</Select.Option>
+                    <Select.Option value={2}>Theo ngày</Select.Option>
+                </Select>
+            </Form.Item>
             <Form.Item
                 label="Từ ngày"
                 name="startDate"
@@ -287,11 +361,11 @@ class Dashboard extends Component {
         </Form>
     }
 
-    loadData(dataChart, startDate, endDate) {
+
+
+    loadData(dataChart, startDate, endDate, typeFilter) {
         console.log('load data', startDate, endDate)
         const { data } = this.state;
-        // let startDate = ''
-        // let endDate = ''
         const dataChartTong = []
         const dataChartM3 = []
         // if (year = moment().year) {
@@ -299,14 +373,24 @@ class Dashboard extends Component {
         //     startDate = moment(year, 'DD/MM/YYYY').add(-1, 'Y').format('DD/MM/YYYY');
         // }
 
-        const dataGroupByMonth = _.groupBy(dataChart, x => {
-            return moment(_.get(x.thongTinMeTron, 'ngayTron')).format('MM/YYYY')
-        })
-        const timekeys = this.getRangeDateMonth(startDate, endDate);
-        console.log(dataGroupByMonth, timekeys)
+        let dataGroupBy = []
+
+        let timekeys = []
+        if (typeFilter == 2) {
+            timekeys = this.getRangeDate(startDate, endDate);
+            dataGroupBy = _.groupBy(dataChart, x => {
+                return moment(_.get(x.thongTinMeTron, 'ngayTron')).format('MM/YYYY')
+            })
+        } else {
+            timekeys = this.getRangeDateMonth(startDate, endDate);
+            dataGroupBy = _.groupBy(dataChart, x => {
+                return moment(_.get(x.thongTinMeTron, 'ngayTron')).format('DD/MM/YYYY')
+            })
+        }
+        console.log(dataGroupBy, timekeys)
 
         _.forEach(timekeys, timekey => {
-            Object.keys(dataGroupByMonth).forEach(month => {
+            Object.keys(dataGroupBy).forEach(month => {
                 if (month == timekey.label) {
                     let da = 0
                     let catSong = 0
@@ -320,7 +404,7 @@ class Dashboard extends Component {
                     let xiMang_1m3 = 0
                     let phuGia1_1m3 = 0
                     let phuGia2_1m3 = 0
-                    _.forEach(dataGroupByMonth[month], dta => {
+                    _.forEach(dataGroupBy[month], dta => {
                         da = da + dta.da
                         catSong = catSong + dta.catSong
                         xiMang = xiMang + dta.xiMang

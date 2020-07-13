@@ -21,6 +21,7 @@ import { API_LOGIN, API_CHECK_LOGIN } from '../../../constants/ApiConstant'
 import store from '../../../AppStore';
 import { loginSuccessFull } from '../../../application/actions/appAction';
 import Loading from '../Loading';
+import history from '../../../history';
 
 class Login extends Component {
     constructor(props) {
@@ -55,7 +56,7 @@ class Login extends Component {
             }))
             .catch(() => {
                 this.setState({
-                    loading: true
+                    loading: false
                 });
                 // ApiUtil.error();
             })
@@ -79,6 +80,8 @@ class Login extends Component {
                 }
                 if (data.success) {
                     AppUtil.ToastSuccess("Đăng nhập thành công!")
+                    history.push("/dashboard")
+
                 }
             })
             .catch(() => {
