@@ -157,8 +157,8 @@ class Dashboard extends Component {
         this.loadingComponent && this.loadingComponent.onLoading()
 
         const dataPost = {
-            startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY') : '',
-            endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY') : '',
+            startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY').format('DD/MM/YYYY') : '',
+            endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY').format('DD/MM/YYYY') : '',
             macCode: val ? val : '',
             hopDongId: this.state.hopDongId ? this.state.hopDongId : ''
         }
@@ -186,8 +186,8 @@ class Dashboard extends Component {
         this.loadingComponent && this.loadingComponent.onLoading()
 
         const dataPost = {
-            startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY') : '',
-            endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY') : '',
+            startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY').format('DD/MM/YYYY') : '',
+            endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY').format('DD/MM/YYYY') : '',
             macCode: this.state.macCode ? this.state.macCode : '',
             hopDongId: val ? val : ''
         }
@@ -217,8 +217,8 @@ class Dashboard extends Component {
     onChangeDate(val) {
         this.loadingComponent && this.loadingComponent.onLoading()
         const dataPost = {
-            startDate: val[0] ? val[0] : '',
-            endDate: val[1] ? val[1] : '',
+            startDate: val[0] ? val[0].format('DD/MM/YYYY').format('DD/MM/YYYY') : '',
+            endDate: val[1] ? val[1].format('DD/MM/YYYY').format('DD/MM/YYYY') : '',
             macCode: this.state.macCode ? this.state.macCode : '',
             hopDongId: this.state.hopDongId ? this.state.hopDongId : ''
         }
@@ -248,8 +248,8 @@ class Dashboard extends Component {
     onChangeFilterType(val) {
         this.loadingComponent && this.loadingComponent.onLoading()
         const dataPost = {
-            startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY') : '',
-            endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY') : '',
+            startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY').format('DD/MM/YYYY') : '',
+            endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY').format('DD/MM/YYYY') : '',
             macCode: this.state.macCode ? this.state.macCode : '',
             hopDongId: this.state.hopDongId ? this.state.hopDongId : ''
         }
