@@ -50,9 +50,50 @@ namespace ConstructionApp.Controllers
 
         [HttpPost("filter")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<List<SaiSo>>))]
-        public async Task<IActionResult> FilterAction([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate, [FromQuery] string macCode, [FromQuery] Guid? hopDongId)
+        public async Task<IActionResult> FilterAction([FromQuery] string start, [FromQuery] string end, [FromQuery] string macId, [FromQuery] string hdId)
         {
             // var results = await _repository.ToListAsync();
+            DateTime? startDate;
+            DateTime? endDate;
+            Guid? hopDongId;
+            Guid? macCode;
+
+            //check hdid
+            if(string.IsNullOrEmpty(hdId))
+            {
+                hopDongId = null;
+            }
+            else {
+                hopDongId = Guid.Parse(hdId);
+            }
+
+            //check macid
+            if(string.IsNullOrEmpty(macId))
+            {
+                macCode = null;
+            }
+            else {
+                macCode = Guid.Parse(macId);
+            }
+
+            //check start
+            if(string.IsNullOrEmpty(start))
+            {
+                startDate = null;
+            }
+            else {
+                startDate = DateTime.Parse(start);
+            }
+
+            //check end
+            if(string.IsNullOrEmpty(end))
+            {
+                endDate = null;
+            }
+            else {
+                endDate = DateTime.Parse(end);
+            }
+
             var queryable = _repository.AsQueryable();
             var newRs = new List<SaiSo>();
             var results = await _repository.ToListAsync();
@@ -100,29 +141,33 @@ namespace ConstructionApp.Controllers
                     // var find1 = await _dbContext.Set<ThongTinMeTron>().Where(x => x.Id.Equals(item.ThongTinMeTronId) && x.MAC.MacCode.Equals(macCode)).CountAsync();
                     var thongTinMeTron = await _dbContext.Set<ThongTinMeTron>().FirstAsync(x => x.Id.Equals(item.ThongTinMeTronId));
             
-                    if (string.IsNullOrEmpty(macCode) && hopDongId != null)
+                    if (macCode == null && hopDongId != null)
                     {
                         if(thongTinMeTron.HopDongId.Equals(hopDongId))
                         {
                             newRs.Add(item);
                         }
                     }
-                    if (string.IsNullOrEmpty(macCode) && hopDongId == null)
+                    if (macCode == null && hopDongId == null)
                     {
                         newRs.Add(item);
                     }
-                    if(!string.IsNullOrEmpty(macCode) && hopDongId != null)
+                    if(macCode != null && hopDongId != null)
                     {
-                        var findMac = await _dbContext.Set<MAC>().Where(x => x.MacCode.Equals(macCode)).CountAsync();
-                        var findHopDong = await _dbContext.Set<ThongTinMeTron>().Where(x => x.HopDongId.Equals(hopDongId)).CountAsync();
-                        if(findMac > 0 && findHopDong > 0) {
+                        var mac = await _dbContext.Set<MAC>().Where(x => x.Id.Equals(item.ThongTinMeTron.MacId)).FirstAsync();
+                        item.ThongTinMeTron.MAC = mac;
+                        // var findHopDong = await _dbContext.Set<ThongTinMeTron>().Where(x => x.HopDongId.Equals(hopDongId)).CountAsync();
+                        if(item.ThongTinMeTron.MacId.Equals(macCode) && item.ThongTinMeTron.HopDongId.Equals(hopDongId)) {
                             newRs.Add(item);
                         }
                     }
-                    if(!string.IsNullOrEmpty(macCode) && hopDongId == null)
+                    if(macCode != null && hopDongId == null)
                     {
-                        var findMac = await _dbContext.Set<MAC>().Where(x => x.MacCode.Equals(macCode)).CountAsync();
-                        if(findMac > 0)
+                        var mac = await _dbContext.Set<MAC>().Where(x => x.Id.Equals(item.ThongTinMeTron.MacId)).FirstAsync();
+                        item.ThongTinMeTron.MAC = mac;
+                        // var findMac = await _dbContext.Set<MAC>().Where(x => x.Id.Equals(item.ThongTinMeTron.MacId)).CountAsync();
+                        // var findMac =  item.ThongTinMeTron.MAC.MacCode.Equals(macCode);
+                        if(item.ThongTinMeTron.MacId.Equals(macCode))
                         {
                             newRs.Add(item);
                         }
