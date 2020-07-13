@@ -372,23 +372,24 @@ class Dashboard extends Component {
     }
 
     exportExcel = () => {
-        Axios.get(AppUtil.GLOBAL_API_PATH + API_EXPORT_EXCEL)
-            .then(res => {
-                const { data } = res;
-                if (data.success) {
-                    AppUtil.ToastSuccess('Xuất excel thành công');
-                } else {
-                    AppUtil.ToastError();
+        window.open(AppUtil.GLOBAL_API_PATH + API_EXPORT_EXCEL)
+        // Axios.get(AppUtil.GLOBAL_API_PATH + API_EXPORT_EXCEL)
+        //     .then(res => {
+        //         const { data } = res;
+        //         // if (data.success) {
+        //         //     AppUtil.ToastSuccess('Xuất excel thành công');
+        //         // } else {
+        //         //     AppUtil.ToastError();
 
-                }
-            })
-            .catch(() => {
-                AppUtil.ToastError();
-            })
-            .finally(() => {
+        //         // }
+        //     })
+        //     .catch(() => {
+        //         // AppUtil.ToastError();
+        //     })
+        //     .finally(() => {
 
 
-            });
+        //     });
     }
 
 

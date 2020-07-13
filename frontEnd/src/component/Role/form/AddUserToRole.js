@@ -1,6 +1,6 @@
 import { Transfer, Button } from 'antd';
 import React, { Component } from 'react';
-
+import _ from 'lodash'
 class AddUserToRole extends Component {
     constructor(props) {
         super(props);
@@ -23,7 +23,7 @@ class AddUserToRole extends Component {
         // console.log("add to role -> getMock ", this.props.dataUserRole)
         // console.log("AddUserToRole -> getMock -> roleUser", roleUser)
         // console.log("AddUserToRole -> getMock -> arr", arr)
-        for (let i = 0; i < roleUser.length; i++) {
+        for (let i = 0; i < _.size(roleUser); i++) {
             const data = {
                 key: roleUser[i].id,
                 userName: roleUser[i].userName
