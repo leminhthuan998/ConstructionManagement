@@ -247,8 +247,6 @@ class Dashboard extends Component {
 
     onChangeFilterType(val) {
         this.loadingComponent && this.loadingComponent.onLoading()
-
-
         const dataPost = {
             startDate: this.state.startDate ? moment(this.state.startDate, 'DD/MM/YYYY') : '',
             endDate: this.state.endDate ? moment(this.state.endDate, 'DD/MM/YYYY') : '',
@@ -410,12 +408,12 @@ class Dashboard extends Component {
         if (typeFilter == 2) {
             timekeys = this.getRangeDate(startDate, endDate);
             dataGroupBy = _.groupBy(dataChart, x => {
-                return moment(_.get(x.thongTinMeTron, 'ngayTron')).format('MM/YYYY')
+                return moment(_.get(x.thongTinMeTron, 'ngayTron')).format('DD/MM/YYYY')
             })
         } else {
             timekeys = this.getRangeDateMonth(startDate, endDate);
             dataGroupBy = _.groupBy(dataChart, x => {
-                return moment(_.get(x.thongTinMeTron, 'ngayTron')).format('DD/MM/YYYY')
+                return moment(_.get(x.thongTinMeTron, 'ngayTron')).format('MM/YYYY')
             })
         }
         console.log(dataGroupBy, timekeys, startDate, endDate)
@@ -480,6 +478,7 @@ class Dashboard extends Component {
             data,
             loading: false
         })
+        console.log(data)
     }
 
 
